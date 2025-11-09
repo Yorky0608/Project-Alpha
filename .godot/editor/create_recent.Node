@@ -1,0 +1,14 @@
+Control
+Label
+Timer
+Node
+Button
+VBoxContainer
+CenterContainer
+HBoxContainer
+AnimationPlayer
+CanvasLayer
+AudioStreamPlayer
+CollisionShape2D
+Node2D
+Area2D

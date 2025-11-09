@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://vea3dq41ewm6"]
+
+[ext_resource type="Texture2D" uid="uid://dstb7h7ov7jqe" path="res://background/5/2304x1296.png" id="1_ucn6e"]
+
+[node name="Background" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 3
+position = Vector2(576, 327)
+scale = Vector2(0.5, 0.506173)
+texture = ExtResource("1_ucn6e")
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]

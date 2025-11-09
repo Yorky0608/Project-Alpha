@@ -1,0 +1,18 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://csrxccdqow62n"]
+
+[ext_resource type="FontFile" uid="uid://1mt6tq6qrv1k" path="res://assets/Kenney Thick.ttf" id="1_isyjv"]
+[ext_resource type="StyleBox" uid="uid://ck151y57ioiyx" path="res://ui/new_style_box_flat.tres" id="1_vrax8"]
+
+[resource]
+default_font = ExtResource("1_isyjv")
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 0.501961)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(0.851768, 0.851769, 0.85177, 1)
+Button/colors/font_hover_pressed_color = Color(0.85098, 0.85098, 0.85098, 1)
+Button/styles/disabled = ExtResource("1_vrax8")
+Button/styles/focus = ExtResource("1_vrax8")
+Button/styles/hover = ExtResource("1_vrax8")
+Button/styles/normal = ExtResource("1_vrax8")
+Button/styles/pressed = ExtResource("1_vrax8")

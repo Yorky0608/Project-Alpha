@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1lb4w20pjyap"]
+
+[ext_resource type="Script" path="res://ui/menu.gd" id="1_bo1qd"]
+[ext_resource type="Theme" uid="uid://csrxccdqow62n" path="res://ui/menu.tres" id="2_f4735"]
+[ext_resource type="PackedScene" uid="uid://drpasabq4wjcq" path="res://ui/shop.tscn" id="3_3njon"]
+
+[sub_resource type="Animation" id="Animation_6vqvs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_h62ek"]
+resource_name = "invisible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mkux8"]
+resource_name = "visible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hocdc"]
+_data = {
+"RESET": SubResource("Animation_6vqvs"),
+"invisible": SubResource("Animation_h62ek"),
+"visible": SubResource("Animation_mkux8")
+}
+
+[node name="Menu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_bo1qd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hocdc")
+}
+autoplay = "invisible"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -83.0
+offset_right = 96.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_f4735")
+theme_override_constants/separation = 40
+
+[node name="Resume" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Shop" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Shop"
+
+[node name="Settings" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Shop2" parent="." instance=ExtResource("3_3njon")]
+
+[connection signal="pressed" from="Control/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Shop" to="." method="_on_shop_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

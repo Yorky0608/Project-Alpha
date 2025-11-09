@@ -1,0 +1,162 @@
+[gd_scene load_steps=12 format=3 uid="uid://cykp8bxmpd8hl"]
+
+[ext_resource type="Script" path="res://ui.gd" id="1_ttjfx"]
+[ext_resource type="FontFile" uid="uid://1mt6tq6qrv1k" path="res://assets/Kenney Thick.ttf" id="2_kseny"]
+[ext_resource type="Texture2D" uid="uid://wwdil1cn3sse" path="res://assets/health_bar.png" id="3_ubi16"]
+[ext_resource type="PackedScene" uid="uid://d1lb4w20pjyap" path="res://ui/menu.tscn" id="4_26l1o"]
+
+[sub_resource type="Animation" id="Animation_x1t0b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control2/SurvivalTimeUpdate:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_iaqas"]
+resource_name = "invisible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control2/SurvivalTimeUpdate:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2dn20"]
+resource_name = "visible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control2/SurvivalTimeUpdate:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x4m71"]
+_data = {
+"RESET": SubResource("Animation_x1t0b"),
+"invisible": SubResource("Animation_iaqas"),
+"visible": SubResource("Animation_2dn20")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_v83ku"]
+font = ExtResource("2_kseny")
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_j33lr"]
+font = ExtResource("2_kseny")
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_vy8r4"]
+font = ExtResource("2_kseny")
+font_size = 80
+
+[node name="UI" type="CanvasLayer" groups=["ui"]]
+script = ExtResource("1_ttjfx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_x4m71")
+}
+autoplay = "visible"
+
+[node name="Menu" parent="." instance=ExtResource("4_26l1o")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Score" type="Label" parent="Control"]
+process_mode = 3
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 245.0
+offset_bottom = 62.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_v83ku")
+
+[node name="HealthBar" type="TextureProgressBar" parent="Control"]
+process_mode = 3
+layout_mode = 0
+offset_left = 22.0
+offset_top = 70.0
+offset_right = 245.0
+offset_bottom = 118.0
+size_flags_horizontal = 4
+value = 100.0
+texture_progress = ExtResource("3_ubi16")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="SurvivalTimeUpdate" type="Label" parent="Control2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -289.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 61.0
+grow_horizontal = 0
+text = "Time: 00:00"
+label_settings = SubResource("LabelSettings_j33lr")
+horizontal_alignment = 1
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Message" type="Label" parent="Control3"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -356.5
+offset_top = -55.0
+offset_right = 356.5
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Get Ready!"
+label_settings = SubResource("LabelSettings_vy8r4")

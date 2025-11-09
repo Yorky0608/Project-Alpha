@@ -1,0 +1,209 @@
+[gd_scene load_steps=13 format=3 uid="uid://drpasabq4wjcq"]
+
+[ext_resource type="Script" path="res://ui/shop.gd" id="1_lvcpq"]
+[ext_resource type="FontFile" uid="uid://1mt6tq6qrv1k" path="res://assets/Kenney Thick.ttf" id="2_e6hdv"]
+[ext_resource type="Theme" uid="uid://dlxgcekwp6ob" path="res://ui/shop.tres" id="2_t4vr5"]
+[ext_resource type="Theme" uid="uid://csrxccdqow62n" path="res://ui/menu.tres" id="4_myh5m"]
+
+[sub_resource type="Animation" id="Animation_qjyf3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_rl0ji"]
+resource_name = "invisible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_rlaa7"]
+resource_name = "visible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gij57"]
+_data = {
+"RESET": SubResource("Animation_qjyf3"),
+"invisible": SubResource("Animation_rl0ji"),
+"visible": SubResource("Animation_rlaa7")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_qax3q"]
+font = ExtResource("2_e6hdv")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_nipft"]
+font = ExtResource("2_e6hdv")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_yr86l"]
+font = ExtResource("2_e6hdv")
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_sbkm0"]
+font = ExtResource("2_e6hdv")
+font_size = 20
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_lvcpq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gij57")
+}
+autoplay = "invisible"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Damage" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 200.0
+offset_right = 323.0
+offset_bottom = 231.0
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Damage"
+
+[node name="UpgradeDamage" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 130.0
+offset_right = 350.0
+offset_bottom = 190.0
+text = "Increase Damage + 1
+Price: 500"
+label_settings = SubResource("LabelSettings_qax3q")
+
+[node name="RunSpeed" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 400.0
+offset_right = 368.0
+offset_bottom = 431.0
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Run Speed"
+
+[node name="UpgradeRunSpeed" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 330.0
+offset_right = 402.0
+offset_bottom = 389.0
+text = "Increase Run Speed + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="DashTime" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 600.0
+offset_right = 368.0
+offset_bottom = 631.0
+theme = ExtResource("2_t4vr5")
+text = "Unlock Dash Ability"
+
+[node name="Dash" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 530.0
+offset_right = 402.0
+offset_bottom = 589.0
+text = "Ability - Dash
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Close" type="Button" parent="Control2"]
+layout_mode = 0
+offset_left = -178.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 62.0
+theme = ExtResource("4_myh5m")
+text = "Close"
+
+[node name="AttackRadius" type="Button" parent="Control2"]
+layout_mode = 0
+offset_left = -463.0
+offset_top = 200.0
+offset_right = -40.0
+offset_bottom = 231.0
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Attack Radiius"
+
+[node name="UpgradeAttackRadius" type="Label" parent="Control2"]
+layout_mode = 0
+offset_left = -477.0
+offset_top = 130.0
+offset_right = -20.0
+offset_bottom = 189.0
+text = "Increase Attack Radius + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_yr86l")
+
+[node name="Health" type="Button" parent="Control2"]
+layout_mode = 0
+offset_left = -318.0
+offset_top = 400.0
+offset_right = -40.0
+offset_bottom = 431.0
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Health"
+
+[node name="UpgradeHealth" type="Label" parent="Control2"]
+layout_mode = 0
+offset_left = -357.0
+offset_top = 330.0
+offset_right = -20.0
+offset_bottom = 389.0
+text = "Increase Health + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_sbkm0")
+
+[connection signal="pressed" from="Control/Damage" to="." method="_on_damage_pressed"]
+[connection signal="pressed" from="Control/RunSpeed" to="." method="_on_run_speed_pressed"]
+[connection signal="pressed" from="Control/DashTime" to="." method="_on_dash_time_pressed"]
+[connection signal="pressed" from="Control2/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="Control2/AttackRadius" to="." method="_on_attack_radius_pressed"]
+[connection signal="pressed" from="Control2/Health" to="." method="_on_health_pressed"]
