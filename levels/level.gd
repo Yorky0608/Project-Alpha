@@ -7,7 +7,8 @@ const CHUNK_SCENES := [
 	preload("res://levels/spawn_chunk.tscn"),
 	preload("res://levels/chunk1.tscn"),
 	preload("res://levels/chunk2.tscn"),
-	preload("res://levels/chunk_3.tscn"),
+	preload("res://levels/chunk3.tscn"),
+	preload("res://levels/chunk4.tscn"),
 	# Add more chunks here as you create them
 ]
 const CHUNK_WIDTH = 1152  # Must match your chunk scene width
@@ -50,22 +51,35 @@ func _process(delta):
 		spawn_skeletons()
 		spawn_timer = spawn_interval
 
+var last_chunk_right_y: float = GROUND_Y  # Start height baseline
+
 func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 	var chunk_scene = CHUNK_SCENES[0 if is_spawn_chunk else randi() % CHUNK_SCENES.size()]
-	var new_chunk = chunk_scene.instantiate()
-
-	new_chunk.position = Vector2(x_index * CHUNK_WIDTH, 0)
+	var new_chunk: Chunk = chunk_scene.instantiate()
 	add_child(new_chunk)
 	loaded_chunks[x_index] = new_chunk
 
-	# If this is the spawn chunk, find its marker
+	var offset_y := 0.0
+
+	# Adjust Y based on previous chunk
+	if not is_spawn_chunk and loaded_chunks.has(x_index - 1):
+		var prev_chunk = loaded_chunks[x_index - 1]
+
+		# Safe to call get_right_y() / get_left_y() now
+		offset_y = prev_chunk.get_right_y() - new_chunk.get_left_y()
+		last_chunk_right_y = prev_chunk.get_right_y()
+	else:
+		last_chunk_right_y = GROUND_Y
+
+	new_chunk.position = Vector2(x_index * CHUNK_WIDTH, offset_y)
+
+	# Handle spawn marker
 	if is_spawn_chunk:
 		var marker = new_chunk.get_node_or_null("SpawnMarker")
 		if marker:
 			spawn_marker_position = marker.global_position
 		else:
-			push_error("WARNING: Spawn chunk missing SpawnMarker")
-			spawn_marker_position = Vector2(x_index * CHUNK_WIDTH + 100, 230)  # Fallback position
+			spawn_marker_position = Vector2(x_index * CHUNK_WIDTH + 100, 230)
 
 func _on_player_chunk_changed(current_chunk_x: int):
 	# Unload chunks outside loading distance
