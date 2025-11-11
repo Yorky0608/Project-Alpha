@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpdjlrgk2esb5"]
+[gd_scene load_steps=6 format=3 uid="uid://dpdjlrgk2esb5"]
 
-[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_8febr"]
-[ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="2_op7jd"]
+[ext_resource type="Script" path="res://levels/chunk.gd" id="1_c7pif"]
+[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="2_hihc4"]
+[ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="3_hihyw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dlmk2"]
-texture = ExtResource("2_op7jd")
+texture = ExtResource("3_hihyw")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -394,8 +395,9 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_dlmk2")
 
 [node name="Chunk3" type="Node2D" groups=["chunks"]]
+script = ExtResource("1_c7pif")
 
-[node name="Background" parent="." instance=ExtResource("1_8febr")]
+[node name="Background" parent="." instance=ExtResource("2_hihc4")]
 
 [node name="Sprite2D" parent="Background" index="0"]
 position = Vector2(576, 0)
@@ -407,5 +409,11 @@ layer_0/tile_data = PackedInt32Array(1048596, 327680, 0, 1114132, 327680, 1, 117
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(218, 256)
+
+[node name="LeftEdge" type="Marker2D" parent="."]
+position = Vector2(0, 256)
+
+[node name="RightEdge" type="Marker2D" parent="."]
+position = Vector2(1152, 256)
 
 [editable path="Background"]
