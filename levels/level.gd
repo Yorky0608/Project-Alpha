@@ -11,6 +11,13 @@ const CHUNK_SCENES := [
 	preload("res://levels/chunk4.tscn"),
 	# Add more chunks here as you create them
 ]
+
+const BOSS_SCENES := [
+	preload('res://levels/bosschunk1.tscn'),
+]
+
+var boss_spawn_rate = 0.01  # 1% chance
+
 const CHUNK_WIDTH = 1152  # Must match your chunk scene width
 const GROUND_Y = 500      # Y-position where chunks will spawn
 const LOAD_DISTANCE = 2   # Number of chunks to load ahead/behind player
@@ -54,7 +61,21 @@ func _process(delta):
 var last_chunk_right_y: float = GROUND_Y  # Start height baseline
 
 func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
-	var chunk_scene = CHUNK_SCENES[0 if is_spawn_chunk else randi() % CHUNK_SCENES.size()]
+	var chunk_scene
+
+	if is_spawn_chunk:
+		# Always load the spawn chunk
+		chunk_scene = CHUNK_SCENES[0]
+	else:
+		# Decide if this chunk should be a boss chunk
+		if randf() < boss_spawn_rate:
+			# Pick random boss chunk
+			chunk_scene = BOSS_SCENES[randi() % BOSS_SCENES.size()]
+			print("Spawning boss chunk at index:", x_index)
+		else:
+			# Pick normal gameplay chunk
+			chunk_scene = CHUNK_SCENES[randi() % CHUNK_SCENES.size()]
+	
 	var new_chunk: Chunk = chunk_scene.instantiate()
 	add_child(new_chunk)
 	loaded_chunks[x_index] = new_chunk
@@ -64,8 +85,6 @@ func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 	# Adjust Y based on previous chunk
 	if not is_spawn_chunk and loaded_chunks.has(x_index - 1):
 		var prev_chunk = loaded_chunks[x_index - 1]
-
-		# Safe to call get_right_y() / get_left_y() now
 		offset_y = prev_chunk.get_right_y() - new_chunk.get_left_y()
 		last_chunk_right_y = prev_chunk.get_right_y()
 	else:
@@ -73,7 +92,7 @@ func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 
 	new_chunk.position = Vector2(x_index * CHUNK_WIDTH, offset_y)
 
-	# Handle spawn marker
+	# Handle spawn marker for starting chunk
 	if is_spawn_chunk:
 		var marker = new_chunk.get_node_or_null("SpawnMarker")
 		if marker:
