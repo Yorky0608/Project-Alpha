@@ -421,6 +421,8 @@ format = 2
 [node name="Chunk3" parent="." instance=ExtResource("4_gr8d0")]
 
 [node name="Skelly" parent="." instance=ExtResource("4_u3ib1")]
+visible = false
 
 [node name="Player" parent="." instance=ExtResource("2_3xxnb")]
+visible = false
 position = Vector2(440, -2)
