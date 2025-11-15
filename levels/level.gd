@@ -54,6 +54,7 @@ var spawn_interval = 5.0
 var spawn_timer = 0.0
 var skeletons_spawned = 1
 var spawn_margin = 100  # Pixels outside viewport
+var current_death_y = 656
 
 @onready var player = $Entities/Player  # Adjust path to player
 @onready var camera = $Entities/Player/Camera2D  # Assuming camera follows player
@@ -77,6 +78,23 @@ func _process(delta):
 	if spawn_timer <= 0:
 		spawn_skeletons()
 		spawn_timer = spawn_interval
+	
+	_check_death_barrier()
+
+func _check_death_barrier():
+	#print("PlayerY: ", player_ref.global_position.y, " | deathY: ", current_death_y)
+	if not player_ref:
+		return
+	
+	# Kill player
+	if player_ref.global_position.y > current_death_y:
+		player_ref.change_state(player_ref.DEAD, player_ref.death_texture, "Death")
+		_on_player_died()
+	
+	# Kill enemies
+	for enemy in $Entities/Enemies.get_children():
+		if enemy.global_position.y > current_death_y:
+			enemy.queue_free()
 
 var last_chunk_right_y: float = GROUND_Y  # Start height baseline
 
@@ -84,25 +102,20 @@ func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 	var chunk_scene
 
 	if is_spawn_chunk:
-		# Always load the spawn chunk
 		chunk_scene = CHUNK_SCENES[0]
 	else:
-		# Decide if this chunk should be a boss chunk
 		if randf() < boss_spawn_rate:
-			# Pick random boss chunk
 			chunk_scene = BOSS_SCENES[randi() % BOSS_SCENES.size()]
-			print("Spawning boss chunk at index:", x_index)
 		else:
-			# Pick normal gameplay chunk
 			chunk_scene = CHUNK_SCENES[randi() % CHUNK_SCENES.size()]
 	
 	var new_chunk: Chunk = chunk_scene.instantiate()
 	$Chunks.add_child(new_chunk)
 	loaded_chunks[x_index] = new_chunk
 
-	var offset_y := 0.0
+	# ----- FIRST position the chunk -----
+	var offset_y = 0.0
 
-	# Adjust Y based on previous chunk
 	if not is_spawn_chunk and loaded_chunks.has(x_index - 1):
 		var prev_chunk = loaded_chunks[x_index - 1]
 		offset_y = prev_chunk.get_right_y() - new_chunk.get_left_y()
@@ -112,7 +125,14 @@ func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 
 	new_chunk.position = Vector2(x_index * CHUNK_WIDTH, offset_y)
 
-	# Handle spawn marker for starting chunk
+	# ----- THEN get the real world death marker position -----
+	var chunk_death_y = new_chunk.get_death_y()
+
+	# The death line is the HIGHEST (largest Y) death marker
+	if chunk_death_y > current_death_y:
+		current_death_y = chunk_death_y
+
+	# ----- spawn marker -----
 	if is_spawn_chunk:
 		var marker = new_chunk.get_node_or_null("SpawnMarker")
 		if marker:

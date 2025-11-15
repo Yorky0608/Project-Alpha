@@ -404,3 +404,6 @@ position = Vector2(0, 256)
 
 [node name="RightEdge" type="Marker2D" parent="."]
 position = Vector2(1152, 256)
+
+[node name="DeathMarker" type="Marker2D" parent="."]
+position = Vector2(1143, 656)
