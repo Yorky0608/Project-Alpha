@@ -9,11 +9,31 @@ const CHUNK_SCENES := [
 	preload("res://levels/chunk2.tscn"),
 	preload("res://levels/chunk3.tscn"),
 	preload("res://levels/chunk4.tscn"),
+	preload("res://levels/chunk_5.tscn"),
+	preload("res://levels/chunk_6.tscn"),
+	preload("res://levels/chunk_7.tscn"),
+	preload("res://levels/chunk_8.tscn"),
+	preload("res://levels/chunk_9.tscn"),
+	preload("res://levels/chunk_10.tscn"),
+	preload("res://levels/chunk_11.tscn"),
+	preload("res://levels/chunk_12.tscn"),
+	preload("res://levels/chunk_13.tscn"),
+	preload("res://levels/chunk_14.tscn"),
+	preload("res://levels/chunk_15.tscn"),
+	preload("res://levels/chunk_16.tscn"),
+	preload("res://levels/chunk_17.tscn"),
+	preload("res://levels/chunk_18.tscn"),
+	preload("res://levels/chunk_19.tscn"),
+	preload("res://levels/chunk_20.tscn"),
 	# Add more chunks here as you create them
 ]
 
 const BOSS_SCENES := [
 	preload('res://levels/bosschunk1.tscn'),
+	preload('res://levels/boss_chunk2.tscn'),
+	preload('res://levels/boss_chunk_3.tscn'),
+	preload('res://levels/boss_chunk_4.tscn'),
+	preload('res://levels/boss_chunk_5.tscn'),
 ]
 
 var boss_spawn_rate = 0.01  # 1% chance
