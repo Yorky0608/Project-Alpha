@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_gvuaa"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="2_k62xt"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_46b5x"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p3mp6"]
 texture = ExtResource("2_k62xt")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -392,7 +392,7 @@ texture = ExtResource("2_k62xt")
 
 [sub_resource type="TileSet" id="TileSet_4p50w"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_46b5x")
+sources/0 = SubResource("TileSetAtlasSource_p3mp6")
 
 [node name="Chunk1" type="Node2D" groups=["chunks"]]
 script = ExtResource("1_01may")

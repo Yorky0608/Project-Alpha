@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="2_tju4l"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="3_ci8cm"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fdf1i"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_meo1b"]
 texture = ExtResource("3_ci8cm")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -392,7 +392,7 @@ texture = ExtResource("3_ci8cm")
 
 [sub_resource type="TileSet" id="TileSet_ovseu"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_fdf1i")
+sources/0 = SubResource("TileSetAtlasSource_meo1b")
 
 [node name="BossChunk1" type="Node2D" groups=["chunks"]]
 script = ExtResource("1_i08x4")
