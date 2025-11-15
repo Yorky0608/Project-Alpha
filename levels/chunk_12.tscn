@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4h3krpu5qqtp"]
+[gd_scene load_steps=6 format=3 uid="uid://d0opokfuv7ai0"]
 
 [ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_kib4i"]
+[ext_resource type="Script" path="res://levels/chunk.gd" id="1_u4efq"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="2_e8i67"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fu2q0"]
@@ -90,17 +91,11 @@ texture = ExtResource("2_e8i67")
 8:3/0 = 0
 8:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 9:3/0 = 0
-9:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 10:3/0 = 0
-10:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 11:3/0 = 0
-11:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:3/0 = 0
-12:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 13:3/0 = 0
-13:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 14:3/0 = 0
-14:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 15:3/0 = 0
 15:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 16:3/0 = 0
@@ -394,6 +389,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_fu2q0")
 
 [node name="Chunk12" type="Node2D"]
+script = ExtResource("1_u4efq")
 
 [node name="Background" parent="." instance=ExtResource("1_kib4i")]
 
@@ -407,5 +403,11 @@ layer_0/tile_data = PackedInt32Array(1048596, 720896, 4, 1114132, 524288, 7, 117
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(513, 222)
+
+[node name="LeftEdge" type="Marker2D" parent="."]
+position = Vector2(0, 240)
+
+[node name="RightEdge" type="Marker2D" parent="."]
+position = Vector2(1152, 256)
 
 [editable path="Background"]
