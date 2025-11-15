@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://clgqrb3pd5f0y"]
+[gd_scene load_steps=6 format=3 uid="uid://clgqrb3pd5f0y"]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_3ep40"]
 [ext_resource type="PackedScene" uid="uid://bspy4rvse1yv8" path="res://player/player.tscn" id="1_mnykd"]
 [ext_resource type="AudioStream" uid="uid://34ier75hsy1u" path="res://assets/audio/eerie-prelude-23078.ogg" id="3_13cds"]
 [ext_resource type="PackedScene" uid="uid://pr4dc0k8fu4b" path="res://scale.tscn" id="4_fvliv"]
+[ext_resource type="PackedScene" uid="uid://bp8g2hdarom4e" path="res://background.tscn" id="5_7nlqa"]
 
 [node name="Level" type="Node2D" groups=["level_manager"]]
 script = ExtResource("1_3ep40")
+
+[node name="Background" parent="." instance=ExtResource("5_7nlqa")]
+
+[node name="Chunks" type="Node" parent="."]
 
 [node name="Entities" type="Node" parent="."]
 

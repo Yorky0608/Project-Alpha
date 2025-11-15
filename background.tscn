@@ -1,0 +1,112 @@
+[gd_scene load_steps=7 format=3 uid="uid://bp8g2hdarom4e"]
+
+[ext_resource type="Texture2D" uid="uid://bwvwa3lsl0v6c" path="res://background/5/1.png" id="1_ahf5o"]
+[ext_resource type="Texture2D" uid="uid://d4l5c56bk0de1" path="res://background/5/2.png" id="2_m74jc"]
+[ext_resource type="Texture2D" uid="uid://blqqetvs72c2b" path="res://background/5/3.png" id="3_twscq"]
+[ext_resource type="Texture2D" uid="uid://b4gwr2t2yta4n" path="res://background/5/4.png" id="4_djw1i"]
+[ext_resource type="Texture2D" uid="uid://duvl73ga7frkf" path="res://background/5/5.png" id="5_8vx2p"]
+[ext_resource type="Texture2D" uid="uid://bskwe3rk7h0vd" path="res://background/5/6.png" id="6_4qol6"]
+
+[node name="Background" type="Node2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 972)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("1_ahf5o")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="Node2D2" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D2"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D2/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 972)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D2/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("2_m74jc")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="Node2D3" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D3"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D3/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 972)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D3/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("3_twscq")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="Node2D4" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D4"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D4/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 972)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D4/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("4_djw1i")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="Node2D5" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D5"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D5/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 972)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D5/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("5_8vx2p")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)
+
+[node name="Node2D6" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D6"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D6/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(1728, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D6/ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, 400)
+scale = Vector2(2.345, 3)
+texture = ExtResource("6_4qol6")
+hframes = 2
+vframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 2304, 1296)

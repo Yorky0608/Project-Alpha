@@ -97,7 +97,7 @@ func _spawn_chunk(x_index: int, is_spawn_chunk: bool = false):
 			chunk_scene = CHUNK_SCENES[randi() % CHUNK_SCENES.size()]
 	
 	var new_chunk: Chunk = chunk_scene.instantiate()
-	add_child(new_chunk)
+	$Chunks.add_child(new_chunk)
 	loaded_chunks[x_index] = new_chunk
 
 	var offset_y := 0.0

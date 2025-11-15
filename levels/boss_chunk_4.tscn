@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnxvhewtqpdpa"]
+[gd_scene load_steps=5 format=3 uid="uid://cnxvhewtqpdpa"]
 
-[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_h1tjc"]
 [ext_resource type="Script" path="res://levels/chunk.gd" id="1_tydkr"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="2_82dq1"]
 
@@ -391,11 +390,6 @@ sources/0 = SubResource("TileSetAtlasSource_tofsu")
 [node name="Boss Chunk 4" type="Node2D"]
 script = ExtResource("1_tydkr")
 
-[node name="Background" parent="." instance=ExtResource("1_h1tjc")]
-
-[node name="Sprite2D" parent="Background" index="0"]
-position = Vector2(576, 0)
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_7bdo8")
 format = 2
@@ -405,12 +399,10 @@ layer_0/tile_data = PackedInt32Array(1048596, 327680, 0, 1114132, 327680, 1, 117
 position = Vector2(218, 256)
 
 [node name="LeftEdge" type="Marker2D" parent="."]
-position = Vector2(0, 240)
+position = Vector2(0, 256)
 
 [node name="RightEdge" type="Marker2D" parent="."]
 position = Vector2(1152, 256)
 
 [node name="BossSpawn" type="Marker2D" parent="."]
 position = Vector2(830, 28)
-
-[editable path="Background"]

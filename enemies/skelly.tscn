@@ -75,6 +75,7 @@ sampling_rate = 22050.0
 packet_sequence = SubResource("OggPacketSequence_j0uw6")
 
 [node name="Skelly" type="CharacterBody2D" groups=["enemies"]]
+top_level = true
 position = Vector2(5, -26)
 scale = Vector2(0.4, 0.4)
 collision_layer = 4

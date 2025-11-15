@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c48dc0ucp4ret"]
+[gd_scene load_steps=5 format=3 uid="uid://c48dc0ucp4ret"]
 
 [ext_resource type="Script" path="res://levels/chunk.gd" id="1_gm8jr"]
-[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="2_5dqom"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="3_dft2w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp788"]
@@ -391,11 +390,6 @@ sources/0 = SubResource("TileSetAtlasSource_wp788")
 [node name="Chunk15" type="Node2D" groups=["chunks"]]
 script = ExtResource("1_gm8jr")
 
-[node name="Background" parent="." instance=ExtResource("2_5dqom")]
-
-[node name="Sprite2D" parent="Background" index="0"]
-position = Vector2(576, 0)
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_lwd7r")
 format = 2
@@ -409,5 +403,3 @@ position = Vector2(0, 256)
 
 [node name="RightEdge" type="Marker2D" parent="."]
 position = Vector2(1152, 256)
-
-[editable path="Background"]

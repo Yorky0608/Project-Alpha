@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://coeb76rir68c7"]
+[gd_scene load_steps=5 format=3 uid="uid://coeb76rir68c7"]
 
 [ext_resource type="Script" path="res://levels/chunk.gd" id="1_lgcw7"]
-[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="2_e8fwq"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="3_qksbi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uoti"]
@@ -391,11 +390,6 @@ sources/0 = SubResource("TileSetAtlasSource_6uoti")
 [node name="BossChunk3" type="Node2D" groups=["chunks"]]
 script = ExtResource("1_lgcw7")
 
-[node name="Background" parent="." instance=ExtResource("2_e8fwq")]
-
-[node name="Sprite2D" parent="Background" index="0"]
-position = Vector2(576, 0)
-
 [node name="TileMap2" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3508b")
 format = 2
@@ -417,5 +411,3 @@ position = Vector2(1152, 304)
 
 [node name="BossSpawn" type="Marker2D" parent="."]
 position = Vector2(775, 95)
-
-[editable path="Background"]
