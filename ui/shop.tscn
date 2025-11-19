@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://drpasabq4wjcq"]
+[gd_scene load_steps=14 format=3 uid="uid://drpasabq4wjcq"]
 
 [ext_resource type="Script" path="res://ui/shop.gd" id="1_lvcpq"]
 [ext_resource type="FontFile" uid="uid://1mt6tq6qrv1k" path="res://assets/Kenney Thick.ttf" id="2_e6hdv"]
@@ -73,6 +73,27 @@ font_size = 20
 font = ExtResource("2_e6hdv")
 font_size = 20
 
+[sub_resource type="Theme" id="Theme_hqdfu"]
+default_font = ExtResource("2_e6hdv")
+default_font_size = 38
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 1)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 0
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 10
+
 [node name="Shop" type="CanvasLayer"]
 script = ExtResource("1_lvcpq")
 
@@ -82,128 +103,186 @@ libraries = {
 }
 autoplay = "invisible"
 
-[node name="Control" type="Control" parent="."]
+[node name="StatsControl" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 580)
+layout_mode = 3
+anchors_preset = 0
+offset_top = 140.0
+offset_right = 640.0
+offset_bottom = 720.0
+
+[node name="Container" type="GridContainer" parent="StatsControl"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1260.0
+offset_bottom = 212.0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Damage" type="BoxContainer" parent="StatsControl/Container"]
+clip_contents = true
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="StatsControl/Container/Damage"]
+layout_mode = 2
+text = "Increase Damage + 1
+Price: 500"
+label_settings = SubResource("LabelSettings_qax3q")
+
+[node name="Button" type="Button" parent="StatsControl/Container/Damage"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Damage"
+
+[node name="Speed" type="BoxContainer" parent="StatsControl/Container"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="StatsControl/Container/Speed"]
+layout_mode = 2
+text = "Increase Run Speed + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="StatsControl/Container/Speed"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Run Speed"
+
+[node name="Attack" type="BoxContainer" parent="StatsControl/Container"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="StatsControl/Container/Attack"]
+layout_mode = 2
+text = "Increase Attack Radius + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_yr86l")
+
+[node name="Button" type="Button" parent="StatsControl/Container/Attack"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Attack Radiius"
+
+[node name="Health" type="BoxContainer" parent="StatsControl/Container"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="StatsControl/Container/Health"]
+layout_mode = 2
+text = "Increase Health + 5
+Price: 500"
+label_settings = SubResource("LabelSettings_sbkm0")
+
+[node name="Button" type="Button" parent="StatsControl/Container/Health"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Upgrade Health"
+
+[node name="AbilitiesControl" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(1280, 580)
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1280.0
+offset_top = 140.0
+offset_bottom = 720.0
+grow_horizontal = 0
+
+[node name="Container" type="GridContainer" parent="AbilitiesControl"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 630.0
+offset_bottom = 101.0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Dash" type="BoxContainer" parent="AbilitiesControl/Container"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/Container/Dash"]
+layout_mode = 2
+text = "Ability - Dash
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/Container/Dash"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Dash Ability"
+
+[node name="ShopMenuControl" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 140)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Damage" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 45.0
-offset_top = 200.0
-offset_right = 323.0
-offset_bottom = 231.0
-theme = ExtResource("2_t4vr5")
-text = "Upgrade Damage"
-
-[node name="UpgradeDamage" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 130.0
-offset_right = 350.0
-offset_bottom = 190.0
-text = "Increase Damage + 1
-Price: 500"
-label_settings = SubResource("LabelSettings_qax3q")
-
-[node name="RunSpeed" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 45.0
-offset_top = 400.0
-offset_right = 368.0
-offset_bottom = 431.0
-theme = ExtResource("2_t4vr5")
-text = "Upgrade Run Speed"
-
-[node name="UpgradeRunSpeed" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 330.0
-offset_right = 402.0
-offset_bottom = 389.0
-text = "Increase Run Speed + 5
-Price: 500"
-label_settings = SubResource("LabelSettings_nipft")
-
-[node name="DashTime" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 45.0
-offset_top = 600.0
-offset_right = 368.0
-offset_bottom = 631.0
-theme = ExtResource("2_t4vr5")
-text = "Unlock Dash Ability"
-
-[node name="Dash" type="Label" parent="Control"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 530.0
-offset_right = 402.0
-offset_bottom = 589.0
-text = "Ability - Dash
-Price: 500"
-label_settings = SubResource("LabelSettings_nipft")
-
-[node name="Control2" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
-
-[node name="Close" type="Button" parent="Control2"]
-layout_mode = 0
-offset_left = -178.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 62.0
+[node name="Close" type="Button" parent="ShopMenuControl"]
+offset_left = 1113.0
+offset_top = 9.0
+offset_right = 1271.0
+offset_bottom = 51.0
 theme = ExtResource("4_myh5m")
 text = "Close"
 
-[node name="AttackRadius" type="Button" parent="Control2"]
-layout_mode = 0
-offset_left = -463.0
-offset_top = 200.0
-offset_right = -40.0
-offset_bottom = 231.0
-theme = ExtResource("2_t4vr5")
-text = "Upgrade Attack Radiius"
+[node name="Line2D" type="Line2D" parent="ShopMenuControl"]
+position = Vector2(0, 60)
+points = PackedVector2Array(0, 0, 1280, 0)
+closed = true
+width = 4.0
+default_color = Color(0, 0, 0, 1)
 
-[node name="UpgradeAttackRadius" type="Label" parent="Control2"]
-layout_mode = 0
-offset_left = -477.0
-offset_top = 130.0
-offset_right = -20.0
-offset_bottom = 189.0
-text = "Increase Attack Radius + 5
-Price: 500"
-label_settings = SubResource("LabelSettings_yr86l")
+[node name="Middle" type="Line2D" parent="ShopMenuControl/Line2D"]
+position = Vector2(640, 0)
+points = PackedVector2Array(0, 0, 0, 80)
+closed = true
+width = 4.0
+default_color = Color(0, 0, 0, 1)
 
-[node name="Health" type="Button" parent="Control2"]
-layout_mode = 0
-offset_left = -318.0
-offset_top = 400.0
-offset_right = -40.0
-offset_bottom = 431.0
-theme = ExtResource("2_t4vr5")
-text = "Upgrade Health"
+[node name="Bottom" type="Line2D" parent="ShopMenuControl/Line2D"]
+position = Vector2(0, 80)
+points = PackedVector2Array(0, 0, 1280, 0)
+closed = true
+width = 4.0
+default_color = Color(0, 0, 0, 1)
 
-[node name="UpgradeHealth" type="Label" parent="Control2"]
-layout_mode = 0
-offset_left = -357.0
-offset_top = 330.0
-offset_right = -20.0
-offset_bottom = 389.0
-text = "Increase Health + 5
-Price: 500"
-label_settings = SubResource("LabelSettings_sbkm0")
+[node name="StatsButton" type="Button" parent="ShopMenuControl/Line2D"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 635.0
+offset_bottom = 75.0
+theme = SubResource("Theme_hqdfu")
+text = "STATS"
+flat = true
 
-[connection signal="pressed" from="Control/Damage" to="." method="_on_damage_pressed"]
-[connection signal="pressed" from="Control/RunSpeed" to="." method="_on_run_speed_pressed"]
-[connection signal="pressed" from="Control/DashTime" to="." method="_on_dash_time_pressed"]
-[connection signal="pressed" from="Control2/Close" to="." method="_on_close_pressed"]
-[connection signal="pressed" from="Control2/AttackRadius" to="." method="_on_attack_radius_pressed"]
-[connection signal="pressed" from="Control2/Health" to="." method="_on_health_pressed"]
+[node name="AbilitiesButton" type="Button" parent="ShopMenuControl/Line2D"]
+offset_left = 645.0
+offset_top = 5.0
+offset_right = 1275.0
+offset_bottom = 75.0
+theme = SubResource("Theme_hqdfu")
+text = "ABILITIES"
+flat = true
+
+[connection signal="pressed" from="StatsControl/Container/Damage/Button" to="." method="_on_damage_pressed"]
+[connection signal="pressed" from="StatsControl/Container/Speed/Button" to="." method="_on_run_speed_pressed"]
+[connection signal="pressed" from="StatsControl/Container/Attack/Button" to="." method="_on_attack_radius_pressed"]
+[connection signal="pressed" from="StatsControl/Container/Health/Button" to="." method="_on_health_pressed"]
+[connection signal="pressed" from="AbilitiesControl/Container/Dash/Button" to="." method="_on_dash_time_pressed"]
+[connection signal="pressed" from="ShopMenuControl/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="ShopMenuControl/Line2D/StatsButton" to="." method="_on_stats_button_pressed"]
+[connection signal="pressed" from="ShopMenuControl/Line2D/AbilitiesButton" to="." method="_on_abilities_button_pressed"]

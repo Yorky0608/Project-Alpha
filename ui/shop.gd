@@ -8,8 +8,7 @@ var dash_price = 500
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	$AbilitiesControl.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -18,29 +17,29 @@ func _process(delta: float) -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	
 	if ui.current_score < dam_price:
-		$Control/Damage.disabled = true
+		$StatsControl/Container/Damage/Button.disabled = true
 	else:
-		$Control/Damage.disabled = false
+		$StatsControl/Container/Damage/Button.disabled = false
 	
 	if ui.current_score < rad_price:
-		$Control2/AttackRadius.disabled = true
+		$StatsControl/Container/Attack/Button.disabled = true
 	else:
-		$Control2/AttackRadius.disabled = false
+		$StatsControl/Container/Attack/Button.disabled = false
 	
 	if ui.current_score < run_price:
-		$Control/RunSpeed.disabled = true
+		$StatsControl/Container/Speed/Button.disabled = true
 	else:
-		$Control/RunSpeed.disabled = false
+		$StatsControl/Container/Speed/Button.disabled = false
 	
 	if ui.current_score < health_price:
-		$Control2/Health.disabled = true
+		$StatsControl/Container/Health/Button.disabled = true
 	else:
-		$Control2/Health.disabled = false
+		$StatsControl/Container/Health/Button.disabled = false
 	
 	if ui.current_score < dash_price:
-		$Control/DashTime.disabled = true
+		$AbilitiesControl/Container/Dash/Button.disabled = true
 	else:
-		$Control/DashTime.disabled = false
+		$AbilitiesControl/Container/Dash/Button.disabled = false
 	
 	ui.update_score(ui.current_score)
 
@@ -51,7 +50,6 @@ func _on_close_pressed() -> void:
 	ui.ui_vis()
 	var menu = get_parent().find_child("AnimationPlayer")
 	menu.play("visible")
-
 
 func _on_damage_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
@@ -85,7 +83,6 @@ func _on_health_pressed() -> void:
 	ui.find_child("HealthBar").max_value = player.max_health
 	ui.update_health_bar(player.health)
 
-
 func _on_dash_time_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	if not player.dash_ability:
@@ -97,3 +94,10 @@ func _on_dash_time_pressed() -> void:
 		var ability = get_node("/root/Main/Level/Entities/Player/AbilityCoolDown")
 		ability.waittime -= 0.1
 	
+func _on_stats_button_pressed() -> void:
+	$StatsControl.show()
+	$AbilitiesControl.hide()
+	
+func _on_abilities_button_pressed() -> void:
+	$AbilitiesControl.show()
+	$StatsControl.hide()

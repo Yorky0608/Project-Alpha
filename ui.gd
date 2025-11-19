@@ -42,6 +42,8 @@ func stop_timer():
 
 func ui_invis():
 	$AnimationPlayer.play('invisible')
+	health_bar.hide()
 
 func ui_vis():
 	$AnimationPlayer.play("visible")
+	health_bar.show()
