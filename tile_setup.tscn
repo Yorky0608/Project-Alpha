@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://xvv7tbjl7436"]
+[gd_scene load_steps=7 format=3 uid="uid://xvv7tbjl7436"]
 
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="1_ubpmx"]
 [ext_resource type="PackedScene" uid="uid://bspy4rvse1yv8" path="res://player/player.tscn" id="2_3xxnb"]
-[ext_resource type="PackedScene" uid="uid://bp8g2hdarom4e" path="res://background.tscn" id="4_eftfg"]
 [ext_resource type="PackedScene" uid="uid://dpdjlrgk2esb5" path="res://levels/chunk3.tscn" id="4_gr8d0"]
 [ext_resource type="PackedScene" uid="uid://dnu0rceo3bl7m" path="res://enemies/skelly.tscn" id="4_u3ib1"]
 
@@ -420,13 +419,11 @@ tile_set = SubResource("TileSet_xfjp4")
 format = 2
 
 [node name="Skelly" parent="." instance=ExtResource("4_u3ib1")]
-visible = false
+position = Vector2(888, 249)
 
 [node name="Player" parent="." instance=ExtResource("2_3xxnb")]
 visible = false
 position = Vector2(440, -2)
-
-[node name="Background" parent="." instance=ExtResource("4_eftfg")]
 
 [node name="Chunk3" parent="." instance=ExtResource("4_gr8d0")]
 top_level = true

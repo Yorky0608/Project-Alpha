@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dnu0rceo3bl7m"]
+[gd_scene load_steps=15 format=4 uid="uid://dnu0rceo3bl7m"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_amvso"]
 [ext_resource type="Texture2D" uid="uid://dwd7f51hik30e" path="res://monsters3/Skeleton/Walk.png" id="2_aoooa"]
@@ -7,8 +7,14 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24npj"]
 size = Vector2(35, 67.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3qpcq"]
+size = Vector2(70, 97.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yaj4j"]
 size = Vector2(40, 72.5001)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l5sj"]
+size = Vector2(50, 32.5)
 
 [sub_resource type="Animation" id="Animation_dnkgi"]
 length = 0.001
@@ -59,9 +65,25 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_woqc3"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 6]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3l8tb"]
 _data = {
 "RESET": SubResource("Animation_dnkgi"),
+"attack": SubResource("Animation_woqc3"),
 "death": SubResource("Animation_7apv7"),
 "walk": SubResource("Animation_xpbrt")
 }
@@ -80,8 +102,8 @@ position = Vector2(5, -26)
 scale = Vector2(0.4, 0.4)
 collision_layer = 4
 collision_mask = 7
-platform_floor_layers = 4294967044
-platform_wall_layers = 2
+platform_floor_layers = 4294967041
+platform_wall_layers = 1
 script = ExtResource("1_amvso")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -95,15 +117,50 @@ position = Vector2(-7.5, 16.25)
 scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_24npj")
 
-[node name="HitBox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+[node name="Pivot" type="Node2D" parent="."]
+scale = Vector2(1, 1)
+
+[node name="AttackArea" type="Area2D" parent="Pivot"]
+collision_layer = 128
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
+position = Vector2(47.5, 16.25)
+shape = SubResource("RectangleShape2D_3qpcq")
+
+[node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
+scale = Vector2(1, 1)
 collision_layer = 32
 collision_mask = 18
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" groups=["enemies"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox" groups=["enemies"]]
 position = Vector2(-7.5, 16.25)
 scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_yaj4j")
 debug_color = Color(0, 0.628232, 0.494345, 0.42)
+
+[node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
+collision_layer = 64
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
+position = Vector2(35, 16.25)
+shape = SubResource("RectangleShape2D_2l5sj")
+
+[node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
+position = Vector2(-10, 52.5)
+scale = Vector2(1, 1)
+target_position = Vector2(48, 72)
+
+[node name="RayCast2D_WallCheck" type="RayCast2D" parent="Pivot"]
+position = Vector2(10, 7.62939e-06)
+scale = Vector2(1, 1)
+target_position = Vector2(32, 0)
+
+[node name="RayCast2D_FloorCheck" type="RayCast2D" parent="Pivot"]
+position = Vector2(-10, 50)
+target_position = Vector2(0, 96)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -120,4 +177,11 @@ volume_db = -10.0
 stream = ExtResource("4_n13p5")
 volume_db = -10.0
 
-[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
+[connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
+[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

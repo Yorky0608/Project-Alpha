@@ -260,7 +260,9 @@ func _on_attack_area_area_entered(area: Area2D):
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_hitbox"):
-		var node = area.get_parent()
+		var node = area
+		while node and not node.has_method("death"):
+			node = node.get_parent()
 		take_damage(node, node.contact_damage)
 
 
