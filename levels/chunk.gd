@@ -17,4 +17,6 @@ func get_right_y() -> float:
 		return global_position.y  # fallback
 
 func get_death_y() -> float:
-	return death_marker.global_position.y
+	if death_marker and is_instance_valid(death_marker):
+		return death_marker.global_position.y
+	return -9999999.0  # fallback extreme value (very low)

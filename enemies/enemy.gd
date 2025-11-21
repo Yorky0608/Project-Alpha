@@ -12,6 +12,9 @@ extends CharacterBody2D
 @export var gravity := 750
 @export var speed := 75
 
+@export var max_jump_height := 80   # 1.25 tiles
+@export var max_jump_distance := 120  # 2 tiles forward
+
 enum {CHASE, ATTACK, DEAD}
 var state = CHASE
 
@@ -124,27 +127,22 @@ func do_chase(delta):
 	# Default horizontal movement
 	velocity.x = direction * speed
 	
-	# WALL handling
-	if wall_ahead:
-		# If wall is low (small step) and on floor, step up if possible
-		if on_floor and can_step_up():
-			# small climb: nudge up velocity.y so next move_and_slide resolves up
-			velocity.y = -120
-		elif on_floor and jump_when_blocked():
+	if wall_ahead and on_floor:
+		if can_jump_up_to_platform():
+			velocity.y = jump_speed
+		elif jump_when_blocked():
 			velocity.y = jump_speed
 		else:
-			# turn around if cannot pass
-			velocity.x = 0
 			change_direction()
+			velocity.x = 0
 	
 	# GAP / CLIFF handling
 	if on_floor and not ground_ahead:
-		# There's a hole ahead. Try jump if allowed, else turn.
 		if can_jump_over_gap():
 			velocity.y = jump_speed
 		else:
 			velocity.x = 0
-			change_direction()
+			#change_direction()
 
 	# Slope friction / keep on ground: small downward pull if stepping down
 	if not on_floor:
@@ -168,8 +166,26 @@ func jump_when_blocked() -> bool:
 	return true  # set per enemy type
 
 func can_jump_over_gap() -> bool:
-	# optionally check player's x distance etc - keep simple:
-	return true  # or use a per-enemy flag
+	# force ray updates
+	$Pivot/RayCast2D_JumpFarCheck.force_raycast_update()
+	$Pivot/RayCast2D_JumpDownCheck.force_raycast_update()
+
+	var far_hit = $Pivot/RayCast2D_JumpFarCheck.get_collider() != null
+	var down_hit = $Pivot/RayCast2D_JumpDownCheck.get_collider() != null
+
+	# We want BOTH:
+	# 1. Something roughly at jumpable forward distance
+	# 2. Floor below that spot
+	if far_hit and down_hit:
+		return true
+	return false
+
+func can_jump_up_to_platform() -> bool:
+	$Pivot/RayCast2D_JumpUpCheck.force_raycast_update()
+
+	if $Pivot/RayCast2D_JumpUpCheck.is_colliding():
+		return true
+	return false
 
 # -------------------------
 # Attack

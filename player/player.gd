@@ -219,7 +219,7 @@ func _physics_process(delta):
 		emit_signal("chunk_changed", current_chunk_x)
 
 func take_damage(node, amount):
-	#invincible = true
+	invincible = true
 	if invincible or state == DEAD:
 		return
 	
