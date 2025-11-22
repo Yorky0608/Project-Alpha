@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 GameState="*res://game_state.gd"
 Global="*res://global.gd"
+Chunkmanager="*res://chunkmanager.gd"
+Chunkstate="*res://scripts/chunkstate.gd"
 
 [display]
 

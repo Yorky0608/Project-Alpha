@@ -57,7 +57,18 @@ var chunk_update_lock := false
 var spawn_marker_position: Vector2
 var player_health = 20
 
+const enemies = [
+	preload("res://enemies/skelly.tscn"),
+	preload("res://enemies/fire_spirit.tscn")
+]
+
+const enemy_weights = [
+	0.8,  # skelly = 80%
+	0.2   # fire_spirit = 20%
+]
+
 var skeleton_scene = preload("res://enemies/skelly.tscn")
+var fire_scene = preload("res://enemies/fire_spirit.tscn")
 @export var spawn_interval = 5.0
 var spawn_timer = 0.0
 var skeletons_spawned = 1
@@ -181,7 +192,6 @@ func update_player_chunk_based_on_player_position():
 func _load_nearby_chunks(center_x: int) -> void:
 	for x in range(center_x - LOAD_DISTANCE, center_x + LOAD_DISTANCE + 1):
 		if not _is_chunk_present_or_loading(x):
-			# schedule spawn immediately (blocking spawn is fine)
 			_spawn_chunk_safe(x)
 
 func _unload_distant_chunks(center_x: int) -> void:
@@ -253,9 +263,27 @@ func spawn_skeletons():
 	var skeletons_to_spawn = floor(skeletons_spawned) # Scale difficulty
 
 	for i in skeletons_to_spawn:
-		var skeleton = skeleton_scene.instantiate()
-		$Entities/Enemies.add_child(skeleton)
-		skeleton.global_position = _get_safe_spawn_position()
+		var enemy_scene = _choose_weighted_enemy()
+		var enemy_instance = enemy_scene.instantiate()
+
+		$Entities/Enemies.add_child(enemy_instance)
+		enemy_instance.global_position = _get_safe_spawn_position()
+
+func _choose_weighted_enemy():
+	var total_weight = 0.0
+	for w in enemy_weights:
+		total_weight += w
+	
+	var roll = randf() * total_weight
+	var total = 0.0
+
+	for index in range(enemy_weights.size()):
+		total += enemy_weights[index]
+		if roll <= total:
+			return enemies[index]
+
+	# Fallback (should never happen)
+	return enemies[0]
 
 func _get_safe_spawn_position() -> Vector2:
 	var viewport = get_viewport().get_visible_rect()

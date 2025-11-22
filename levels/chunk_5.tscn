@@ -403,3 +403,7 @@ position = Vector2(0, 192)
 
 [node name="RightEdge" type="Marker2D" parent="."]
 position = Vector2(1152, 256)
+
+[node name="Entities" type="Node" parent="."]
+
+[node name="Items" type="Node" parent="Entities"]

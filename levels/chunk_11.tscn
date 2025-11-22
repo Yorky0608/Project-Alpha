@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcnrf5uxp2qk6"]
+[gd_scene load_steps=5 format=3 uid="uid://c2kpu54ceb3lk"]
 
 [ext_resource type="Script" path="res://levels/chunk.gd" id="1_g35wq"]
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="3_fp2ru"]
@@ -408,3 +408,7 @@ position = Vector2(1152, 208)
 
 [node name="DeathMarker" type="Marker2D" parent="."]
 position = Vector2(1143, 656)
+
+[node name="Entities" type="Node" parent="."]
+
+[node name="Items" type="Node" parent="Entities"]

@@ -411,3 +411,9 @@ position = Vector2(1152, 304)
 
 [node name="BossSpawn" type="Marker2D" parent="."]
 position = Vector2(775, 95)
+
+[node name="Entities" type="Node" parent="."]
+
+[node name="Items" type="Node" parent="Entities"]
+
+[node name="Boses" type="Node" parent="Entities"]
