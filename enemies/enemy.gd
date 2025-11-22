@@ -8,9 +8,9 @@ extends CharacterBody2D
 @export var cliff_check_distance := 96          # 1.5 tiles down
 
 @export var stepup_max_height := 24             # how high the enemy can step onto without jumping
-@export var jump_speed := -420                  # tune per enemy (you already had -350)
+@export var jump_speed := -500                  # tune per enemy (you already had -350)
 @export var gravity := 750
-@export var speed := 75
+@export var speed := 150
 
 @export var max_jump_height := 80   # 1.25 tiles
 @export var max_jump_distance := 120  # 2 tiles forward
@@ -76,7 +76,6 @@ func _physics_process(delta):
 		DEAD:
 			velocity.x = 0
 
-	move_and_slide()
 	_check_out_of_bounds()
 
 # =========================
@@ -217,6 +216,7 @@ func death():
 	$Death.play()
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Pivot/HitBox/CollisionShape2D.set_deferred("disabled", true)
+	$Pivot/AttackArea/CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.set_hframes(death_frames)
 	$AnimationPlayer.speed_scale = death_speed
 	$Sprite2D.texture = death_texture

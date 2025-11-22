@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=4 uid="uid://dnu0rceo3bl7m"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_amvso"]
-[ext_resource type="Texture2D" uid="uid://d3jwk6qy0pwx3" path="res://monsters3/Skeleton/Attack_1.png" id="2_bax1f"]
+[ext_resource type="Texture2D" uid="uid://dwd7f51hik30e" path="res://monsters3/Skeleton/Walk.png" id="2_lw3wq"]
 [ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="4_n13p5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imns6"]
@@ -108,70 +108,58 @@ script = ExtResource("1_amvso")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_bax1f")
-hframes = 7
+texture = ExtResource("2_lw3wq")
+hframes = 8
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8.75, 16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_imns6")
 
 [node name="Pivot" type="Node2D" parent="."]
 
 [node name="AttackArea" type="Area2D" parent="Pivot"]
-scale = Vector2(1, 1)
 collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
 position = Vector2(47.5, 16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ef3ps")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
-scale = Vector2(1, 1)
 collision_layer = 32
 collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(-8.75, 16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_wrb8q")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
-scale = Vector2(1, 1)
 collision_layer = 64
 collision_mask = 2
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
 position = Vector2(36.25, 17.5)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_53nrd")
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
 position = Vector2(10, 50)
-scale = Vector2(1, 1)
 target_position = Vector2(60, 52)
 
 [node name="RayCast2D_WallCheck" type="RayCast2D" parent="Pivot"]
-scale = Vector2(1, 1)
 target_position = Vector2(32, 0)
 
 [node name="RayCast2D_FloorCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(-7.5, 50)
-scale = Vector2(1, 1)
 target_position = Vector2(0, 40)
 
 [node name="RayCast2D_JumpFarCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(10, 30)
-scale = Vector2(1, 1)
 target_position = Vector2(160, 0)
 
 [node name="RayCast2D_JumpDownCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(10, 50)
-scale = Vector2(1, 1)
 target_position = Vector2(160, 160)
 
 [node name="RayCast2D_JumpUpCheck" type="RayCast2D" parent="Pivot"]

@@ -85,8 +85,12 @@ var current_death_y = 656
 func _ready():
 	# spawn initial area deterministically
 	_spawn_chunk_safe(0, true)
+	
+	await get_tree().process_frame
+	
 	if spawn_marker_position:
 		player_ref.position = spawn_marker_position
+		
 	_on_player_chunk_changed(START_CHUNK_X)
 
 	spawn_timer = spawn_interval
@@ -147,6 +151,8 @@ func _spawn_chunk_safe(x_index: int, is_spawn_chunk: bool = false) -> void:
 
 	# Add child to scene immediately so its signals/ready run.
 	$Chunks.add_child(new_chunk)
+	
+	await get_tree().process_frame
 
 	# compute offset_y deterministically using the last valid neighbor to the left
 	var offset_y := 0.0
@@ -177,6 +183,8 @@ func _spawn_chunk_safe(x_index: int, is_spawn_chunk: bool = false) -> void:
 
 	# loading finished
 	loading_indices.erase(x_index)
+	
+	return
 
 func _on_player_chunk_changed(current_chunk_x: int):
 	# Unload chunks outside loading distance
@@ -294,7 +302,7 @@ func _get_safe_spawn_position() -> Vector2:
 	
 	# 1. Spawn ABOVE the highest chunk in view
 	var highest_chunk_y = _get_highest_chunk_y_in_view(camera_rect)
-	var min_spawn_y = highest_chunk_y - 150  # 150px above highest chunk
+	var min_spawn_y = highest_chunk_y - 50  # 150px above highest chunk
 
 	# 2. Spawn just outside view (left/right)
 	var spawn_x

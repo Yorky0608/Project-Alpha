@@ -8,9 +8,9 @@ extends CharacterBody2D
 @export var cliff_check_distance := 96          # 1.5 tiles down
 
 @export var stepup_max_height := 24             # how high the enemy can step onto without jumping
-@export var jump_speed := -420                  # tune per enemy (you already had -350)
+@export var jump_speed := -500                  # tune per enemy (you already had -350)
 @export var gravity := 750
-@export var speed := 75
+@export var speed := 140
 
 @export var max_jump_height := 80   # 1.25 tiles
 @export var max_jump_distance := 120  # 2 tiles forward
@@ -41,7 +41,7 @@ var death_texture = preload("res://monsters3/Fire_Spirit/Dead.png")
 var death_frames = 5
 var death_speed = 1
 
-var attack_texture = preload("res://monsters3/Fire_Spirit/Attack.png")
+var attack_texture = preload("res://monsters3/Fire_Spirit/Flame.png")
 var attack_frames = 13
 var attack_speed = 1
 
@@ -58,6 +58,8 @@ func _ready():
 
 func _physics_process(delta):
 	if dead:
+		await get_tree().create_timer(2).timeout
+		queue_free()
 		return
 
 	# Gravity
@@ -76,7 +78,6 @@ func _physics_process(delta):
 		DEAD:
 			velocity.x = 0
 
-	move_and_slide()
 	_check_out_of_bounds()
 
 # =========================
@@ -213,20 +214,25 @@ func start_attack() -> void:
 # Death
 # -------------------------
 func death():
+	print('Dying')
 	dead = true
 	$Death.play()
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Pivot/HitBox/CollisionShape2D.set_deferred("disabled", true)
+	$Pivot/AttackArea/CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.set_hframes(death_frames)
 	$AnimationPlayer.speed_scale = death_speed
 	$Sprite2D.texture = death_texture
 	$AnimationPlayer.play("death")
+	await get_tree().create_timer(0.1).timeout
+	print("Checking anim:", $AnimationPlayer.current_animation)
 
 	var ui = get_tree().get_first_node_in_group("ui")
 	if ui:
 		ui.update_score(ui.current_score + score_value)
 
 	await $AnimationPlayer.animation_finished
+	print("Death animation finished!")
 	queue_free()
 
 # =========================
