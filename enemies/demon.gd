@@ -24,26 +24,30 @@ var level_bounds_right := 0.0
 @onready var player = get_tree().get_first_node_in_group("player")
 
 @export var jump_check_distance = 10
-@export var contact_damage = 5
-@export var attack_damage = 10
-@export var score_value = 100
-@export var health: int = 25
+@export var contact_damage = 10
+@export var attack_damage = 30
+@export var score_value = 1000
+@export var health: int = 100
 
 var dead = false
 var player_in_attack_area := false
 
 # Animation sets
-var walk_texture = preload("res://monsters3/Skeleton/Walk.png")
-var walk_frames = 8
-var walk_speed = 3
+var walk_texture = preload("res://monsters1/PNG/Demon/walk.png")
+var walk_frames = 6
+var walk_speed = 1
 
-var death_texture = preload("res://monsters3/Skeleton/Dead.png")
-var death_frames = 3
-var death_speed = 3
+var death_texture = preload("res://monsters1/PNG/Demon/death.png")
+var death_frames = 6
+var death_speed = 1
 
-var attack_texture = preload("res://monsters3/Skeleton/Attack_1.png")
-var attack_frames = 7
-var attack_speed = 1
+var attack_texture = preload("res://monsters1/PNG/Demon/attack.png")
+var attack_frames = 4
+var attack_speed = 2
+
+var hurt_texture = preload("res://monsters1/PNG/Demon/hurt.png")
+var hurt_frames = 2
+var hurt_speed = 2
 
 @onready var attack_area = $Pivot/AttackArea
 @onready var attack_zone = $Pivot/AttackZone
@@ -250,6 +254,13 @@ func apply_damage(amount: int):
 	health -= amount
 	if health <= 0:
 		change_state(DEAD)
+	else:
+		$Sprite2D.set_hframes(hurt_frames)
+		$AnimationPlayer.speed_scale = hurt_speed
+		$Sprite2D.texture = hurt_texture
+		$AnimationPlayer.play("hurt")
+		# Wait for animation to finish
+		await $AnimationPlayer.animation_finished
 
 func _update_level_bounds():
 	var level_manager = get_tree().get_first_node_in_group("level_manager")

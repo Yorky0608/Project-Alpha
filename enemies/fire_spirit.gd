@@ -250,6 +250,7 @@ func can_move_forward() -> bool:
 	return true
 
 func apply_damage(amount: int):
+	velocity.x = 0
 	if dead:
 		return
 	health -= amount

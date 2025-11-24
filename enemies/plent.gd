@@ -33,15 +33,15 @@ var dead = false
 var player_in_attack_area := false
 
 # Animation sets
-var walk_texture = preload("res://monsters3/Skeleton/Walk.png")
+var walk_texture = preload("res://monsters3/Plent/Walk.png")
 var walk_frames = 8
-var walk_speed = 3
+var walk_speed = 1
 
-var death_texture = preload("res://monsters3/Skeleton/Dead.png")
+var death_texture = preload("res://monsters3/Plent/Dead.png")
 var death_frames = 3
-var death_speed = 3
+var death_speed = 1
 
-var attack_texture = preload("res://monsters3/Skeleton/Attack_1.png")
+var attack_texture = preload("res://monsters3/Plent/Attack_3.png")
 var attack_frames = 7
 var attack_speed = 1
 
