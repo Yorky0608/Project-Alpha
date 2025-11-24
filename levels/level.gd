@@ -188,10 +188,10 @@ func _spawn_chunk_safe(x_index: int, is_spawn_chunk: bool = false) -> void:
 
 func _on_player_chunk_changed(current_chunk_x: int):
 	# Unload chunks outside loading distance
-	_unload_distant_chunks(current_chunk_x)
+	await _unload_distant_chunks(current_chunk_x)
 	
 	# Load new chunks around player
-	_load_nearby_chunks(current_chunk_x)
+	await _load_nearby_chunks(current_chunk_x)
 	
 func update_player_chunk_based_on_player_position():
 	var px = int(floor(player.global_position.x / CHUNK_WIDTH))
@@ -200,7 +200,7 @@ func update_player_chunk_based_on_player_position():
 func _load_nearby_chunks(center_x: int) -> void:
 	for x in range(center_x - LOAD_DISTANCE, center_x + LOAD_DISTANCE + 1):
 		if not _is_chunk_present_or_loading(x):
-			_spawn_chunk_safe(x)
+			await _spawn_chunk_safe(x)
 
 func _unload_distant_chunks(center_x: int) -> void:
 	var to_unload := []
