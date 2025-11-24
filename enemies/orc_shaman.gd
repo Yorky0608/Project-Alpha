@@ -38,11 +38,11 @@ var walk_frames = 7
 var walk_speed = 1
 
 var death_texture = preload("res://monsters2/Orc_Shaman/Dead.png")
-var death_frames = 5
+var death_frames = 4
 var death_speed = 1
 
 var attack_texture = preload("res://monsters2/Orc_Shaman/Attack_1.png")
-var attack_frames = 13
+var attack_frames = 4
 var attack_speed = 1
 
 @onready var attack_area = $Pivot/AttackArea
@@ -250,6 +250,7 @@ func can_move_forward() -> bool:
 	return true
 
 func apply_damage(amount: int):
+	velocity.x = 0
 	if dead:
 		return
 	health -= amount

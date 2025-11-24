@@ -1,14 +1,17 @@
-[gd_scene load_steps=14 format=4 uid="uid://cdgi6dypx84tx"]
+[gd_scene load_steps=15 format=4 uid="uid://dux0exfjuwcok"]
 
-[ext_resource type="Script" uid="uid://dps6h4im4f57o" path="res://enemies/fire_spirit.gd" id="1_xq2ch"]
-[ext_resource type="Texture2D" uid="uid://cufxdspk0kmoe" path="res://monsters2/Orc_Berserk/Walk.png" id="2_4w1x7"]
+[ext_resource type="Script" path="res://enemies/orc_berserk.gd" id="1_n0dji"]
+[ext_resource type="Texture2D" uid="uid://fuim0tol7u6j" path="res://monsters2/Orc_Warrior/Walk.png" id="2_2ekpb"]
 [ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_52oed"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gchbr"]
+size = Vector2(40, 62.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xq2ch"]
-size = Vector2(44.999996, 64.99999)
+size = Vector2(45, 65)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4w1x7"]
-size = Vector2(52.499996, 75.000015)
+size = Vector2(47.5, 72.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52oed"]
 size = Vector2(35, 62.5)
@@ -21,9 +24,8 @@ sampling_rate = 22050.0
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_owdwc"]
 packet_sequence = SubResource("OggPacketSequence_j0uw6")
 
-[sub_resource type="Animation" id="Animation_4w1x7"]
-resource_name = "Walk"
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_uhlso"]
+resource_name = "Attack"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -31,7 +33,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.43333334),
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 4]
+}
+
+[sub_resource type="Animation" id="Animation_wg4em"]
+resource_name = "Dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 3]
@@ -52,8 +69,9 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_wg4em"]
-resource_name = "Dead"
+[sub_resource type="Animation" id="Animation_4w1x7"]
+resource_name = "Walk"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -61,33 +79,18 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
+"times": PackedFloat32Array(0, 0.566667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0, 3]
-}
-
-[sub_resource type="Animation" id="Animation_uhlso"]
-resource_name = "Attack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 4]
+"values": [0, 6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uhlso"]
 _data = {
-&"Attack": SubResource("Animation_uhlso"),
-&"Dead": SubResource("Animation_wg4em"),
-&"RESET": SubResource("Animation_52oed"),
-&"Walk": SubResource("Animation_4w1x7")
+"Attack": SubResource("Animation_uhlso"),
+"Dead": SubResource("Animation_wg4em"),
+"RESET": SubResource("Animation_52oed"),
+"Walk": SubResource("Animation_4w1x7")
 }
 
 [node name="Orc Berserk" type="CharacterBody2D" groups=["enemies"]]
@@ -98,12 +101,17 @@ collision_layer = 4
 collision_mask = 7
 platform_floor_layers = 4294967041
 platform_wall_layers = 1
-script = ExtResource("1_xq2ch")
+script = ExtResource("1_n0dji")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_4w1x7")
+texture = ExtResource("2_2ekpb")
 hframes = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 3.75)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_gchbr")
 
 [node name="Pivot" type="Node2D" parent="."]
 
@@ -112,8 +120,8 @@ collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
-position = Vector2(37.5, 2.4999962)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(37.5, 2.5)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xq2ch")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -121,8 +129,8 @@ collision_layer = 32
 collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
-position = Vector2(0, 2.5000002)
-scale = Vector2(0.99999976, 0.99999976)
+position = Vector2(-3.75, 3.75)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_4w1x7")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
@@ -131,32 +139,32 @@ collision_mask = 2
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
-position = Vector2(32.499996, -3.75)
-scale = Vector2(0.99999976, 0.99999976)
+position = Vector2(32.5, -3.75)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_52oed")
 
 [node name="RayCast2D_JumpFarCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(4.9999995, 14.999998)
+position = Vector2(5, 15)
 target_position = Vector2(160, 0)
 
 [node name="RayCast2D_JumpUp" type="RayCast2D" parent="Pivot"]
-position = Vector2(22.499985, -29.999996)
+position = Vector2(22.5, -30)
 target_position = Vector2(90, -160)
 
 [node name="RayCast2D_JumpDown" type="RayCast2D" parent="Pivot"]
-position = Vector2(25, 37.499996)
+position = Vector2(25, 37.5)
 target_position = Vector2(160, 160)
 
 [node name="RayCast2D_WallCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(15, -17.499998)
+position = Vector2(15, -17.5)
 target_position = Vector2(32, 0)
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
-position = Vector2(24.999985, 37.499996)
+position = Vector2(25, 37.5)
 target_position = Vector2(60, 72)
 
 [node name="RayCast2D_FloorCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(-2.5000153, 29.999998)
+position = Vector2(-2.50002, 30)
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamOggVorbis_owdwc")
@@ -172,7 +180,7 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_uhlso")
+"": SubResource("AnimationLibrary_uhlso")
 }
 autoplay = "Walk"
 
