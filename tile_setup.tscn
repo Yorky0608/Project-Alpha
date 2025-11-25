@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://bm7s6wl5mv6mu" path="res://tileset/1 Tiles/Tileset.png" id="1_ubpmx"]
 [ext_resource type="PackedScene" uid="uid://bspy4rvse1yv8" path="res://player/player.tscn" id="2_3xxnb"]
+[ext_resource type="PackedScene" uid="uid://bp6xyyebgvkq1" path="res://enemies/dragon.tscn" id="2_uuffm"]
 [ext_resource type="PackedScene" uid="uid://dpdjlrgk2esb5" path="res://levels/chunk3.tscn" id="4_gr8d0"]
-[ext_resource type="PackedScene" uid="uid://dnu0rceo3bl7m" path="res://enemies/skelly.tscn" id="4_u3ib1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xqs3c"]
 texture = ExtResource("1_ubpmx")
@@ -418,8 +418,8 @@ sources/0 = SubResource("TileSetAtlasSource_xqs3c")
 tile_set = SubResource("TileSet_xfjp4")
 format = 2
 
-[node name="Skelly" parent="." instance=ExtResource("4_u3ib1")]
-position = Vector2(888, 249)
+[node name="Dragon" parent="." instance=ExtResource("2_uuffm")]
+position = Vector2(524, 201)
 
 [node name="Player" parent="." instance=ExtResource("2_3xxnb")]
 visible = false

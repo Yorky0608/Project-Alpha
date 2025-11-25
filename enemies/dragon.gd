@@ -1,19 +1,21 @@
 extends CharacterBody2D
+class_name BossDragon  # optional
 
 @export var tile_size := 64
+@export var chunk_width := 1152
 
-@export var wall_check_distance := 32           # half tile
-@export var ground_ahead_horiz := 48            # 0.75 tile forward
-@export var ground_ahead_vert := 72             # ~1.125 tiles down
-@export var cliff_check_distance := 96          # 1.5 tiles down
+@export var wall_check_distance := 32
+@export var ground_ahead_horiz := 48
+@export var ground_ahead_vert := 72
+@export var cliff_check_distance := 96
 
-@export var stepup_max_height := 24             # how high the enemy can step onto without jumping
-@export var jump_speed := -500                  # tune per enemy (you already had -350)
+@export var stepup_max_height := 24
+@export var jump_speed := -500
 @export var gravity := 750
-@export var speed := 150
+@export var speed := 100
 
-@export var max_jump_height := 80   # 1.25 tiles
-@export var max_jump_distance := 120  # 2 tiles forward
+@export var max_jump_height := 80
+@export var max_jump_distance := 120
 
 enum {CHASE, ATTACK, DEAD}
 var state = CHASE
@@ -21,18 +23,19 @@ var state = CHASE
 var level_bounds_left := 0.0
 var level_bounds_right := 0.0
 
+# find player by group (case sensitive)
 @onready var player = get_tree().get_first_node_in_group("player")
 
 @export var jump_check_distance = 10
 @export var contact_damage = 10
-@export var attack_damage = 30
+@export var attack_damage = 40
 @export var score_value = 1000
-@export var health: int = 100
+@export var health: int = 150
 
 var dead = false
 var player_in_attack_area := false
 
-# Animation sets
+# Animation sets (keep your existing textures)
 var walk_texture = preload("res://monsters1/PNG/Dragon/walk.png")
 var walk_frames = 4
 var walk_speed = 1.2
@@ -45,6 +48,10 @@ var attack_texture = preload("res://monsters1/PNG/Dragon/attack.png")
 var attack_frames = 4
 var attack_speed = 2
 
+var fire_attack_texture = preload("res://monsters1/PNG/Dragon/fire_attack.png")
+var fire_attack_frames = 4
+var fire_attack_speed = 2
+
 var hurt_texture = preload("res://monsters1/PNG/Dragon/hurt.png")
 var hurt_frames = 2
 var hurt_speed = 2
@@ -56,12 +63,25 @@ var hurt_speed = 2
 @onready var cliff_check = $Pivot/RayCast2D_Cliff
 @onready var attack_timer = $AttackTimer
 
+# Patrol bounds (global x)
+var chunk_left := 0.0
+var chunk_right := 0.0
+var chunk_node = null
+var owning_chunk_search_attempts := 0
+const MAX_OWNING_CHUNK_ATTEMPTS := 6
+
+# Patrol state
+var patrol_direction := 1    # 1 -> right, -1 -> left
+
 func _ready():
+	await get_tree().process_frame 
 	_update_level_bounds()
 	change_state(CHASE)
 
 func _physics_process(delta):
 	if dead:
+		await get_tree().create_timer(2).timeout
+		queue_free()
 		return
 
 	# Gravity
@@ -72,7 +92,6 @@ func _physics_process(delta):
 	match state:
 		CHASE:
 			do_chase(delta)
-			# Check for attack
 			if player_in_attack_area and attack_timer.is_stopped():
 				change_state(ATTACK)
 		ATTACK:
@@ -100,7 +119,7 @@ func change_state(new_state):
 			death()
 
 # -------------------------
-# Chase
+# Chase / Patrol (end-to-end)
 # -------------------------
 func start_chase():
 	$Sprite2D.set_hframes(walk_frames)
@@ -113,50 +132,43 @@ func do_chase(delta):
 		return
 		
 	var direction = sign(player.global_position.x - global_position.x)
-	$Sprite2D.flip_h = direction < 0
+
+	# Flip sprite to match direction
+	$Sprite2D.flip_h = (patrol_direction < 0)
 	$Pivot.scale.x = -1 if $Sprite2D.flip_h else 1
 	var facing = $Pivot.scale.x
-	
-	 # Force update (Godot 4)
+
+	# Raycasts updates (keep your existing obstacle logic)
 	wall_check.force_raycast_update()
 	floor_check.force_raycast_update()
 	cliff_check.force_raycast_update()
-	
+
 	var wall_ahead = wall_check.is_colliding()
-	var ground_ahead = floor_check.is_colliding()
-	var cliff_below = cliff_check.is_colliding()
 	var on_floor = is_on_floor()
 
-	# Default horizontal movement
-	velocity.x = direction * speed
-	
+	# If wall ahead on floor -> try to jump over or change direction
 	if wall_ahead and on_floor:
 		if can_jump_up_to_platform():
 			velocity.y = jump_speed
 		elif jump_when_blocked():
 			velocity.y = jump_speed
 		else:
-			change_direction()
+			_flip_direction()
 			velocity.x = 0
-	
-	# GAP / CLIFF handling
-	if on_floor and not ground_ahead:
-		if can_jump_over_gap():
-			velocity.y = jump_speed
-		else:
+
+	# If no ground in front while on floor -> change direction
+	if on_floor:
+		# cast floor_check already present; if not colliding, turn
+		var ground_ahead = floor_check.is_colliding()
+		if not ground_ahead:
+			_flip_direction()
 			velocity.x = 0
-			#change_direction()
 
-	# Slope friction / keep on ground: small downward pull if stepping down
-	if not on_floor:
-		velocity.y += gravity * delta
-
-	# Do the movement
 	move_and_slide()
 
-func change_direction():
-	# flip the sprite and pivot scale
-	$Sprite2D.flip_h = !$Sprite2D.flip_h
+func _flip_direction():
+	patrol_direction = -patrol_direction
+	$Sprite2D.flip_h = (patrol_direction < 0)
 	$Pivot.scale.x = -1 if $Sprite2D.flip_h else 1
 
 func can_step_up() -> bool:
@@ -197,17 +209,19 @@ func start_attack() -> void:
 	if state != ATTACK:
 		return
 	velocity.x = 0
-	attack_zone.monitoring = true
 
 	$Sprite2D.set_hframes(attack_frames)
 	$AnimationPlayer.speed_scale = attack_speed
 	$Sprite2D.texture = attack_texture
 	$AnimationPlayer.play("attack")
-	await get_tree().create_timer(0.1).timeout
-	# Wait for animation to finish
 	await $AnimationPlayer.animation_finished
+
+	$Pivot/Sprite2D2.visible = true
+	$AnimationPlayer2.speed_scale = fire_attack_speed
+	$AnimationPlayer2.play("fire_attack")
+	await $AnimationPlayer2.animation_finished
 	attack_zone.monitoring = false
-	
+	$Pivot/Sprite2D2.visible = false
 	$AttackTimer.start()
 	# Return to chase after attack
 	change_state(CHASE)
@@ -236,6 +250,8 @@ func death():
 # =========================
 # Utility
 # =========================
+
+
 func _update_raycasts():
 	floor_check.force_raycast_update()
 	wall_check.force_raycast_update()

@@ -53,7 +53,7 @@ func _load_boss():
 	if not chunk_state.boss_spawned:
 		return  # no boss saved
 
-	var scene := load(chunk_state.boss_scene)
+	var scene = load(chunk_state.boss_scene)
 	var boss = scene.instantiate()
 	$Entities/Bosses.add_child(boss)
 	boss.global_position = chunk_state.boss_position
@@ -70,11 +70,11 @@ func _save_boss():
 
 	var boss = boss_nodes[0]
 
-	var dead := false
-	var hp := 100.0
+	var dead = false
+	var hp = 100.0
 
-	if boss.has_method("is_dead"):
-		dead = boss.is_dead()
+	if boss.dead:
+		dead = boss.dead
 
 	if boss.has_method("get_hp"):
 		hp = boss.get_hp()
@@ -95,7 +95,7 @@ func _load_items():
 		if item_data["picked_up"]:
 			continue
 
-		var scene := load(item_data["scene"])
+		var scene = load(item_data["scene"])
 		var item = scene.instantiate()
 		$Entities/Items.add_child(item)
 		item.global_position = item_data["position"]

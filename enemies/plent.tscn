@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=4 uid="uid://cyokp78sbcjce"]
+[gd_scene load_steps=16 format=4 uid="uid://cyokp78sbcjce"]
 
 [ext_resource type="Script" path="res://enemies/plent.gd" id="1_g60wb"]
-[ext_resource type="Texture2D" uid="uid://dwomyuob5l2ei" path="res://monsters3/Plent/Attack_3.png" id="2_67xcj"]
+[ext_resource type="Texture2D" uid="uid://c767uc8p676tp" path="res://monsters3/Plent/Walk.png" id="2_p2lfe"]
 [ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_8he8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vr6vm"]
@@ -24,8 +24,7 @@ sampling_rate = 22050.0
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_owdwc"]
 packet_sequence = SubResource("OggPacketSequence_bqxgf")
 
-[sub_resource type="Animation" id="Animation_g0ik1"]
-resource_name = "walk"
+[sub_resource type="Animation" id="Animation_eph30"]
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -34,41 +33,15 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.466667),
+"times": PackedFloat32Array(0, 0.633333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 8]
 }
 
-[sub_resource type="Animation" id="Animation_eph30"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame_coords")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_85756"]
 resource_name = "attack"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -80,6 +53,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 7]
+}
+
+[sub_resource type="Animation" id="Animation_614e2"]
+resource_name = "dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_8y2tu"]
@@ -97,10 +85,27 @@ tracks/0/keys = {
 "values": [Vector2i(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_g0ik1"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 8]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mqafm"]
 _data = {
 "RESET": SubResource("Animation_eph30"),
 "attack": SubResource("Animation_85756"),
+"dead": SubResource("Animation_614e2"),
 "poison": SubResource("Animation_8y2tu"),
 "walk": SubResource("Animation_g0ik1")
 }
@@ -117,8 +122,8 @@ script = ExtResource("1_g60wb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_67xcj")
-hframes = 8
+texture = ExtResource("2_p2lfe")
+hframes = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 23.125)
@@ -133,7 +138,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
 position = Vector2(43.75, 22.5)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ha82s")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -152,7 +156,6 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
 position = Vector2(40, 25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_iat1w")
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
@@ -176,7 +179,6 @@ target_position = Vector2(90, -160)
 
 [node name="RayCast2D_JumpDownCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(25, 50)
-scale = Vector2(1, 1)
 target_position = Vector2(160, 160)
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
@@ -199,5 +201,4 @@ autoplay = "walk"
 
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

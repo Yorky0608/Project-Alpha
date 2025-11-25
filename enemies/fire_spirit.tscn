@@ -186,5 +186,4 @@ libraries = {
 
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

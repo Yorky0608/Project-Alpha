@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 @export var tile_size := 64
 
+@export var chunk_width := 1152
+var chunk_left := 0.0
+var chunk_right := 0.0
+
 @export var wall_check_distance := 32           # half tile
 @export var ground_ahead_horiz := 48            # 0.75 tile forward
 @export var ground_ahead_vert := 72             # ~1.125 tiles down
@@ -10,7 +14,7 @@ extends CharacterBody2D
 @export var stepup_max_height := 24             # how high the enemy can step onto without jumping
 @export var jump_speed := -500                  # tune per enemy (you already had -350)
 @export var gravity := 750
-@export var speed := 150
+@export var speed := 170
 
 @export var max_jump_height := 80   # 1.25 tiles
 @export var max_jump_distance := 120  # 2 tiles forward
@@ -25,7 +29,7 @@ var level_bounds_right := 0.0
 
 @export var jump_check_distance = 10
 @export var contact_damage = 10
-@export var attack_damage = 30
+@export var attack_damage = 25
 @export var score_value = 1000
 @export var health: int = 100
 
@@ -57,11 +61,14 @@ var hurt_speed = 2
 @onready var attack_timer = $AttackTimer
 
 func _ready():
+	await get_tree().process_frame 
 	_update_level_bounds()
 	change_state(CHASE)
 
 func _physics_process(delta):
 	if dead:
+		await get_tree().create_timer(2).timeout
+		queue_free()
 		return
 
 	# Gravity
@@ -79,7 +86,7 @@ func _physics_process(delta):
 			velocity.x = 0
 		DEAD:
 			velocity.x = 0
-
+	
 	_check_out_of_bounds()
 
 # =========================
@@ -111,10 +118,15 @@ func start_chase():
 func do_chase(delta):
 	if not player:
 		return
-		
+
 	var direction = sign(player.global_position.x - global_position.x)
+	
 	$Sprite2D.flip_h = direction < 0
 	$Pivot.scale.x = -1 if $Sprite2D.flip_h else 1
+	if $Sprite2D.flip_h:
+		$CollisionShape2D.position.x = 36.25
+	else:
+		$CollisionShape2D.position.x = -36.25
 	var facing = $Pivot.scale.x
 	
 	 # Force update (Godot 4)
@@ -139,25 +151,19 @@ func do_chase(delta):
 			change_direction()
 			velocity.x = 0
 	
-	# GAP / CLIFF handling
-	if on_floor and not ground_ahead:
-		if can_jump_over_gap():
-			velocity.y = jump_speed
-		else:
-			velocity.x = 0
-			#change_direction()
-
-	# Slope friction / keep on ground: small downward pull if stepping down
-	if not on_floor:
-		velocity.y += gravity * delta
-
-	# Do the movement
 	move_and_slide()
 
 func change_direction():
 	# flip the sprite and pivot scale
 	$Sprite2D.flip_h = !$Sprite2D.flip_h
-	$Pivot.scale.x = -1 if $Sprite2D.flip_h else 1
+	if $Sprite2D.flip_h:
+		$Pivot.scale.x = -1
+		velocity.x = -50
+		$CollisionShape2D.position.x = 36.25
+	else:
+		$CollisionShape2D.position.x = -36.25
+		$Pivot.scale.x = 1
+		velocity.x = 50
 
 func can_step_up() -> bool:
 	# cast a short vertical test in front to see if we can step onto the tile (small ledge)

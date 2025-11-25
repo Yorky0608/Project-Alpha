@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var stepup_max_height := 24             # how high the enemy can step onto without jumping
 @export var jump_speed := -500                  # tune per enemy (you already had -350)
 @export var gravity := 750
-@export var speed := 150
+@export var speed := 140
 
 @export var max_jump_height := 80   # 1.25 tiles
 @export var max_jump_distance := 120  # 2 tiles forward
@@ -25,25 +25,25 @@ var level_bounds_right := 0.0
 
 @export var jump_check_distance = 10
 @export var contact_damage = 5
-@export var attack_damage = 10
-@export var score_value = 100
-@export var health: int = 25
+@export var attack_damage = 15
+@export var score_value = 200
+@export var health: int = 20
 
 var dead = false
 var player_in_attack_area := false
 
 # Animation sets
-var walk_texture = preload("res://monsters2/Orc_Berserk/Walk.png")
+var walk_texture = preload("res://monsters2/Orc_Warrior/Walk.png")
 var walk_frames = 7
 var walk_speed = 1
 
-var death_texture = preload("res://monsters2/Orc_Berserk/Dead.png")
+var death_texture = preload("res://monsters2/Orc_Warrior/Dead.png")
 var death_frames = 4
 var death_speed = 1
 
-var attack_texture = preload("res://monsters2/Orc_Berserk/Attack_2.png")
+var attack_texture = preload("res://monsters2/Orc_Warrior/Attack_1.png")
 var attack_frames = 4
-var attack_speed = 1
+var attack_speed = 2
 
 @onready var attack_area = $Pivot/AttackArea
 @onready var attack_zone = $Pivot/AttackZone
@@ -58,6 +58,8 @@ func _ready():
 
 func _physics_process(delta):
 	if dead:
+		await get_tree().create_timer(2).timeout
+		queue_free()
 		return
 
 	# Gravity
@@ -198,7 +200,7 @@ func start_attack() -> void:
 	$Sprite2D.set_hframes(attack_frames)
 	$AnimationPlayer.speed_scale = attack_speed
 	$Sprite2D.texture = attack_texture
-	$AnimationPlayer.play("attack")
+	$AnimationPlayer.play("Attack")
 	await get_tree().create_timer(0.1).timeout
 	# Wait for animation to finish
 	await $AnimationPlayer.animation_finished

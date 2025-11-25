@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=4 uid="uid://dux0exfjuwcok"]
 
 [ext_resource type="Script" path="res://enemies/orc_berserk.gd" id="1_n0dji"]
-[ext_resource type="Texture2D" uid="uid://fuim0tol7u6j" path="res://monsters2/Orc_Warrior/Walk.png" id="2_2ekpb"]
+[ext_resource type="Texture2D" uid="uid://cufxdspk0kmoe" path="res://monsters2/Orc_Berserk/Walk.png" id="2_y0b20"]
 [ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_52oed"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gchbr"]
@@ -36,7 +36,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0, 4]
+"values": [0, 3]
 }
 
 [sub_resource type="Animation" id="Animation_wg4em"]
@@ -105,12 +105,11 @@ script = ExtResource("1_n0dji")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_2ekpb")
+texture = ExtResource("2_y0b20")
 hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 3.75)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_gchbr")
 
 [node name="Pivot" type="Node2D" parent="."]
@@ -121,7 +120,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
 position = Vector2(37.5, 2.5)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xq2ch")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -130,7 +128,6 @@ collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(-3.75, 3.75)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_4w1x7")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
@@ -140,19 +137,18 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
 position = Vector2(32.5, -3.75)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_52oed")
 
 [node name="RayCast2D_JumpFarCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(5, 15)
 target_position = Vector2(160, 0)
 
-[node name="RayCast2D_JumpUp" type="RayCast2D" parent="Pivot"]
+[node name="RayCast2D_JumpUpCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(22.5, -30)
 target_position = Vector2(90, -160)
 
-[node name="RayCast2D_JumpDown" type="RayCast2D" parent="Pivot"]
-position = Vector2(25, 37.5)
+[node name="RayCast2D_JumpDownCheck" type="RayCast2D" parent="Pivot"]
+position = Vector2(15, 35)
 target_position = Vector2(160, 160)
 
 [node name="RayCast2D_WallCheck" type="RayCast2D" parent="Pivot"]
@@ -160,8 +156,8 @@ position = Vector2(15, -17.5)
 target_position = Vector2(32, 0)
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
-position = Vector2(25, 37.5)
-target_position = Vector2(60, 72)
+position = Vector2(15, 35)
+target_position = Vector2(40, 72)
 
 [node name="RayCast2D_FloorCheck" type="RayCast2D" parent="Pivot"]
 position = Vector2(-2.50002, 30)
@@ -186,5 +182,4 @@ autoplay = "Walk"
 
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

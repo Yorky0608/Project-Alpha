@@ -1,23 +1,23 @@
-[gd_scene load_steps=17 format=4 uid="uid://bxyt57e13yhbc"]
+[gd_scene load_steps=17 format=4 uid="uid://dvknhy3385qx0"]
 
-[ext_resource type="Script" uid="uid://c1dmnog2r0gxw" path="res://enemies/orc_shaman.gd" id="1_lpep3"]
-[ext_resource type="Texture2D" uid="uid://dmte427vkichf" path="res://monsters2/Orc_Shaman/Magic_2.png" id="2_lpep3"]
+[ext_resource type="Script" path="res://enemies/orc_shaman.gd" id="1_lpep3"]
+[ext_resource type="Texture2D" uid="uid://d5jlqqv0kcmk" path="res://monsters2/Orc_Shaman/Walk.png" id="2_vt6xv"]
 [ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_x5u0d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lpep3"]
-size = Vector2(32.5, 62.500008)
+size = Vector2(32.5, 62.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgf30"]
-size = Vector2(35, 65.000015)
+size = Vector2(35, 65)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5u0d"]
-size = Vector2(42.50001, 67.50001)
+size = Vector2(42.5, 67.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mu5ic"]
-size = Vector2(27.500002, 7.4999886)
+size = Vector2(27.5, 7.49999)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jufl1"]
-size = Vector2(483.75006, 67.5)
+size = Vector2(483.75, 67.5)
 
 [sub_resource type="OggPacketSequence" id="OggPacketSequence_j0uw6"]
 packet_data = Array[Array]([[PackedByteArray("AXZvcmJpcwAAAAABIlYAAAAAAADAXQAAAAAAAKoB")], [PackedByteArray("A3ZvcmJpcx0AAABYaXBoLk9yZyBsaWJWb3JiaXMgSSAyMDA3MDYyMgAAAAAB"), PackedByteArray("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")], [PackedByteArray("jqGgVAAAPiG7Er7DrBR5yV/Nsd2OrD+/44ywxXOf446nLoybxS3ti7rlkozEhmP/g6Xz14NjiVFGN1iRUowulZZu+dD90wLuz/5kVmal4Eaez70pNxELQ6x84bsbJpRjBg2DFgQG/5S+YhUN"), PackedByteArray("gqfZ0J4AwCdoSxoMOLNiSV76VD/n/d7PGY5GH/bZr0tEDlWVMeXXp3R/ss9ZJfoXikecamq7xvOKFhHV3OXeYY+UFX5QCa7NGl+CUAiatrlK7MGismxqWh9VyE0nIrA45uxzXtBEuPR9urYA"), PackedByteArray("fqseRAAAqiHATFUBC5DvMK2iLL+YbJhmM5UtB9VOMbwceVXduWkaj6nlUyE8mp9XhHMvO6WwSL10aIfHBDiXkhQ6ArovSZEdjdb46EqwyWhJlntsJQ=="), PackedByteArray("fq8aRAFgCW6RoR99NYADPmCWqrxr359lrqNi2iyVvZ2uorydtcJvk7zRHGi32IT2GOmrZheyhfjoA8zDAgSPxdA6gal5ejNNbnqPYqbW9DeFnzKzH9Yq"), PackedByteArray("hq0cRANAh5s0eH8qBZCAZjBLVXPNEeGWuk5VH8vvHZmZJX+6pS21wYts7o7a4mGoZd5UwlAilWwSgaWjDGMxqsMg5XIQMlNMIaVPFHy+VlDyRZlCe1Gm0F4Meg=="), PackedByteArray("hrNSqAlAgpuUA/3nciAYwAelqWqao+mZX97lwvTep6sUzJL9uiDKeFNtRGibNoCoYlzqJlTrF1kq7epOhcLIEj1JqtOCeRwfY2XKSTPgIhzHJyPof+fzaWI6wlYA"), PackedByteArray("hq8cKADw8Okd0K3/WAqql1R5ypt/0Lh3n8HN7A97HPD7b1T3zLA5FOs661273yNQtQ2FSo46dEJR3wNB+HMwXcEnu9AYEA7FooawQgaesOw0ZysFcyod9dnZYAA="), PackedByteArray("hrMUVADI4ZMSgJc0GKieqqbUrIuULL/7HfS8r1+E66wHQ9X/XXIORMZUWcxZGys/ZMGVSc6KqDHmYssoqTek3xL6Uxhhvo55Ol1yElkgF4duiqO0eKfxBgA="), PackedByteArray("irOAeQWQJMCn9QtA98CZtQCQqrbq+lbMUacU2v2iD7NE3t5f9CG/PczTjJ6C68LXt9a5JryZMun6tKkv8hrtbelIyOLoHYFOdg5Oh2iSkPpdj7fYk2cxHQ=="), PackedByteArray("irMAygwg2OGmdxXwMiYAWhJnaCoAWtU0reXJVZpbswHTpNQcqd1IqV2ffJgqpjwNmMOwlm+s+17WRuM9FebGaaQzNpO6NnpZHK28zHIbpT8xnZWYIjomXYtegkB870VYlpoWOg=="), PackedByteArray("hrUIa1cA/gaflADQpQ9NZ6BuAWaqtuuSsmqyhfZsNoZ0dZpmgQT6bM54pTAV5hylvsRAEUMnlacIsOzX/GHQ1zjYtOKlWNbZZIrOsm9Aeu3hHLpf4e9k4iWL5BXaAw=="), PackedByteArray("hrUIu78AuDe4aQfQx3IAkibNGaCpgPiqtmlZo11yTZLaKwEqiyVt6VvB4re//7Ei6J/0HZMcMEhsotsC5pYLboKzqE9Q4HWNqVDMy0NAzKi3zCkI68HZ3LWiQLnkegg="), PackedByteArray("grGE7w0AfAE+KfkA6r4mqgWgrgOtaiMt/yZvSHE0c/YNENe21xlrDZg+0jRSNzxeZCgFwVrdXuw3oq9HEidAZEK+jhBdcQgdb1LogIlGoyk+KZZ4"), PackedByteArray("aqsY742rYFhetugXvcIBJTGvqt2cv4jlbNtU4vkVANy0awVuANLzYYcAL0uHXgI+1hPGVOtw9jDWofZQZVkn0Hxt+kwUCtmsQwNkeVI53s5sBw=="), PackedByteArray("XpuSHHQIuMXL5pMGgNUbL6WUck/nF/dmy7RS/dsKAExjOVwMUwM29vLdRgPCxZerFhhYp9aAvs8ph86F3PYACvbzrNJdlIiHtyFl7NCOiHjsSaLubJESJkGigGb2iXfrZyaVcyia7dBvNfIg"), PackedByteArray("QonRHLUNlbRmzam2GgKwa0xevvWZPMxXCXPlghlfVjEFADdfBQDa18CYDT7AUMaFtup5wPIyh3D7oWWTJWpj3CZou0Dta5oiy8pbUgGvbUjQwKyL2g=="), PackedByteArray("Jkmfm2QAEKHaIgBAwQBUDpRI0U4loq9uAMCXkZFlABj4MgFgAg=="), PackedByteArray("IkX/gqQB8HBUBAAAAIArBwAA"), PackedByteArray("HkX/gKgBiHBUBAAAAIBbAgAA")]])
@@ -27,9 +27,8 @@ sampling_rate = 22050.0
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_owdwc"]
 packet_sequence = SubResource("OggPacketSequence_j0uw6")
 
-[sub_resource type="Animation" id="Animation_mu5ic"]
-resource_name = "Walk"
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_x5u0d"]
+resource_name = "Attack_2"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -37,10 +36,40 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.41, 0.43333337),
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_xgf30"]
+resource_name = "Dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.42, 0.466667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0, 6, 6]
+"values": [0, 4, 4]
+}
+
+[sub_resource type="Animation" id="Animation_xmyex"]
+resource_name = "Magic"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.566667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
 }
 
 [sub_resource type="Animation" id="Animation_jufl1"]
@@ -58,8 +87,9 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_x5u0d"]
-resource_name = "Attack_2"
+[sub_resource type="Animation" id="Animation_mu5ic"]
+resource_name = "Walk"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -67,52 +97,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.43333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 3]
-}
-
-[sub_resource type="Animation" id="Animation_xgf30"]
-resource_name = "Dead"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.42, 0.4666667),
+"times": PackedFloat32Array(0, 0.41, 0.433333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0, 4, 4]
-}
-
-[sub_resource type="Animation" id="Animation_xmyex"]
-resource_name = "Magic"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.56666666),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 5]
+"values": [0, 6, 6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xmyex"]
 _data = {
-&"Attack_2": SubResource("Animation_x5u0d"),
-&"Dead": SubResource("Animation_xgf30"),
-&"Magic": SubResource("Animation_xmyex"),
-&"RESET": SubResource("Animation_jufl1"),
-&"Walk": SubResource("Animation_mu5ic")
+"Attack_2": SubResource("Animation_x5u0d"),
+"Dead": SubResource("Animation_xgf30"),
+"Magic": SubResource("Animation_xmyex"),
+"RESET": SubResource("Animation_jufl1"),
+"Walk": SubResource("Animation_mu5ic")
 }
 
-[node name="Orc Shaman" type="CharacterBody2D" groups=["enemies"]]
+[node name="OrcShaman" type="CharacterBody2D" groups=["enemies"]]
 top_level = true
 position = Vector2(5, -26)
 scale = Vector2(0.4, 0.4)
@@ -122,14 +122,15 @@ platform_floor_layers = 4294967041
 platform_wall_layers = 1
 script = ExtResource("1_lpep3")
 
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_lpep3")
-hframes = 6
+texture = ExtResource("2_vt6xv")
+hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-6.249999, 3.75)
-scale = Vector2(0.9999997, 0.9999997)
+position = Vector2(-6.25, 3.75)
 shape = SubResource("RectangleShape2D_lpep3")
 
 [node name="Pivot" type="Node2D" parent="."]
@@ -139,8 +140,7 @@ collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
-position = Vector2(27.499985, 5)
-scale = Vector2(0.99999976, 0.99999976)
+position = Vector2(27.5, 5)
 shape = SubResource("RectangleShape2D_xgf30")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -148,8 +148,7 @@ collision_layer = 32
 collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
-position = Vector2(-6.249999, 3.75)
-scale = Vector2(0.9999995, 0.9999995)
+position = Vector2(-6.25, 3.75)
 shape = SubResource("RectangleShape2D_x5u0d")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
@@ -158,41 +157,39 @@ collision_mask = 2
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
-position = Vector2(18.749992, 8.749989)
-scale = Vector2(0.9999995, 0.9999995)
+position = Vector2(18.75, 8.74999)
 shape = SubResource("RectangleShape2D_mu5ic")
 
 [node name="Magic Area" type="Area2D" parent="Pivot"]
-position = Vector2(99.99999, 7.499999)
+position = Vector2(100, 7.5)
 collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Magic Area"]
-position = Vector2(148.12503, -3.7499886)
-scale = Vector2(0.9999995, 0.9999995)
+position = Vector2(148.125, -3.74999)
 shape = SubResource("RectangleShape2D_jufl1")
 
 [node name="RayCast2D_WallCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(12.499999, -12.499999)
+position = Vector2(12.5, -12.5)
 target_position = Vector2(32, 0)
 
 [node name="RayCast2D_FloorCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(-7.499999, 34.999996)
+position = Vector2(-7.5, 35)
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
-position = Vector2(7.499999, 35)
+position = Vector2(7.5, 35)
 target_position = Vector2(60, 72)
 
 [node name="RayCast2D_JumpFarCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(7.4999995, 14.999998)
+position = Vector2(7.5, 15)
 target_position = Vector2(160, 0)
 
 [node name="RayCast2D_JumpDownCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(7.499999, 35)
+position = Vector2(7.5, 35)
 target_position = Vector2(160, 160)
 
 [node name="RayCast2D_JumpUpCheck" type="RayCast2D" parent="Pivot"]
-position = Vector2(7.499999, -24.999998)
+position = Vector2(7.5, -25)
 target_position = Vector2(90, -160)
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
@@ -209,13 +206,10 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_xmyex")
+"": SubResource("AnimationLibrary_xmyex")
 }
 autoplay = "Walk"
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

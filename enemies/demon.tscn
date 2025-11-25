@@ -8,7 +8,7 @@
 size = Vector2(57.5, 92.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yp2s6"]
-size = Vector2(130, 132.5)
+size = Vector2(100, 132.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q5b3j"]
 size = Vector2(67.5, 102.5)
@@ -23,22 +23,6 @@ sampling_rate = 22050.0
 
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_owdwc"]
 packet_sequence = SubResource("OggPacketSequence_bqxgf")
-
-[sub_resource type="Animation" id="Animation_6v0pn"]
-resource_name = "walk"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 5]
-}
 
 [sub_resource type="Animation" id="Animation_4c8ts"]
 length = 0.001
@@ -100,6 +84,22 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_6v0pn"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rseyd"]
 _data = {
 "RESET": SubResource("Animation_4c8ts"),
@@ -120,13 +120,11 @@ platform_wall_layers = 1
 script = ExtResource("1_1ndjr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(1, 1)
 texture = ExtResource("2_j8pub")
 hframes = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-36.25, 13.75)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_vnsb1")
 
 [node name="Pivot" type="Node2D" parent="."]
@@ -136,8 +134,7 @@ collision_layer = 128
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
-position = Vector2(55, -3.74999)
-scale = Vector2(1, 1)
+position = Vector2(40, -3.74999)
 shape = SubResource("RectangleShape2D_yp2s6")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -146,7 +143,6 @@ collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(-36.25, 13.75)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_q5b3j")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
@@ -156,7 +152,6 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackZone"]
 position = Vector2(36.25, -3.75001)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_mwrsn")
 
 [node name="RayCast2D_Cliff" type="RayCast2D" parent="Pivot"]
@@ -202,5 +197,4 @@ autoplay = "walk"
 
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

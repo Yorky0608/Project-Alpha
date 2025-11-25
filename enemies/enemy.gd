@@ -58,6 +58,8 @@ func _ready():
 
 func _physics_process(delta):
 	if dead:
+		await get_tree().create_timer(2).timeout
+		queue_free()
 		return
 
 	# Gravity

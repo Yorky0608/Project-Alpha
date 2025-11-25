@@ -25,21 +25,6 @@ sampling_rate = 22050.0
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_owdwc"]
 packet_sequence = SubResource("OggPacketSequence_bqxgf")
 
-[sub_resource type="Animation" id="Animation_lu3cl"]
-resource_name = "attack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 3]
-}
-
 [sub_resource type="Animation" id="Animation_de36y"]
 length = 0.001
 tracks/0/type = "value"
@@ -66,11 +51,21 @@ tracks/1/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pivot/AttackZone:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
-[sub_resource type="Animation" id="Animation_wr4w3"]
-resource_name = "walk"
-length = 2.4
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_lu3cl"]
+resource_name = "attack"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -78,10 +73,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 1, 0]
+"times": PackedFloat32Array(0, 0.666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
 }
 
 [sub_resource type="Animation" id="Animation_noemv"]
@@ -129,6 +124,35 @@ tracks/0/keys = {
 "update": 0,
 "values": [0, 12]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/AttackZone:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.93333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(700, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wr4w3"]
+resource_name = "walk"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 1, 0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vit5p"]
 _data = {
@@ -157,7 +181,6 @@ hframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-22.5, -5.00001)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_u7ggx")
 
 [node name="Pivot" type="Node2D" parent="."]
@@ -168,7 +191,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
 position = Vector2(371.25, -16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_1srgf")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]
@@ -177,7 +199,6 @@ collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(-22.5, -5)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_83tgl")
 
 [node name="AttackZone" type="Area2D" parent="Pivot" groups=["enemy_attack_zone"]]
@@ -188,7 +209,6 @@ monitoring = false
 [node name="Sprite2D2" type="Sprite2D" parent="Pivot/AttackZone"]
 visible = false
 position = Vector2(90, -12)
-scale = Vector2(1, 1)
 texture = ExtResource("3_7vhhg")
 hframes = 13
 
@@ -240,5 +260,4 @@ speed_scale = 2.4
 
 [connection signal="area_entered" from="Pivot/AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="Pivot/AttackArea" to="." method="_on_attack_area_area_exited"]
-[connection signal="area_entered" from="Pivot/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="Pivot/AttackZone" to="." method="_on_attack_zone_area_entered"]

@@ -43,7 +43,7 @@ var death_speed = 1
 
 var attack_texture = preload("res://monsters2/Orc_Berserk/Attack_1.png")
 var attack_frames = 4
-var attack_speed = 1
+var attack_speed = 2
 
 @onready var attack_area = $Pivot/AttackArea
 @onready var attack_zone = $Pivot/AttackZone
@@ -200,7 +200,7 @@ func start_attack() -> void:
 	$Sprite2D.set_hframes(attack_frames)
 	$AnimationPlayer.speed_scale = attack_speed
 	$Sprite2D.texture = attack_texture
-	$AnimationPlayer.play("Attack_2")
+	$AnimationPlayer.play("Attack")
 	await get_tree().create_timer(0.1).timeout
 	# Wait for animation to finish
 	await $AnimationPlayer.animation_finished

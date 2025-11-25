@@ -25,9 +25,9 @@ var level_bounds_right := 0.0
 
 @export var jump_check_distance = 10
 @export var contact_damage = 5
-@export var attack_damage = 10
-@export var score_value = 100
-@export var health: int = 25
+@export var attack_damage = 5
+@export var score_value = 500
+@export var health: int = 15
 
 var dead = false
 var player_in_attack_area := false

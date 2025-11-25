@@ -60,23 +60,27 @@ var player_health = 20
 const enemies = [
 	preload("res://enemies/skelly.tscn"),
 	preload("res://enemies/fire_spirit.tscn"),
-	preload("res://enemies/plent.tscn"),
-	preload("res://enemies/orc_berserk.tscn"),
+	#preload("res://enemies/plent.tscn"),
+	#preload("res://enemies/orc_berserk.tscn"),
 	preload("res://enemies/orc_warrior.tscn"),
 	preload("res://enemies/orc_shaman.tscn"),
+	preload("res://enemies/jinn.tscn"),
+	preload("res://enemies/dragon.tscn"),
+	preload("res://enemies/demon.tscn"),
 ]
 
 const enemy_weights = [
 	0.8,  # skelly = 80%
 	0.2,   # fire_spirit = 20%
-	0.4,
-	0.4,
+	#0.4,
+	#0.4,
 	0.4,
 	0.1,
+	0.01,
+	0.01,
+	0.01,
 ]
 
-var skeleton_scene = preload("res://enemies/skelly.tscn")
-var fire_scene = preload("res://enemies/fire_spirit.tscn")
 @export var spawn_interval = 5.0
 var spawn_timer = 0.0
 var skeletons_spawned = 1
