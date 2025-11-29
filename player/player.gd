@@ -46,6 +46,10 @@ var slashing_wave = false
 var slashing_wave_damage = 20
 var slash_wave_ability = true
 
+var slashing = false
+var slashing_damage = 35
+var slash_ability = true
+
 
 func _ready():
 	$AttackPivot/AttackArea.monitoring = false
@@ -82,7 +86,8 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD:
+	if state == HURT or state == DEAD or slashing:
+		velocity.x = 0
 		return  # don't allow movement during hurt state
 	
 	var right = Input.is_action_pressed("right")
@@ -129,6 +134,9 @@ func get_input():
 
 	if Input.is_action_just_pressed("slash_wave") and slash_wave_ability:
 		slash_wave()
+	
+	if Input.is_action_just_pressed("slash") and slash_ability:
+		slash()
 
 func change_state(new_state, texture, animation):
 	state = new_state
@@ -277,4 +285,24 @@ func slash_wave():
 		$AnimationPlayer.play("slash_wave_attack")
 		await $AnimationPlayer.animation_finished
 		wave.start()
-		state = IDLE
+		change_state(IDLE, idle_texture, "Idle")
+
+func slash():
+	if $SlashCoolDown.is_stopped():
+		slashing = true
+		$AbilityNode.scale.x = -1 if $Sprite2D.flip_h else 1
+		$SlashCoolDown.start()
+		$AnimationPlayer.play("slash")
+		await $AnimationPlayer.animation_finished
+		slashing = false
+		change_state(IDLE, idle_texture, "Idle")
+
+
+func _on_slash_wave_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy_hitbox"):
+		var node = area
+		while node:
+			if node.has_method("apply_damage"):
+				node.apply_damage(slashing_damage)
+				break
+			node = node.get_parent()

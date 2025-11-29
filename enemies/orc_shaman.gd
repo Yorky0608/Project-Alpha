@@ -38,7 +38,7 @@ var walk_frames = 7
 var walk_speed = 1
 
 var death_texture = preload("res://monsters2/Orc_Shaman/Dead.png")
-var death_frames = 4
+var death_frames = 5
 var death_speed = 1
 
 var attack_texture = preload("res://monsters2/Orc_Shaman/Attack_1.png")
