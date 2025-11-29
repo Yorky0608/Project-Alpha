@@ -135,20 +135,24 @@ func change_state(new_state, texture, animation):
 		IDLE:
 			$Sprite2D.set_hframes(4)
 			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 		RUN:
 			$Sprite2D.set_hframes(6)
 			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play("Run")
 		HURT:
 			$Sprite2D.set_hframes(4)
 			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
 		JUMP:
 			$Sprite2D.texture = texture
 			$Sprite2D.set_hframes(8)
+			$AnimationPlayer.speed_scale = 1
 			$AnimationPlayer.play(animation)
 		DEAD:
 			dead = true
@@ -157,6 +161,7 @@ func change_state(new_state, texture, animation):
 			$AttackPivot/AttackArea.monitoring = false
 			$Sprite2D.set_hframes(8)
 			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			$CollisionShape2D.disabled = true
@@ -180,9 +185,9 @@ func change_state(new_state, texture, animation):
 			$Sprite2D.set_hframes(6)
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			$AnimationPlayer.speed_scale = 3.0
 			# Reuse for a potential dash?
 			#$AttackCoolDown.start(0.5)
+			$AnimationPlayer.speed_scale = 3.0
 			$AttackPivot/AttackArea.monitoring = false
 			
 			if texture == run_attack2_texture or texture == run_attack1_texture:
@@ -219,7 +224,7 @@ func _physics_process(delta):
 		emit_signal("chunk_changed", current_chunk_x)
 
 func take_damage(node, amount):
-	#invincible = true
+	invincible = true
 	if invincible or state == DEAD:
 		return
 	
@@ -260,7 +265,9 @@ func _on_attack_area_area_entered(area: Area2D):
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_hitbox"):
-		var node = area.get_parent()
+		var node = area
+		while node and not node.has_method("death"):
+			node = node.get_parent()
 		take_damage(node, node.contact_damage)
 
 

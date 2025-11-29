@@ -387,7 +387,7 @@ texture = ExtResource("2_404l2")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1waum")
 
-[node name="Boss Chunk 5" type="Node2D"]
+[node name="Boss Chunk 5" type="Node2D" groups=["chunks"]]
 script = ExtResource("1_blew5")
 
 [node name="TileMap2" type="TileMap" parent="."]

@@ -408,3 +408,7 @@ position = Vector2(1152, 256)
 
 [node name="DeathMarker" type="Marker2D" parent="."]
 position = Vector2(1143, 656)
+
+[node name="Entities" type="Node" parent="."]
+
+[node name="Items" type="Node" parent="Entities"]
