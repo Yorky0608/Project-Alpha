@@ -137,13 +137,6 @@ func do_chase(delta):
 			change_direction()
 			velocity.x = 0
 	
-	# GAP / CLIFF handling
-	if on_floor and not ground_ahead:
-		if can_jump_over_gap():
-			velocity.y = jump_speed
-		else:
-			velocity.x = 0
-			#change_direction()
 
 	# Slope friction / keep on ground: small downward pull if stepping down
 	if not on_floor:

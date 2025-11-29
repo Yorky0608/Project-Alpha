@@ -1,0 +1,90 @@
+[gd_scene load_steps=6 format=3 uid="uid://5is6c8nehh8n"]
+
+[ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_iiql0"]
+[ext_resource type="Script" path="res://ui/character_select_screen.gd" id="1_siu8s"]
+[ext_resource type="Texture2D" uid="uid://bw8wlssdw7k3w" path="res://sprites/1/Idle.png" id="2_l07ny"]
+[ext_resource type="Texture2D" uid="uid://d3h872d03i2mb" path="res://sprites/2/Idle.png" id="3_iydts"]
+[ext_resource type="Texture2D" uid="uid://qnbmcjrh6ct0" path="res://sprites/3/Idle.png" id="4_sqkvs"]
+
+[node name="CharacterSelectScreen" type="Node"]
+script = ExtResource("1_siu8s")
+
+[node name="Background" parent="." instance=ExtResource("1_iiql0")]
+position = Vector2(-89, -490)
+scale = Vector2(2, 2)
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Agile" type="Sprite2D" parent="Control2"]
+position = Vector2(-200, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("2_l07ny")
+hframes = 4
+
+[node name="ButtonAgile" type="Button" parent="Control2"]
+layout_mode = 0
+offset_left = -260.0
+offset_top = 100.0
+offset_right = -164.0
+offset_bottom = 131.0
+text = "Select Agile"
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 620.0
+offset_top = 340.0
+offset_right = 660.0
+offset_bottom = 380.0
+
+[node name="Attack" type="Sprite2D" parent="Control3"]
+scale = Vector2(3, 3)
+texture = ExtResource("3_iydts")
+hframes = 4
+
+[node name="ButtonAttack" type="Button" parent="Control3"]
+layout_mode = 0
+offset_left = -65.0
+offset_top = 100.0
+offset_right = 43.0
+offset_bottom = 131.0
+text = "Select Attack"
+
+[node name="Control4" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Deffense" type="Sprite2D" parent="Control4"]
+position = Vector2(200, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("4_sqkvs")
+hframes = 4
+
+[node name="ButtonDeffense" type="Button" parent="Control4"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 100.0
+offset_right = 253.0
+offset_bottom = 131.0
+text = "Select Deffense"
+
+[connection signal="pressed" from="Control2/ButtonAgile" to="." method="_on_button_agile_pressed"]
+[connection signal="pressed" from="Control3/ButtonAttack" to="." method="_on_button_attack_pressed"]
+[connection signal="pressed" from="Control4/ButtonDeffense" to="." method="_on_button_deffense_pressed"]

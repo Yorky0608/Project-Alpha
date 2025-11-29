@@ -87,14 +87,22 @@ var skeletons_spawned = 1
 var spawn_margin = 100  # Pixels outside viewport
 var current_death_y = 656
 
-@onready var player_ref = get_node_or_null("Entities/Player")
-
 @export var max_skeletons = 20
 
+@onready var player_ref = get_node_or_null("Entities/Player")
 @onready var player = $Entities/Player  # Adjust path to player
 @onready var camera = $Entities/Player/Camera2D  # Assuming camera follows player
 
 func _ready():
+	var player_instance = Character.character.instantiate()
+	player_instance.name = "Player"
+	$Entities.add_child(player_instance)
+
+	
+	player_ref = get_node_or_null("Entities/Player")
+	player = $Entities/Player  # Adjust path to player
+	camera = $Entities/Player/Camera2D  # Assuming camera follows player
+	
 	# spawn initial area deterministically
 	_spawn_chunk_safe(0, true)
 	

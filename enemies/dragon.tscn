@@ -166,7 +166,6 @@ shape = SubResource("RectangleShape2D_ecatt")
 [node name="Sprite2D2" type="Sprite2D" parent="Pivot"]
 visible = false
 position = Vector2(90, 0)
-scale = Vector2(1, 1)
 texture = ExtResource("2_fm1s2")
 hframes = 5
 

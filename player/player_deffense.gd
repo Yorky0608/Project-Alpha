@@ -5,30 +5,30 @@ signal chunk_changed(current_chunk_x: int)  # Changed to only track x-axis
 signal update_health_bar(new_health)
 
 @export var gravity = 750
-@export var run_speed = 150
+@export var run_speed = 130
 @export var jump_speed = -300
 @export var invincibility_time = 1.0
-@export var damage = 25  # The damage this attack deals
-@export var attack_radius = 18  # The radius at which the player can attack
-@export var health = 100
+@export var damage = 20  # The damage this attack deals
+@export var attack_radius = 15  # The radius at which the player can attack
+@export var health = 120
 @export var max_health = 100
 
 var invincible = false
 
-var walk_texture = preload("res://sprites/2/Walk.png")
-var attack1_texture = preload("res://sprites/2/Attack1.png")
-var attack2_texture = preload("res://sprites/2/Attack2.png")
-var death_texture = preload("res://sprites/2/Death.png")
-var fall_attack_texture = preload("res://sprites/2/FallAttack.png")
-var hurt_texture = preload("res://sprites/2/Hurt.png")
-var idle_texture = preload("res://sprites/2/Idle.png")
-var jump_texture = preload("res://sprites/2/Jump.png")
-var jump_attack_texture = preload("res://sprites/2/JumpAttack.png")
-var run_texture = preload("res://sprites/2/Run.png")
-var run_attack1_texture = preload("res://sprites/2/RunAttack1.png")
-var run_attack2_texture = preload("res://sprites/2/RunAttack2.png")
-var walk_attack1_texture = preload("res://sprites/2/WalkAttack1.png")
-var walk_attack2_texture = preload("res://sprites/2/WalkAttack2.png")
+var walk_texture = preload("res://sprites/3/Walk.png")
+var attack1_texture = preload("res://sprites/3/Attack1.png")
+var attack2_texture = preload("res://sprites/3/Attack2.png")
+var death_texture = preload("res://sprites/3/Death.png")
+var fall_attack_texture = preload("res://sprites/3/FallAttack.png")
+var hurt_texture = preload("res://sprites/3/Hurt.png")
+var idle_texture = preload("res://sprites/3/Idle.png")
+var jump_texture = preload("res://sprites/3/Jump.png")
+var jump_attack_texture = preload("res://sprites/3/JumpAttack.png")
+var run_texture = preload("res://sprites/3/Run.png")
+var run_attack1_texture = preload("res://sprites/3/RunAttack1.png")
+var run_attack2_texture = preload("res://sprites/3/RunAttack2.png")
+var walk_attack1_texture = preload("res://sprites/3/WalkAttack1.png")
+var walk_attack2_texture = preload("res://sprites/3/WalkAttack2.png")
 
 enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK}
 var state = IDLE

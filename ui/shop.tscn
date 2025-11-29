@@ -232,6 +232,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Close" type="Button" parent="ShopMenuControl"]
+layout_mode = 0
 offset_left = 1113.0
 offset_top = 9.0
 offset_right = 1271.0

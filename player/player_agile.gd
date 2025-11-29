@@ -5,30 +5,30 @@ signal chunk_changed(current_chunk_x: int)  # Changed to only track x-axis
 signal update_health_bar(new_health)
 
 @export var gravity = 750
-@export var run_speed = 150
-@export var jump_speed = -300
+@export var run_speed = 200
+@export var jump_speed = -350
 @export var invincibility_time = 1.0
-@export var damage = 25  # The damage this attack deals
-@export var attack_radius = 18  # The radius at which the player can attack
+@export var damage = 20  # The damage this attack deals
+@export var attack_radius = 15  # The radius at which the player can attack
 @export var health = 100
 @export var max_health = 100
 
 var invincible = false
 
-var walk_texture = preload("res://sprites/2/Walk.png")
-var attack1_texture = preload("res://sprites/2/Attack1.png")
-var attack2_texture = preload("res://sprites/2/Attack2.png")
-var death_texture = preload("res://sprites/2/Death.png")
-var fall_attack_texture = preload("res://sprites/2/FallAttack.png")
-var hurt_texture = preload("res://sprites/2/Hurt.png")
-var idle_texture = preload("res://sprites/2/Idle.png")
-var jump_texture = preload("res://sprites/2/Jump.png")
-var jump_attack_texture = preload("res://sprites/2/JumpAttack.png")
-var run_texture = preload("res://sprites/2/Run.png")
-var run_attack1_texture = preload("res://sprites/2/RunAttack1.png")
-var run_attack2_texture = preload("res://sprites/2/RunAttack2.png")
-var walk_attack1_texture = preload("res://sprites/2/WalkAttack1.png")
-var walk_attack2_texture = preload("res://sprites/2/WalkAttack2.png")
+var walk_texture = preload("res://sprites/1/Walk.png")
+var attack1_texture = preload("res://sprites/1/Attack1.png")
+var attack2_texture = preload("res://sprites/1/Attack2.png")
+var death_texture = preload("res://sprites/1/Death.png")
+var fall_attack_texture = preload("res://sprites/1/FallAttack.png")
+var hurt_texture = preload("res://sprites/1/Hurt.png")
+var idle_texture = preload("res://sprites/1/Idle.png")
+var jump_texture = preload("res://sprites/1/Jump.png")
+var jump_attack_texture = preload("res://sprites/1/JumpAttack.png")
+var run_texture = preload("res://sprites/1/Run.png")
+var run_attack1_texture = preload("res://sprites/1/RunAttack1.png")
+var run_attack2_texture = preload("res://sprites/1/RunAttack2.png")
+var walk_attack1_texture = preload("res://sprites/1/WalkAttack1.png")
+var walk_attack2_texture = preload("res://sprites/1/WalkAttack2.png")
 
 enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK}
 var state = IDLE
@@ -109,6 +109,8 @@ func get_input():
 			change_state(ATTACK, run_attack2_texture, "RunAttack2")
 		elif state == JUMP and attack:
 			change_state(ATTACK, jump_attack_texture, "JumpAttack")
+	if Input.is_action_just_pressed("dash") and dash_ability:
+		dash()
 	# only allow jumping when on the ground
 	if jump and is_on_floor():
 		$JumpSound.play()
@@ -199,6 +201,13 @@ func _physics_process(delta):
 		
 	get_input()
 	
+	if dashing:
+		var direction = 1 if not $Sprite2D.flip_h else -1
+		velocity.x = dash_speed * direction
+		dash_timer -= delta
+		if dash_timer <= 0:
+			dashing = false
+	
 	move_and_slide()
 	
 	if state == HURT:
@@ -215,7 +224,7 @@ func _physics_process(delta):
 		emit_signal("chunk_changed", current_chunk_x)
 
 func take_damage(node, amount):
-	invincible = false
+	invincible = true
 	if invincible or state == DEAD:
 		return
 	
@@ -264,3 +273,11 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 
 func _on_attack_cool_down_timeout() -> void:
 	can_attack = true
+
+
+func dash():
+	if $AbilityCoolDown.is_stopped():
+		if not dashing:
+			$AbilityCoolDown.start()
+			dashing = true
+			dash_timer = dash_time
