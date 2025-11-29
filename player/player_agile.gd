@@ -41,10 +41,16 @@ const CHUNK_WIDTH = 1152  # Must match level.gd value
 var current_chunk_x = 0  # Now just tracking x-axis
 
 var dashing = false
-var dash_speed = 300
+var dash_speed = 600
 var dash_time = 0.2
 var dash_timer = 0.0
-var dash_ability = false
+var dash_ability = true
+
+var dash_attacking = false
+var dash_attack_speed = 600
+var dash_attack_time = 0.3
+var dash_attack_timer = 0.0
+var dash_attack_ability = true
 
 
 func _ready():
@@ -82,7 +88,7 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD:
+	if state == HURT or state == DEAD or dash_attacking:
 		return  # don't allow movement during hurt state
 	
 	var right = Input.is_action_pressed("right")
@@ -126,6 +132,9 @@ func get_input():
 	if state in [IDLE, RUN] and !is_on_floor():
 		change_state(JUMP, jump_texture, "Jump")
 	# transition from running or jumping to attacking
+	
+	if Input.is_action_just_pressed("dash_attack") and dash_attack_ability:
+		dash_attack()
 	# Only allow attack if cooldown is over and not already attacking
 	$AttackPivot.scale.x = -1 if $Sprite2D.flip_h else 1
 
@@ -207,6 +216,13 @@ func _physics_process(delta):
 		dash_timer -= delta
 		if dash_timer <= 0:
 			dashing = false
+			
+	if dash_attacking:
+		var direction = 1 if not $Sprite2D.flip_h else -1
+		velocity.x = dash_attack_speed * direction
+		dash_attack_timer -= delta
+		if dash_attack_timer <= 0:
+			dash_attacking = false
 	
 	move_and_slide()
 	
@@ -276,8 +292,21 @@ func _on_attack_cool_down_timeout() -> void:
 
 
 func dash():
-	if $AbilityCoolDown.is_stopped():
+	if $DashCoolDown.is_stopped():
 		if not dashing:
-			$AbilityCoolDown.start()
+			$DashCoolDown.start()
 			dashing = true
 			dash_timer = dash_time
+
+func dash_attack():
+	if $DashAttackCoolDown.is_stopped():
+		if not dash_attacking:
+			$DashAttackCoolDown.start()
+			dash_attacking = true
+			dash_attack_timer = dash_attack_time
+			invincible = true
+			$AnimationPlayer.play("dash_attack")
+			await $AnimationPlayer.animation_finished
+			change_state(IDLE, idle_texture, "Idle")
+			invincible = false
+	

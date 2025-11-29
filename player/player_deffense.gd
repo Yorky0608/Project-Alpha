@@ -40,11 +40,11 @@ var dead = false
 const CHUNK_WIDTH = 1152  # Must match level.gd value
 var current_chunk_x = 0  # Now just tracking x-axis
 
-var dashing = false
-var dash_speed = 300
-var dash_time = 0.2
-var dash_timer = 0.0
-var dash_ability = false
+var dash_attacking = false
+var dash_attack_speed = 600
+var dash_attack_time = 0.3
+var dash_attack_timer = 0.0
+var dash_attack_ability = true
 
 
 func _ready():
@@ -199,6 +199,13 @@ func _physics_process(delta):
 		
 	get_input()
 	
+	if dash_attacking:
+		var direction = 1 if not $Sprite2D.flip_h else -1
+		velocity.x = dash_attack_speed * direction
+		dash_attack_timer -= delta
+		if dash_attack_timer <= 0:
+			dash_attacking = false
+	
 	move_and_slide()
 	
 	if state == HURT:
@@ -264,3 +271,15 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 
 func _on_attack_cool_down_timeout() -> void:
 	can_attack = true
+
+func dash_attack():
+	if $DashAttackCoolDown.is_stopped():
+		if not dash_attacking:
+			$DashAttackCoolDown.start()
+			dash_attacking = true
+			dash_attack_timer = dash_attack_time
+			invincible = true
+			$AnimationPlayer.play("dash_attack")
+			await $AnimationPlayer.animation_finished
+			change_state(IDLE, idle_texture, "Idle")
+			invincible = false
