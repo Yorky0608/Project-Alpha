@@ -12,7 +12,7 @@ func toggle_pause():
 		$AnimationPlayer.play('visible')
 	else:
 		$AnimationPlayer.play('invisible')
-		$Shop2/AnimationPlayer.play("invisible")
+		$Shop/AnimationPlayer.play("invisible")
 		var ui = get_node("/root/Main/Level/Entities/Player/UI")
 		ui.ui_vis()
 	get_tree().paused = paused
@@ -36,7 +36,7 @@ func _on_shop_pressed() -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	ui.ui_invis()
 	$AnimationPlayer.play('invisible')
-	$Shop2/AnimationPlayer.play("visible")
+	$Shop/AnimationPlayer.play("visible")
 
 
 func _on_resume_pressed() -> void:

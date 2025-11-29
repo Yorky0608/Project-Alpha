@@ -30,6 +30,8 @@ var run_attack2_texture = preload("res://sprites/2/RunAttack2.png")
 var walk_attack1_texture = preload("res://sprites/2/WalkAttack1.png")
 var walk_attack2_texture = preload("res://sprites/2/WalkAttack2.png")
 
+var SlashWaveScene = preload("res://player/slash_wave_area.tscn")
+
 enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK}
 var state = IDLE
 
@@ -40,11 +42,9 @@ var dead = false
 const CHUNK_WIDTH = 1152  # Must match level.gd value
 var current_chunk_x = 0  # Now just tracking x-axis
 
-var dashing = false
-var dash_speed = 300
-var dash_time = 0.2
-var dash_timer = 0.0
-var dash_ability = false
+var slashing_wave = false
+var slashing_wave_damage = 20
+var slash_wave_ability = true
 
 
 func _ready():
@@ -127,6 +127,9 @@ func get_input():
 	# Only allow attack if cooldown is over and not already attacking
 	$AttackPivot.scale.x = -1 if $Sprite2D.flip_h else 1
 
+	if Input.is_action_just_pressed("slash_wave") and slash_wave_ability:
+		slash_wave()
+
 func change_state(new_state, texture, animation):
 	state = new_state
 	match state:
@@ -196,10 +199,7 @@ func change_state(new_state, texture, animation):
 func _physics_process(delta):
 	
 	velocity.y += gravity * delta
-		
 	get_input()
-	
-	move_and_slide()
 	
 	if state == HURT:
 		return
@@ -213,9 +213,11 @@ func _physics_process(delta):
 	if new_chunk_x != current_chunk_x:
 		current_chunk_x = new_chunk_x
 		emit_signal("chunk_changed", current_chunk_x)
+	
+	move_and_slide()
 
 func take_damage(node, amount):
-	invincible = false
+	invincible = true
 	if invincible or state == DEAD:
 		return
 	
@@ -264,3 +266,15 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 
 func _on_attack_cool_down_timeout() -> void:
 	can_attack = true
+
+func slash_wave():
+	if $SlashWaveCoolDown.is_stopped():
+		var wave = SlashWaveScene.instantiate()
+		wave.global_position = global_position
+		wave.direction = -1 if $Sprite2D.flip_h else 1
+		get_tree().current_scene.add_child(wave)
+		$SlashWaveCoolDown.start()
+		$AnimationPlayer.play("slash_wave_attack")
+		await $AnimationPlayer.animation_finished
+		wave.start()
+		state = IDLE

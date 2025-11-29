@@ -206,7 +206,6 @@ func start_attack() -> void:
 # Death
 # -------------------------
 func death():
-	print('Dying')
 	dead = true
 	$Death.play()
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -217,14 +216,12 @@ func death():
 	$Sprite2D.texture = death_texture
 	$AnimationPlayer.play("Dead")
 	await get_tree().create_timer(0.1).timeout
-	print("Checking anim:", $AnimationPlayer.current_animation)
 
 	var ui = get_tree().get_first_node_in_group("ui")
 	if ui:
 		ui.update_score(ui.current_score + score_value)
 
 	await $AnimationPlayer.animation_finished
-	print("Death animation finished!")
 	queue_free()
 
 # =========================

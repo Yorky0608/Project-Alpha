@@ -1,11 +1,12 @@
-[gd_scene load_steps=29 format=3 uid="uid://bspy4rvse1yv8"]
+[gd_scene load_steps=36 format=3 uid="uid://bspy4rvse1yv8"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_b3yer"]
-[ext_resource type="Texture2D" uid="uid://cfhmvheaqhm5r" path="res://sprites/2/Jump.png" id="3_ujoqy"]
+[ext_resource type="Texture2D" uid="uid://55kc7plv4lg1" path="res://sprites/2/Attack2.png" id="3_ktkl1"]
 [ext_resource type="AudioStream" uid="uid://dmk6se6cl7nbm" path="res://assets/audio/action_jump.mp3" id="4_xuwhu"]
 [ext_resource type="PackedScene" uid="uid://cykp8bxmpd8hl" path="res://ui.tscn" id="5_rjh85"]
 [ext_resource type="AudioStream" uid="uid://cp1twjkxgovl1" path="res://assets/audio/slap-hurt-pain-sound-effect-262618.mp3" id="5_upxus"]
 [ext_resource type="AudioStream" uid="uid://dkvp3sgk4kqp" path="res://assets/audio/sword-sound-2-36274.mp3" id="6_l1mrh"]
+[ext_resource type="Texture2D" uid="uid://bs360upt6k6o4" path="res://player/slashing_wave-removebg-preview.png" id="7_mxgy8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1o32"]
 size = Vector2(18, 25.125)
@@ -15,6 +16,9 @@ size = Vector2(17, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n57ph"]
 size = Vector2(19, 26.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eneud"]
+size = Vector2(21, 38)
 
 [sub_resource type="Animation" id="Animation_i3pqv"]
 resource_name = "Attack1"
@@ -159,6 +163,66 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityNode/SlashWaveArea/Sprite2D2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityNode/SlashWaveArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AbilityNode/SlashWaveArea:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ktkl1")]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite2D:hframes")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
 
 [sub_resource type="Animation" id="Animation_urp6f"]
 resource_name = "Run"
@@ -290,6 +354,122 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5]
 }
 
+[sub_resource type="Animation" id="Animation_hiyem"]
+resource_name = "slash"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityNode/SlashWaveArea/Sprite2D2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 0.466667, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityNode/SlashWaveArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.433333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AbilityNode/SlashWaveArea:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.433333, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:texture")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ktkl1")]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite2D:hframes")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_sd0nb"]
+resource_name = "slash_wave_attack"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ktkl1")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i3pqv"]
 _data = {
 "Attack1": SubResource("Animation_i3pqv"),
@@ -308,7 +488,93 @@ _data = {
 "SquatAttack": SubResource("Animation_b26j0"),
 "Walk": SubResource("Animation_ivps1"),
 "WalkAttack1": SubResource("Animation_sweqy"),
-"WalkAttack2": SubResource("Animation_2hs0m")
+"WalkAttack2": SubResource("Animation_2hs0m"),
+"slash": SubResource("Animation_hiyem"),
+"slash_wave_attack": SubResource("Animation_sd0nb")
+}
+
+[sub_resource type="Animation" id="Animation_o868v"]
+resource_name = "slashing_wave"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AbilityNode/SlashWaveArea/Sprite2D2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.933333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityNode/SlashWaveArea:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.933333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityNode/SlashWaveArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.999999, 1),
+"update": 0,
+"values": [Vector2(10, 0), Vector2(200, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_l5mib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AbilityNode/SlashWaveArea/Sprite2D2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityNode/SlashWaveArea:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityNode/SlashWaveArea:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(10, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_etxpl"]
+_data = {
+"RESET": SubResource("Animation_l5mib"),
+"slashing_wave": SubResource("Animation_o868v")
 }
 
 [sub_resource type="Gradient" id="Gradient_ad3dv"]
@@ -346,18 +612,42 @@ position = Vector2(-0.5, -12.75)
 shape = SubResource("RectangleShape2D_n57ph")
 debug_color = Color(2.02149e-06, 0.635451, 0.417037, 0.42)
 
+[node name="AbilityNode" type="Node2D" parent="."]
+
+[node name="SlashWaveArea" type="Area2D" parent="AbilityNode"]
+position = Vector2(10, 0)
+collision_layer = 16
+collision_mask = 32
+monitoring = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="AbilityNode/SlashWaveArea"]
+visible = false
+position = Vector2(15, -15)
+scale = Vector2(0.095912, 0.290881)
+texture = ExtResource("7_mxgy8")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AbilityNode/SlashWaveArea"]
+position = Vector2(15, -16)
+shape = SubResource("RectangleShape2D_eneud")
+
 [node name="UI" parent="." instance=ExtResource("5_rjh85")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(5, -21)
-texture = ExtResource("3_ujoqy")
-hframes = 8
+texture = ExtResource("3_ktkl1")
+hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_i3pqv")
 }
 autoplay = "Idle"
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_etxpl")
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
@@ -398,12 +688,15 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="AbilityCoolDown" type="Timer" parent="."]
-wait_time = 10.0
+[node name="SlashWaveCoolDown" type="Timer" parent="."]
 one_shot = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="SlashCoolDown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 
 [connection signal="chunk_changed" from="." to="." method="_on_chunk_changed"]
 [connection signal="area_entered" from="AttackPivot/AttackArea" to="." method="_on_attack_area_area_entered"]
