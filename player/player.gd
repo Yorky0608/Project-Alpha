@@ -5,7 +5,7 @@ signal chunk_changed(current_chunk_x: int)  # Changed to only track x-axis
 signal update_health_bar(new_health)
 
 @export var gravity = 750
-@export var run_speed = 150
+@export var run_speed = 160
 @export var jump_speed = -300
 @export var invincibility_time = 1.0
 @export var damage = 25  # The damage this attack deals
@@ -117,8 +117,8 @@ func get_input():
 	# only allow jumping when on the ground
 	if jump and is_on_floor():
 		$JumpSound.play()
-		change_state(JUMP, jump_texture, "Jump")
 		velocity.y = jump_speed
+		change_state(JUMP, jump_texture, "Jump")
 	# IDLE transitions to RUN when moving
 	if state == IDLE and velocity.x != 0:
 		change_state(RUN, run_texture, "Run")

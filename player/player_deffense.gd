@@ -5,13 +5,13 @@ signal chunk_changed(current_chunk_x: int)  # Changed to only track x-axis
 signal update_health_bar(new_health)
 
 @export var gravity = 750
-@export var run_speed = 130
-@export var jump_speed = -300
+@export var run_speed = 150
+@export var jump_speed = -350
 @export var invincibility_time = 1.0
 @export var damage = 20  # The damage this attack deals
 @export var attack_radius = 15  # The radius at which the player can attack
 @export var health = 120
-@export var max_health = 100
+@export var max_health = 120
 
 var invincible = false
 
@@ -29,8 +29,9 @@ var run_attack1_texture = preload("res://sprites/3/RunAttack1.png")
 var run_attack2_texture = preload("res://sprites/3/RunAttack2.png")
 var walk_attack1_texture = preload("res://sprites/3/WalkAttack1.png")
 var walk_attack2_texture = preload("res://sprites/3/WalkAttack2.png")
+var shield_texture = preload("res://sprites/3/WalkAttack2.png")
 
-enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK}
+enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK, BLOCK, GUARD_BREAK}
 var state = IDLE
 
 var can_attack = true
@@ -46,8 +47,15 @@ var dash_attack_time = 0.3
 var dash_attack_timer = 0.0
 var dash_attack_ability = true
 
+@export var max_block_points = 3
+var block_points = max_block_points
+var blocking = false
+var block_cooldown = 1.0
+var guard_broken = false
+
 
 func _ready():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
 	$AttackPivot/AttackArea.monitoring = false
 	
 	# Get the root Viewport (not Window)
@@ -89,6 +97,20 @@ func get_input():
 	var left = Input.is_action_pressed("left")
 	var jump = Input.is_action_just_pressed("jump")
 	var attack = Input.is_action_just_pressed("attack")
+	
+	var block = Input.is_action_pressed("block")
+
+	# Disable blocking during hurt, attack, or guard break
+	if state in [HURT, DEAD, ATTACK, GUARD_BREAK]:
+		block = false
+
+	# Starting block
+	if block and not blocking and block_points > 0:
+		start_block()
+
+	# Releasing block
+	if not block and blocking:
+		end_block()
 
 	# movement occurs in all states
 	velocity.x = 0
@@ -112,8 +134,8 @@ func get_input():
 	# only allow jumping when on the ground
 	if jump and is_on_floor():
 		$JumpSound.play()
-		change_state(JUMP, jump_texture, "Jump")
 		velocity.y = jump_speed
+		change_state(JUMP, jump_texture, "Jump")
 	# IDLE transitions to RUN when moving
 	if state == IDLE and velocity.x != 0:
 		change_state(RUN, run_texture, "Run")
@@ -124,6 +146,9 @@ func get_input():
 	if state in [IDLE, RUN] and !is_on_floor():
 		change_state(JUMP, jump_texture, "Jump")
 	# transition from running or jumping to attacking
+	
+	if Input.is_action_just_pressed("dash_attack") and dash_attack_ability:
+		dash_attack()
 	# Only allow attack if cooldown is over and not already attacking
 	$AttackPivot.scale.x = -1 if $Sprite2D.flip_h else 1
 
@@ -192,12 +217,34 @@ func change_state(new_state, texture, animation):
 				change_state(RUN, run_texture, "Run")
 			else:
 				change_state(IDLE, idle_texture, "Idle")
+		BLOCK:
+			$AnimationPlayer.play("block")
+		GUARD_BREAK:
+			$Sprite2D.set_hframes(4)
+			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
+			$AnimationPlayer.play(animation)
+			await $AnimationPlayer.animation_finished
+			change_state(IDLE, idle_texture, "Idle")
 
 func _physics_process(delta):
 	
 	velocity.y += gravity * delta
 		
 	get_input()
+	
+	if blocking and guard_broken:
+		for area in $AttackPivot/BlockArea.get_overlapping_areas():
+			if area.is_in_group("enemy_attack_zone"):
+				var node = area
+				while node:
+					if node.has_method("apply_damage"):
+						if not is_in_front(node):
+							return
+						invincible = true
+						apply_block(node)
+						break
+					node = node.get_parent()
 	
 	if dash_attacking:
 		var direction = 1 if not $Sprite2D.flip_h else -1
@@ -206,7 +253,6 @@ func _physics_process(delta):
 		if dash_attack_timer <= 0:
 			dash_attacking = false
 	
-	move_and_slide()
 	
 	if state == HURT:
 		return
@@ -220,17 +266,22 @@ func _physics_process(delta):
 	if new_chunk_x != current_chunk_x:
 		current_chunk_x = new_chunk_x
 		emit_signal("chunk_changed", current_chunk_x)
+	
+	move_and_slide()
 
 func take_damage(node, amount):
-	invincible = false
+	#invincible = false
 	if invincible or state == DEAD:
 		return
+	
+	if blocking and not guard_broken and is_in_front(node):
+		apply_block(node)
+		return  # damage prevented
 	
 	health -= amount
 	if health <= 0:
 		dead = true
 		change_state(DEAD, death_texture, "Death")
-		hurt()
 	else:
 		hurt()
 	
@@ -266,6 +317,7 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 		var node = area
 		while node and not node.has_method("death"):
 			node = node.get_parent()
+		
 		take_damage(node, node.contact_damage)
 
 
@@ -279,7 +331,55 @@ func dash_attack():
 			dash_attacking = true
 			dash_attack_timer = dash_attack_time
 			invincible = true
-			$AnimationPlayer.play("dash_attack")
+			$AnimationPlayer.play("shield_bash")
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
 			invincible = false
+
+func start_block():
+	if blocking or guard_broken:
+		return
+	blocking = true
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = false
+	change_state(BLOCK, shield_texture, "Block") # Add block animation + sprite
+
+func end_block():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
+	blocking = false
+	if state == BLOCK:
+		change_state(IDLE, idle_texture, "Idle")
+
+func apply_block(node):
+	print("block")
+	block_points -= 1
+	#$BlockSound.play()
+
+	# Small pushback or animation
+	#velocity.x = (50 if $Sprite2D.flip_h else -50)
+
+	# Visual feedback (spark animation?)
+	#$BlockEffect.emitting = true
+
+	# Shield breaks!
+	if block_points <= 0:
+		guard_break()
+	
+	invincible = false
+
+func guard_break():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
+	invincible = false
+	guard_broken = true
+	blocking = false
+
+	change_state(GUARD_BREAK, hurt_texture, "Hurt")  # Use similar animation
+	#$GuardBreakSound.play()
+
+	await get_tree().create_timer(block_cooldown).timeout
+	guard_broken = false
+	block_points = max_block_points
+	change_state(IDLE, idle_texture, "Idle")
+
+func is_in_front(of_node: Node2D) -> bool:
+	var dir = $AttackPivot.scale.x 
+	return (of_node.global_position.x - global_position.x) * dir > 0

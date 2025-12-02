@@ -105,6 +105,9 @@ func _ready():
 	
 	if not player_ref.is_connected("chunk_changed", Callable(self, "_on_player_chunk_changed")):
 		player_ref.connect("chunk_changed", Callable(self, "_on_player_chunk_changed"))
+		
+	if not player_ref.is_connected("died", Callable(self, "_on_player_died")):
+		player_ref.connect("died", Callable(self, "_on_player_died"))
 
 	# spawn initial area deterministically
 	_spawn_chunk_safe(0, true)
@@ -127,9 +130,6 @@ func _process(delta):
 	_check_death_barrier()
 
 func _check_death_barrier():
-	if not player_ref:
-		return
-	
 	# Kill player
 	if player_ref.global_position.y > current_death_y:
 		player_ref.change_state(player_ref.DEAD, player_ref.death_texture, "Death")
