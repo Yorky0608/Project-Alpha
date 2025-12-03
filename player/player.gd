@@ -142,16 +142,19 @@ func change_state(new_state, texture, animation):
 	state = new_state
 	match state:
 		IDLE:
+			$AttackPivot/AttackArea.monitoring = false
 			$Sprite2D.set_hframes(4)
 			$Sprite2D.texture = texture
 			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 		RUN:
+			$AttackPivot/AttackArea.monitoring = false
 			$Sprite2D.set_hframes(6)
 			$Sprite2D.texture = texture
 			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play("Run")
 		HURT:
+			$AttackPivot/AttackArea.monitoring = false
 			$Sprite2D.set_hframes(4)
 			$Sprite2D.texture = texture
 			$AnimationPlayer.speed_scale = 4
@@ -159,11 +162,13 @@ func change_state(new_state, texture, animation):
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
 		JUMP:
+			$AttackPivot/AttackArea.monitoring = false
 			$Sprite2D.texture = texture
 			$Sprite2D.set_hframes(8)
 			$AnimationPlayer.speed_scale = 1
 			$AnimationPlayer.play(animation)
 		DEAD:
+			$AttackPivot/AttackArea.monitoring = false
 			dead = true
 			velocity = Vector2.ZERO
 			set_physics_process(false)  # Disable physics updates
