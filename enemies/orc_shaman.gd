@@ -38,7 +38,7 @@ var walk_frames = 7
 var walk_speed = 1
 
 var death_texture = preload("res://monsters2/Orc_Shaman/Dead.png")
-var death_frames = 4
+var death_frames = 5
 var death_speed = 1
 
 var attack_texture = preload("res://monsters2/Orc_Shaman/Attack_1.png")
@@ -136,14 +136,6 @@ func do_chase(delta):
 		else:
 			change_direction()
 			velocity.x = 0
-	
-	# GAP / CLIFF handling
-	if on_floor and not ground_ahead:
-		if can_jump_over_gap():
-			velocity.y = jump_speed
-		else:
-			velocity.x = 0
-			#change_direction()
 
 	# Slope friction / keep on ground: small downward pull if stepping down
 	if not on_floor:
@@ -214,7 +206,6 @@ func start_attack() -> void:
 # Death
 # -------------------------
 func death():
-	print('Dying')
 	dead = true
 	$Death.play()
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -225,14 +216,12 @@ func death():
 	$Sprite2D.texture = death_texture
 	$AnimationPlayer.play("Dead")
 	await get_tree().create_timer(0.1).timeout
-	print("Checking anim:", $AnimationPlayer.current_animation)
 
 	var ui = get_tree().get_first_node_in_group("ui")
 	if ui:
 		ui.update_score(ui.current_score + score_value)
 
 	await $AnimationPlayer.animation_finished
-	print("Death animation finished!")
 	queue_free()
 
 # =========================

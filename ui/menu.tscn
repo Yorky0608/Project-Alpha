@@ -106,7 +106,7 @@ text = "Settings"
 layout_mode = 2
 text = "Quit"
 
-[node name="Shop2" parent="." instance=ExtResource("3_3njon")]
+[node name="Shop" parent="." instance=ExtResource("3_3njon")]
 
 [connection signal="pressed" from="Control/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Shop" to="." method="_on_shop_pressed"]

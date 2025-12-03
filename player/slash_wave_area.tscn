@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3 uid="uid://dnat1by38q6kn"]
+
+[ext_resource type="Texture2D" uid="uid://bs360upt6k6o4" path="res://player/slashing_wave-removebg-preview.png" id="1_m0g6i"]
+[ext_resource type="Script" path="res://player/slash_wave_area.gd" id="1_wrpds"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vegoh"]
+size = Vector2(21, 38)
+
+[sub_resource type="Animation" id="Animation_hyooq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_usxw0"]
+resource_name = "slashing_wave"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6ntli"]
+_data = {
+"RESET": SubResource("Animation_hyooq"),
+"slashing_wave": SubResource("Animation_usxw0")
+}
+
+[node name="SlashWaveArea" type="Area2D"]
+position = Vector2(200, 0)
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("1_wrpds")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(15, -15)
+scale = Vector2(0.095912, 0.290881)
+texture = ExtResource("1_m0g6i")
+flip_h = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(15, -16)
+shape = SubResource("RectangleShape2D_vegoh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6ntli")
+}
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

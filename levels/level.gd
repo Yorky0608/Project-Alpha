@@ -87,14 +87,28 @@ var skeletons_spawned = 1
 var spawn_margin = 100  # Pixels outside viewport
 var current_death_y = 656
 
-@onready var player_ref = get_node_or_null("Entities/Player")
-
 @export var max_skeletons = 20
 
-@onready var player = $Entities/Player  # Adjust path to player
-@onready var camera = $Entities/Player/Camera2D  # Assuming camera follows player
+var player_ref 
+var player
+var camera
 
 func _ready():
+	var player_instance = Character.character.instantiate()
+	player_instance.name = "Player"
+	$Entities.add_child(player_instance)
+
+	
+	player_ref = player_instance
+	player = player_instance  # Adjust path to player
+	camera = player_instance.get_node("Camera2D") # Assuming camera follows player
+	
+	if not player_ref.is_connected("chunk_changed", Callable(self, "_on_player_chunk_changed")):
+		player_ref.connect("chunk_changed", Callable(self, "_on_player_chunk_changed"))
+		
+	if not player_ref.is_connected("died", Callable(self, "_on_player_died")):
+		player_ref.connect("died", Callable(self, "_on_player_died"))
+
 	# spawn initial area deterministically
 	_spawn_chunk_safe(0, true)
 	
@@ -103,7 +117,7 @@ func _ready():
 	if spawn_marker_position:
 		player_ref.position = spawn_marker_position
 		
-	_on_player_chunk_changed(START_CHUNK_X)
+	update_player_chunk_based_on_player_position()
 
 	spawn_timer = spawn_interval
 
@@ -116,10 +130,6 @@ func _process(delta):
 	_check_death_barrier()
 
 func _check_death_barrier():
-	#print("PlayerY: ", player_ref.global_position.y, " | deathY: ", current_death_y)
-	if not player_ref:
-		return
-	
 	# Kill player
 	if player_ref.global_position.y > current_death_y:
 		player_ref.change_state(player_ref.DEAD, player_ref.death_texture, "Death")
@@ -268,13 +278,10 @@ func _on_player_died():
 
 func spawn_skeletons():
 	var alive_skeletons = 0
-	print()
 	# Count currently alive skeletons
 	for enemy in $Entities/Enemies.get_children():
 		if enemy.is_in_group("enemies"):
 			alive_skeletons += 1
-
-	print(alive_skeletons)
 	
 	if alive_skeletons >= max_skeletons:
 		return

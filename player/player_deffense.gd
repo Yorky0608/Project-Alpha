@@ -5,34 +5,33 @@ signal chunk_changed(current_chunk_x: int)  # Changed to only track x-axis
 signal update_health_bar(new_health)
 
 @export var gravity = 750
-@export var run_speed = 160
-@export var jump_speed = -300
+@export var run_speed = 150
+@export var jump_speed = -350
 @export var invincibility_time = 1.0
-@export var damage = 25  # The damage this attack deals
-@export var attack_radius = 18  # The radius at which the player can attack
-@export var health = 100
-@export var max_health = 100
+@export var damage = 20  # The damage this attack deals
+@export var attack_radius = 15  # The radius at which the player can attack
+@export var health = 120
+@export var max_health = 120
 
 var invincible = false
 
-var walk_texture = preload("res://sprites/2/Walk.png")
-var attack1_texture = preload("res://sprites/2/Attack1.png")
-var attack2_texture = preload("res://sprites/2/Attack2.png")
-var death_texture = preload("res://sprites/2/Death.png")
-var fall_attack_texture = preload("res://sprites/2/FallAttack.png")
-var hurt_texture = preload("res://sprites/2/Hurt.png")
-var idle_texture = preload("res://sprites/2/Idle.png")
-var jump_texture = preload("res://sprites/2/Jump.png")
-var jump_attack_texture = preload("res://sprites/2/JumpAttack.png")
-var run_texture = preload("res://sprites/2/Run.png")
-var run_attack1_texture = preload("res://sprites/2/RunAttack1.png")
-var run_attack2_texture = preload("res://sprites/2/RunAttack2.png")
-var walk_attack1_texture = preload("res://sprites/2/WalkAttack1.png")
-var walk_attack2_texture = preload("res://sprites/2/WalkAttack2.png")
+var walk_texture = preload("res://sprites/3/Walk.png")
+var attack1_texture = preload("res://sprites/3/Attack1.png")
+var attack2_texture = preload("res://sprites/3/Attack2.png")
+var death_texture = preload("res://sprites/3/Death.png")
+var fall_attack_texture = preload("res://sprites/3/FallAttack.png")
+var hurt_texture = preload("res://sprites/3/Hurt.png")
+var idle_texture = preload("res://sprites/3/Idle.png")
+var jump_texture = preload("res://sprites/3/Jump.png")
+var jump_attack_texture = preload("res://sprites/3/JumpAttack.png")
+var run_texture = preload("res://sprites/3/Run.png")
+var run_attack1_texture = preload("res://sprites/3/RunAttack1.png")
+var run_attack2_texture = preload("res://sprites/3/RunAttack2.png")
+var walk_attack1_texture = preload("res://sprites/3/WalkAttack1.png")
+var walk_attack2_texture = preload("res://sprites/3/WalkAttack2.png")
+var shield_texture = preload("res://sprites/3/WalkAttack2.png")
 
-var SlashWaveScene = preload("res://player/slash_wave_area.tscn")
-
-enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK}
+enum {IDLE, RUN, JUMP, HURT, DEAD, ATTACK, BLOCK, GUARD_BREAK}
 var state = IDLE
 
 var can_attack = true
@@ -42,16 +41,21 @@ var dead = false
 const CHUNK_WIDTH = 1152  # Must match level.gd value
 var current_chunk_x = 0  # Now just tracking x-axis
 
-var slashing_wave = false
-var slashing_wave_damage = 20
-var slash_wave_ability = true
+var dash_attacking = false
+var dash_attack_speed = 600
+var dash_attack_time = 0.3
+var dash_attack_timer = 0.0
+var dash_attack_ability = true
 
-var slashing = false
-var slashing_damage = 35
-var slash_ability = true
+@export var max_block_points = 3
+var block_points = max_block_points
+var blocking = false
+var block_cooldown = 1.0
+var guard_broken = false
 
 
 func _ready():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
 	$AttackPivot/AttackArea.monitoring = false
 	
 	# Get the root Viewport (not Window)
@@ -86,14 +90,27 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD or slashing:
-		velocity.x = 0
+	if state == HURT or state == DEAD:
 		return  # don't allow movement during hurt state
 	
 	var right = Input.is_action_pressed("right")
 	var left = Input.is_action_pressed("left")
 	var jump = Input.is_action_just_pressed("jump")
 	var attack = Input.is_action_just_pressed("attack")
+	
+	var block = Input.is_action_pressed("block")
+
+	# Disable blocking during hurt, attack, or guard break
+	if state in [HURT, DEAD, ATTACK, GUARD_BREAK]:
+		block = false
+
+	# Starting block
+	if block and not blocking and block_points > 0:
+		start_block()
+
+	# Releasing block
+	if not block and blocking:
+		end_block()
 
 	# movement occurs in all states
 	velocity.x = 0
@@ -129,14 +146,11 @@ func get_input():
 	if state in [IDLE, RUN] and !is_on_floor():
 		change_state(JUMP, jump_texture, "Jump")
 	# transition from running or jumping to attacking
+	
+	if Input.is_action_just_pressed("dash_attack") and dash_attack_ability:
+		dash_attack()
 	# Only allow attack if cooldown is over and not already attacking
 	$AttackPivot.scale.x = -1 if $Sprite2D.flip_h else 1
-
-	if Input.is_action_just_pressed("slash_wave") and slash_wave_ability:
-		slash_wave()
-	
-	if Input.is_action_just_pressed("slash") and slash_ability:
-		slash()
 
 func change_state(new_state, texture, animation):
 	state = new_state
@@ -203,11 +217,42 @@ func change_state(new_state, texture, animation):
 				change_state(RUN, run_texture, "Run")
 			else:
 				change_state(IDLE, idle_texture, "Idle")
+		BLOCK:
+			$AnimationPlayer.play("block")
+		GUARD_BREAK:
+			$Sprite2D.set_hframes(4)
+			$Sprite2D.texture = texture
+			$AnimationPlayer.speed_scale = 4
+			$AnimationPlayer.play(animation)
+			await $AnimationPlayer.animation_finished
+			change_state(IDLE, idle_texture, "Idle")
 
 func _physics_process(delta):
 	
 	velocity.y += gravity * delta
+		
 	get_input()
+	
+	if blocking and guard_broken:
+		for area in $AttackPivot/BlockArea.get_overlapping_areas():
+			if area.is_in_group("enemy_attack_zone"):
+				var node = area
+				while node:
+					if node.has_method("apply_damage"):
+						if not is_in_front(node):
+							return
+						invincible = true
+						apply_block(node)
+						break
+					node = node.get_parent()
+	
+	if dash_attacking:
+		var direction = 1 if not $Sprite2D.flip_h else -1
+		velocity.x = dash_attack_speed * direction
+		dash_attack_timer -= delta
+		if dash_attack_timer <= 0:
+			dash_attacking = false
+	
 	
 	if state == HURT:
 		return
@@ -225,15 +270,18 @@ func _physics_process(delta):
 	move_and_slide()
 
 func take_damage(node, amount):
-	invincible = true
+	#invincible = false
 	if invincible or state == DEAD:
 		return
+	
+	if blocking and not guard_broken and is_in_front(node):
+		apply_block(node)
+		return  # damage prevented
 	
 	health -= amount
 	if health <= 0:
 		dead = true
 		change_state(DEAD, death_texture, "Death")
-		hurt()
 	else:
 		hurt()
 	
@@ -269,40 +317,69 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 		var node = area
 		while node and not node.has_method("death"):
 			node = node.get_parent()
+		
 		take_damage(node, node.contact_damage)
 
 
 func _on_attack_cool_down_timeout() -> void:
 	can_attack = true
 
-func slash_wave():
-	if $SlashWaveCoolDown.is_stopped():
-		var wave = SlashWaveScene.instantiate()
-		wave.global_position = global_position
-		wave.direction = -1 if $Sprite2D.flip_h else 1
-		get_tree().current_scene.add_child(wave)
-		$SlashWaveCoolDown.start()
-		$AnimationPlayer.play("slash_wave_attack")
-		await $AnimationPlayer.animation_finished
-		wave.start()
+func dash_attack():
+	if $DashAttackCoolDown.is_stopped():
+		if not dash_attacking:
+			$DashAttackCoolDown.start()
+			dash_attacking = true
+			dash_attack_timer = dash_attack_time
+			invincible = true
+			$AnimationPlayer.play("shield_bash")
+			await $AnimationPlayer.animation_finished
+			change_state(IDLE, idle_texture, "Idle")
+			invincible = false
+
+func start_block():
+	if blocking or guard_broken:
+		return
+	blocking = true
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = false
+	change_state(BLOCK, shield_texture, "Block") # Add block animation + sprite
+
+func end_block():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
+	blocking = false
+	if state == BLOCK:
 		change_state(IDLE, idle_texture, "Idle")
 
-func slash():
-	if $SlashCoolDown.is_stopped():
-		slashing = true
-		$AbilityNode.scale.x = -1 if $Sprite2D.flip_h else 1
-		$SlashCoolDown.start()
-		$AnimationPlayer.play("slash")
-		await $AnimationPlayer.animation_finished
-		slashing = false
-		change_state(IDLE, idle_texture, "Idle")
+func apply_block(node):
+	print("block")
+	block_points -= 1
+	#$BlockSound.play()
 
+	# Small pushback or animation
+	#velocity.x = (50 if $Sprite2D.flip_h else -50)
 
-func _on_slash_wave_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy_hitbox"):
-		var node = area
-		while node:
-			if node.has_method("apply_damage"):
-				node.apply_damage(slashing_damage)
-				break
-			node = node.get_parent()
+	# Visual feedback (spark animation?)
+	#$BlockEffect.emitting = true
+
+	# Shield breaks!
+	if block_points <= 0:
+		guard_break()
+	
+	invincible = false
+
+func guard_break():
+	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
+	invincible = false
+	guard_broken = true
+	blocking = false
+
+	change_state(GUARD_BREAK, hurt_texture, "Hurt")  # Use similar animation
+	#$GuardBreakSound.play()
+
+	await get_tree().create_timer(block_cooldown).timeout
+	guard_broken = false
+	block_points = max_block_points
+	change_state(IDLE, idle_texture, "Idle")
+
+func is_in_front(of_node: Node2D) -> bool:
+	var dir = $AttackPivot.scale.x 
+	return (of_node.global_position.x - global_position.x) * dir > 0
