@@ -9,40 +9,55 @@ var dash_price = 500
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AbilitiesControl.visible = false
+	
+	if Character.character == Character.agile_class:
+		show_agile_ability()
+	elif Character.character == Character.attack_class:
+		show_attack_ability()
+	elif Character.character == Character.defense_class:
+		show_defense_ability()
 
+func show_agile_ability() -> void:
+	$AbilitiesControl/AgileAbilityContainer.visible = true
+	$AbilitiesControl/AttackAbilityContainer.visible = false
+	$AbilitiesControl/DefenseAbilityContainer.visible = false
+
+func show_attack_ability() -> void:
+	$AbilitiesControl/AttackAbilityContainer.visible = true
+	$AbilitiesControl/AgileAbilityContainer.visible = false
+	$AbilitiesControl/DefenseAbilityContainer.visible = false
+
+func show_defense_ability() -> void:
+	$AbilitiesControl/DefenseAbilityContainer.visible = true
+	$AbilitiesControl/AttackAbilityContainer.visible = false
+	$AbilitiesControl/AgileAbilityContainer.visible = false
+
+func validate_price(button, price : int) -> void:
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	button.disabled = price > ui.current_score
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
-	
 	var player = get_node("/root/Main/Level/Entities/Player")
 	
-	if ui.current_score < dam_price:
-		$StatsControl/Container/Damage/Button.disabled = true
-	else:
-		$StatsControl/Container/Damage/Button.disabled = false
-	
-	if ui.current_score < rad_price:
-		$StatsControl/Container/Attack/Button.disabled = true
-	else:
-		$StatsControl/Container/Attack/Button.disabled = false
-	
-	if ui.current_score < run_price:
-		$StatsControl/Container/Speed/Button.disabled = true
-	else:
-		$StatsControl/Container/Speed/Button.disabled = false
-	
-	if ui.current_score < health_price:
-		$StatsControl/Container/Health/Button.disabled = true
-	else:
-		$StatsControl/Container/Health/Button.disabled = false
-	
-	if ui.current_score < dash_price:
-		$AbilitiesControl/Container/Dash/Button.disabled = true
-	else:
-		$AbilitiesControl/Container/Dash/Button.disabled = false
-	
 	ui.update_score(ui.current_score)
-
+	
+	# Stats Shop
+	validate_price($StatsControl/Container/Damage/Button, dam_price)
+	validate_price($StatsControl/Container/Attack/Button, rad_price)
+	validate_price($StatsControl/Container/Speed/Button, run_price)
+	validate_price($StatsControl/Container/Health/Button, health_price)
+	
+	#Abilities Shop
+	validate_price($AbilitiesControl/AttackAbilityContainer/Slash/Button, dam_price)
+	validate_price($AbilitiesControl/AttackAbilityContainer/SlashWave/Button, dam_price)
+	
+	validate_price($AbilitiesControl/AgileAbilityContainer/Dash/Button, dam_price)
+	validate_price($AbilitiesControl/AgileAbilityContainer/DashSlash/Button, dam_price)
+	
+	validate_price($AbilitiesControl/DefenseAbilityContainer/Block/Button, dam_price)
+	validate_price($AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button, dam_price)
 
 func _on_close_pressed() -> void:
 	$AnimationPlayer.play("invisible")
@@ -57,7 +72,6 @@ func _on_damage_pressed() -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	ui.current_score -= dam_price
 
-
 func _on_attack_radius_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	player.attack_radius += 5
@@ -66,13 +80,11 @@ func _on_attack_radius_pressed() -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	ui.current_score -= rad_price
 
-
 func _on_run_speed_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	player.run_speed += 5
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	ui.current_score -= run_price
-
 
 func _on_health_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
@@ -93,6 +105,21 @@ func _on_dash_time_pressed() -> void:
 	else:
 		var ability = get_node("/root/Main/Level/Entities/Player/AbilityCoolDown")
 		ability.waittime -= 0.1
+
+func _on_dash_slash_ability_pressed() -> void:
+	pass
+	
+func _on_slash_ability_pressed() -> void:
+	pass
+
+func _on_slash_wave_ability_pressed() -> void:
+	pass
+
+func _on_block_ability_pressed() -> void:
+	pass
+
+func _on_shield_bash_ability_pressed() -> void:
+	pass
 	
 func _on_stats_button_pressed() -> void:
 	$StatsControl.show()
@@ -101,3 +128,6 @@ func _on_stats_button_pressed() -> void:
 func _on_abilities_button_pressed() -> void:
 	$AbilitiesControl.show()
 	$StatsControl.hide()
+	
+func show_abilities_control():
+	$AbilitiesControl.show()

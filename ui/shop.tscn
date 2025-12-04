@@ -198,31 +198,128 @@ offset_top = 140.0
 offset_bottom = 720.0
 grow_horizontal = 0
 
-[node name="Container" type="GridContainer" parent="AbilitiesControl"]
+[node name="AttackAbilityContainer" type="GridContainer" parent="AbilitiesControl"]
+visible = false
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 630.0
 offset_bottom = 101.0
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 20
 columns = 2
 
-[node name="Dash" type="BoxContainer" parent="AbilitiesControl/Container"]
+[node name="Slash" type="BoxContainer" parent="AbilitiesControl/AttackAbilityContainer"]
 custom_minimum_size = Vector2(610, 0)
 layout_mode = 2
 vertical = true
 
-[node name="Text" type="Label" parent="AbilitiesControl/Container/Dash"]
+[node name="Text" type="Label" parent="AbilitiesControl/AttackAbilityContainer/Slash"]
+layout_mode = 2
+text = "Ability - Slash
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/AttackAbilityContainer/Slash"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Slash Ability"
+
+[node name="SlashWave" type="BoxContainer" parent="AbilitiesControl/AttackAbilityContainer"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/AttackAbilityContainer/SlashWave"]
+layout_mode = 2
+text = "Ability - Slash Wave
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/AttackAbilityContainer/SlashWave"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Slash Wave Ability"
+
+[node name="AgileAbilityContainer" type="GridContainer" parent="AbilitiesControl"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 630.0
+offset_bottom = 101.0
+columns = 2
+
+[node name="Dash" type="BoxContainer" parent="AbilitiesControl/AgileAbilityContainer"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/AgileAbilityContainer/Dash"]
 layout_mode = 2
 text = "Ability - Dash
 Price: 500"
 label_settings = SubResource("LabelSettings_nipft")
 
-[node name="Button" type="Button" parent="AbilitiesControl/Container/Dash"]
+[node name="Button" type="Button" parent="AbilitiesControl/AgileAbilityContainer/Dash"]
 layout_mode = 2
 theme = ExtResource("2_t4vr5")
 text = "Unlock Dash Ability"
+
+[node name="DashSlash" type="BoxContainer" parent="AbilitiesControl/AgileAbilityContainer"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/AgileAbilityContainer/DashSlash"]
+layout_mode = 2
+text = "Ability - Dash Slash
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/AgileAbilityContainer/DashSlash"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Dash Slash Ability"
+
+[node name="DefenseAbilityContainer" type="GridContainer" parent="AbilitiesControl"]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 60.0
+columns = 2
+
+[node name="Block" type="BoxContainer" parent="AbilitiesControl/DefenseAbilityContainer"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/DefenseAbilityContainer/Block"]
+layout_mode = 2
+text = "Ability - Block
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/DefenseAbilityContainer/Block"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Block Ability"
+
+[node name="ShieldBash" type="BoxContainer" parent="AbilitiesControl/DefenseAbilityContainer"]
+custom_minimum_size = Vector2(610, 0)
+layout_mode = 2
+vertical = true
+
+[node name="Text" type="Label" parent="AbilitiesControl/DefenseAbilityContainer/ShieldBash"]
+layout_mode = 2
+text = "Ability - Shield Bash
+Price: 500"
+label_settings = SubResource("LabelSettings_nipft")
+
+[node name="Button" type="Button" parent="AbilitiesControl/DefenseAbilityContainer/ShieldBash"]
+layout_mode = 2
+theme = ExtResource("2_t4vr5")
+text = "Unlock Shield Bash Ability"
 
 [node name="ShopMenuControl" type="Control" parent="."]
 custom_minimum_size = Vector2(1280, 140)
@@ -283,7 +380,12 @@ flat = true
 [connection signal="pressed" from="StatsControl/Container/Speed/Button" to="." method="_on_run_speed_pressed"]
 [connection signal="pressed" from="StatsControl/Container/Attack/Button" to="." method="_on_attack_radius_pressed"]
 [connection signal="pressed" from="StatsControl/Container/Health/Button" to="." method="_on_health_pressed"]
-[connection signal="pressed" from="AbilitiesControl/Container/Dash/Button" to="." method="_on_dash_time_pressed"]
+[connection signal="pressed" from="AbilitiesControl/AttackAbilityContainer/Slash/Button" to="." method="_on_slash_ability_pressed"]
+[connection signal="pressed" from="AbilitiesControl/AttackAbilityContainer/SlashWave/Button" to="." method="_on_slash_wave_ability_pressed"]
+[connection signal="pressed" from="AbilitiesControl/AgileAbilityContainer/Dash/Button" to="." method="_on_dash_time_pressed"]
+[connection signal="pressed" from="AbilitiesControl/AgileAbilityContainer/DashSlash/Button" to="." method="_on_dash_slash_ability_pressed"]
+[connection signal="pressed" from="AbilitiesControl/DefenseAbilityContainer/Block/Button" to="." method="_on_block_ability_pressed"]
+[connection signal="pressed" from="AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button" to="." method="_on_shield_bash_ability_pressed"]
 [connection signal="pressed" from="ShopMenuControl/Close" to="." method="_on_close_pressed"]
 [connection signal="pressed" from="ShopMenuControl/Line2D/StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="ShopMenuControl/Line2D/AbilitiesButton" to="." method="_on_abilities_button_pressed"]

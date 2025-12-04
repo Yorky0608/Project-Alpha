@@ -31,6 +31,5 @@ func format():
 func _on_exit_pressed() -> void:
 	get_tree().quit()
 
-
 func _on_select_character_pressed() -> void:
 	get_tree().change_scene_to_file("res://ui/character_select_screen.tscn")
