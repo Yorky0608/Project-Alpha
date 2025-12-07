@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cqx3ikqj84w3l"
+path="res://.godot/imported/body drop.mp3-decab9b6e2cfa2fd3be214d3052410f5.mp3str"
+
+[deps]
+
+source_file="res://sounds/body drop.mp3"
+dest_files=["res://.godot/imported/body drop.mp3-decab9b6e2cfa2fd3be214d3052410f5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://de511wifbhexv"
+path="res://.godot/imported/spirit death.mp3-8af0b04548fd7b5169aff6a40c784f69.mp3str"
+
+[deps]
+
+source_file="res://sounds/spirit death.mp3"
+dest_files=["res://.godot/imported/spirit death.mp3-8af0b04548fd7b5169aff6a40c784f69.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

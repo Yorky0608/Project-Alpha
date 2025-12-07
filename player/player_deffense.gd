@@ -45,7 +45,7 @@ var dash_attacking = false
 var dash_attack_speed = 600
 var dash_attack_time = 0.3
 var dash_attack_timer = 0.0
-var dash_attack_ability = true
+var dash_attack_ability = false
 
 @export var max_block_points = 3
 var block_points = max_block_points

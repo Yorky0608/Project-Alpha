@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://6s3egyw452xh"]
+
+[ext_resource type="Script" path="res://items/relic_area_speed_boost.gd" id="1_givf0"]
+[ext_resource type="Texture2D" uid="uid://dfbond5wo6j8w" path="res://tileset/4 Animated objects/Money.png" id="2_sg4li"]
+[ext_resource type="StyleBox" uid="uid://ck151y57ioiyx" path="res://ui/new_style_box_flat.tres" id="3_towlt"]
+[ext_resource type="LabelSettings" uid="uid://ds4bl57p726cv" path="res://ui/text.tres" id="4_hr0h3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbvxp"]
+
+[sub_resource type="Animation" id="Animation_yoq77"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+
+[sub_resource type="Animation" id="Animation_mmvx3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_025uv"]
+resource_name = "picked up"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_15gcv"]
+_data = {
+"RESET": SubResource("Animation_mmvx3"),
+"idle": SubResource("Animation_yoq77"),
+"picked up": SubResource("Animation_025uv")
+}
+
+[node name="RelicAreaSpeedBoost" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_givf0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nbvxp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sg4li")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_15gcv")
+}
+autoplay = "idle"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -53.0
+offset_top = -20.0
+offset_right = 53.0
+offset_bottom = -4.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_towlt")
+text = "Increases Speed by 30%"
+label_settings = ExtResource("4_hr0h3")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

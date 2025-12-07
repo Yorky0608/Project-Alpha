@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bbx72d1dda7wy"
+path="res://.godot/imported/root summon.mp3-9919c6a15f207ceb1ad45473eb0ec560.mp3str"
+
+[deps]
+
+source_file="res://sounds/root summon.mp3"
+dest_files=["res://.godot/imported/root summon.mp3-9919c6a15f207ceb1ad45473eb0ec560.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
