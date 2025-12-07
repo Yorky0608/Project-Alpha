@@ -29,6 +29,9 @@ var level_bounds_right := 0.0
 @export var score_value = 200
 @export var health: int = 20
 
+var drop_chance = 0.15
+var health_drop_scene = preload("res://items/health_area.tscn")
+
 var dead = false
 var player_in_attack_area := false
 
@@ -220,8 +223,27 @@ func death():
 	if ui:
 		ui.update_score(ui.current_score + score_value)
 
+	drop_item()
 	await $AnimationPlayer.animation_finished
 	queue_free()
+
+func drop_item():
+	if randf() > drop_chance:
+		return  # no drop
+
+	if health_drop_scene == null:
+		return  # safety check
+
+	var item = health_drop_scene.instantiate()
+
+	# Preferred spawn position (slightly above the corpse)
+	item.global_position = global_position + Vector2(0, -10)
+
+	# Find the Items folder inside Level
+	var level = get_tree().get_first_node_in_group("level_manager")
+	if level:
+		var items_parent = level.get_node("Entities/Items")
+		items_parent.add_child(item)
 
 # =========================
 # Utility

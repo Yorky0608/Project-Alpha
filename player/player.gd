@@ -44,11 +44,11 @@ var current_chunk_x = 0  # Now just tracking x-axis
 
 var slashing_wave = false
 var slashing_wave_damage = 20
-var slash_wave_ability = true
+var slash_wave_ability = false
 
 var slashing = false
 var slashing_damage = 35
-var slash_ability = true
+var slash_ability = false
 
 
 func _ready():
@@ -131,6 +131,7 @@ func get_input():
 	# transition from running or jumping to attacking
 	# Only allow attack if cooldown is over and not already attacking
 	$AttackPivot.scale.x = -1 if $Sprite2D.flip_h else 1
+	$AbilityNode.scale.x = -1 if $Sprite2D.flip_h else 1
 
 	if Input.is_action_just_pressed("slash_wave") and slash_wave_ability:
 		slash_wave()
@@ -230,7 +231,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func take_damage(node, amount):
-	invincible = true
+	#invincible = true
 	if invincible or state == DEAD:
 		return
 	

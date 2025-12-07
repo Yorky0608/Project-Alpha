@@ -44,13 +44,13 @@ var dashing = false
 var dash_speed = 600
 var dash_time = 0.2
 var dash_timer = 0.0
-var dash_ability = true
+var dash_ability = false
 
 var dash_attacking = false
 var dash_attack_speed = 600
 var dash_attack_time = 0.3
 var dash_attack_timer = 0.0
-var dash_attack_ability = true
+var dash_attack_ability = false
 
 
 func _ready():

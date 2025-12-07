@@ -139,6 +139,11 @@ func _check_death_barrier():
 	for enemy in $Entities/Enemies.get_children():
 		if enemy.global_position.y > current_death_y:
 			enemy.queue_free()
+	
+	#Remove items
+	for item in $Entities/Items.get_children():
+		if item.global_position.y > current_death_y:
+			item.queue_free()
 
 var last_chunk_right_y: float = GROUND_Y  # Start height baseline
 

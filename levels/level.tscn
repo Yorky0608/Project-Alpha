@@ -16,6 +16,8 @@ script = ExtResource("1_3ep40")
 
 [node name="Enemies" type="Node" parent="Entities"]
 
+[node name="Items" type="Node" parent="Entities" groups=["level_manager"]]
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_13cds")
 volume_db = 5.0
