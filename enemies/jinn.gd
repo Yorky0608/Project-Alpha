@@ -60,8 +60,16 @@ var hurt_speed = 2
 @onready var cliff_check = $Pivot/RayCast2D_Cliff
 @onready var attack_timer = $AttackTimer
 
-var drop_chance = 0.25
-var health_drop_scene = preload("res://items/health_area.tscn")
+var drop_chance = 1
+
+const items = [
+	preload("res://items/relic_area_health_boost.tscn"),
+	preload("res://items/relic_area_attact_boost.tscn"),
+	preload("res://items/relic_area_speed_boost.tscn"),
+	preload("res://items/relic_area_attact_radius_boost.tscn"),
+	preload("res://items/relic_area_ability_1_boost.tscn"),
+	preload("res://items/relic_area_ability_2_boost.tscn"),
+]
 
 func _ready():
 	await get_tree().process_frame 
@@ -254,10 +262,8 @@ func drop_item():
 	if randf() > drop_chance:
 		return  # no drop
 
-	if health_drop_scene == null:
-		return  # safety check
-
-	var item = health_drop_scene.instantiate()
+	var item = items[randi() % items.size()]
+	item.instantiate()
 
 	# Preferred spawn position (slightly above the corpse)
 	item.global_position = global_position + Vector2(0, -10)
