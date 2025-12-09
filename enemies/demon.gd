@@ -282,9 +282,16 @@ func can_move_forward() -> bool:
 	return true
 
 func apply_damage(amount: int):
-	velocity.x = 0
 	if dead:
 		return
+	
+	if not $Sprite2D.flip_h:
+		velocity.x = 100
+		velocity.y = -100
+	else:
+		velocity.x = -100
+		velocity.y = -100
+		
 	health -= amount
 	if health <= 0:
 		change_state(DEAD)

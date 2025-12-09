@@ -312,3 +312,9 @@ func _on_slash_wave_area_area_entered(area: Area2D) -> void:
 				node.apply_damage(slashing_damage)
 				break
 			node = node.get_parent()
+
+func get_ability_timers():
+	return {
+		"ability1": $SlashWaveCoolDown,
+		"ability2": $SlashCoolDown
+	}

@@ -310,3 +310,8 @@ func dash_attack():
 			change_state(IDLE, idle_texture, "Idle")
 			invincible = false
 	
+func get_ability_timers():
+	return {
+		"ability1": $DashCoolDown,
+		"ability2": $DashAttackCoolDown
+	}

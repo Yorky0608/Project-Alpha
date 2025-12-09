@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cykp8bxmpd8hl"]
+[gd_scene load_steps=14 format=3 uid="uid://cykp8bxmpd8hl"]
 
 [ext_resource type="Script" path="res://ui.gd" id="1_ttjfx"]
 [ext_resource type="FontFile" uid="uid://1mt6tq6qrv1k" path="res://assets/Kenney Thick.ttf" id="2_kseny"]
 [ext_resource type="Texture2D" uid="uid://wwdil1cn3sse" path="res://assets/health_bar.png" id="3_ubi16"]
 [ext_resource type="PackedScene" uid="uid://d1lb4w20pjyap" path="res://ui/menu.tscn" id="4_26l1o"]
+[ext_resource type="Theme" uid="uid://csrxccdqow62n" path="res://ui/menu.tres" id="5_r24bv"]
+[ext_resource type="LabelSettings" uid="uid://ds4bl57p726cv" path="res://ui/text.tres" id="6_qco18"]
 
 [sub_resource type="Animation" id="Animation_x1t0b"]
 length = 0.001
@@ -160,3 +162,87 @@ grow_vertical = 2
 size_flags_horizontal = 4
 text = "Get Ready!"
 label_settings = SubResource("LabelSettings_vy8r4")
+
+[node name="Control4" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 234.0
+grow_vertical = 0
+
+[node name="Ability_1" type="Control" parent="Control4"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 40.0
+
+[node name="Ability_Bar_1" type="ProgressBar" parent="Control4/Ability_1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("5_r24bv")
+max_value = 5.0
+value = 5.0
+rounded = true
+fill_mode = 3
+
+[node name="Ability_1" type="Label" parent="Control4/Ability_1"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Ability 1"
+label_settings = ExtResource("6_qco18")
+
+[node name="Ability_2" type="Control" parent="Control4"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Ability_Bar_2" type="ProgressBar" parent="Control4/Ability_2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("5_r24bv")
+max_value = 10.0
+value = 10.0
+rounded = true
+fill_mode = 3
+
+[node name="Ability_2" type="Label" parent="Control4/Ability_2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Ability 2"
+label_settings = ExtResource("6_qco18")

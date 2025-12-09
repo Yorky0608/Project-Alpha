@@ -132,7 +132,7 @@ func get_input():
 		elif state == JUMP and attack:
 			change_state(ATTACK, jump_attack_texture, "JumpAttack")
 	# only allow jumping when on the ground
-	if jump and is_on_floor():
+	if jump and is_on_floor() and not blocking:
 		$JumpSound.play()
 		velocity.y = jump_speed
 		change_state(JUMP, jump_texture, "Jump")
@@ -350,7 +350,6 @@ func end_block():
 		change_state(IDLE, idle_texture, "Idle")
 
 func apply_block(node):
-	print("block")
 	block_points -= 1
 	#$BlockSound.play()
 
@@ -383,3 +382,13 @@ func guard_break():
 func is_in_front(of_node: Node2D) -> bool:
 	var dir = $AttackPivot.scale.x 
 	return (of_node.global_position.x - global_position.x) * dir > 0
+
+func get_ability_timers():
+	return {
+		"ability1": $ShieldCoolDown,   # Timer
+		"ability2": {
+			"type": "counter",
+			"value": block_points,      # however many blocks remaining
+			"max": max_block_points
+		}
+	}
