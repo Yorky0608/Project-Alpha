@@ -31,11 +31,26 @@ func show_defense_ability() -> void:
 	$AbilitiesControl/DefenseAbilityContainer.visible = true
 	$AbilitiesControl/AttackAbilityContainer.visible = false
 	$AbilitiesControl/AgileAbilityContainer.visible = false
-
+	
+func validate_ability():
+	var player = get_node("/root/Main/Level/Entities/Player")
+	
+	if Character.character == Character.agile_class:
+		$AbilitiesControl/AgileAbilityContainer/DashSlash/Button.disabled = player.dash_attack_ability
+	elif Character.character == Character.attack_class:
+		$AbilitiesControl/AttackAbilityContainer/Slash/Button.disabled = player.slash_ability
+		$AbilitiesControl/AttackAbilityContainer/SlashWave/Button.disabled = player.slash_wave_ability
+	elif Character.character == Character.defense_class:
+		$AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button.disabled = player.dash_attack_ability
+		
 func validate_price(button, price : int) -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	button.disabled = price > ui.current_score
-	
+
+func update_score(price)->void:
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	ui.current_score -= price
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var ui = get_node("/root/Main/Level/Entities/Player/UI")
@@ -58,6 +73,8 @@ func _process(delta: float) -> void:
 	
 	validate_price($AbilitiesControl/DefenseAbilityContainer/Block/Button, dam_price)
 	validate_price($AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button, dam_price)
+	
+	validate_ability()
 
 func _on_close_pressed() -> void:
 	$AnimationPlayer.play("invisible")
@@ -69,22 +86,19 @@ func _on_close_pressed() -> void:
 func _on_damage_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	player.damage += 1
-	var ui = get_node("/root/Main/Level/Entities/Player/UI")
-	ui.current_score -= dam_price
+	update_score(dam_price)
 
 func _on_attack_radius_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	player.attack_radius += 5
 	player.find_child("AttackPivot").find_child("AttackArea").find_child("CollisionShape2D").shape.size.x = player.attack_radius
 	player.find_child("AttackPivot").find_child("AttackArea").find_child("CollisionShape2D").position.x += .5
-	var ui = get_node("/root/Main/Level/Entities/Player/UI")
-	ui.current_score -= rad_price
+	update_score(rad_price)
 
 func _on_run_speed_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	player.run_speed += 5
-	var ui = get_node("/root/Main/Level/Entities/Player/UI")
-	ui.current_score -= run_price
+	update_score(run_price)
 
 func _on_health_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
@@ -99,27 +113,40 @@ func _on_dash_time_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
 	if not player.dash_ability:
 		player.dash_ability = true
-		var ui = get_node("/root/Main/Level/Entities/Player/UI")
-		ui.current_score -= dash_price
+		update_score(dash_price)
 		$Control/DashTime.text = "Reduce Cooldown : 0.1 SEC"
 	else:
 		var ability = get_node("/root/Main/Level/Entities/Player/AbilityCoolDown")
 		ability.waittime -= 0.1
 
 func _on_dash_slash_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	if not player.dash_attack_ability:
+		player.dash_attack_ability = true
+	update_score(dam_price)
 	
 func _on_slash_ability_pressed() -> void:
-	pass
-
+	var player = get_node("/root/Main/Level/Entities/Player")
+	if not player.slash_ability:
+		player.slash_ability = true
+	update_score(dam_price)
+	
 func _on_slash_wave_ability_pressed() -> void:
-	pass
-
+	var player = get_node("/root/Main/Level/Entities/Player")
+	if not player.slash_wave_ability:
+		player.slash_wave_ability = true
+	update_score(dam_price)
+	
 func _on_block_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	player.max_block_points += 1;
+	update_score(dam_price)
 
 func _on_shield_bash_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	if not player.dash_attack_ability:
+		player.dash_attack_ability = true
+	update_score(dam_price)
 	
 func _on_stats_button_pressed() -> void:
 	$StatsControl.show()
