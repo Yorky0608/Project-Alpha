@@ -53,6 +53,7 @@ var blocking = false
 var block_cooldown = 1.0
 var guard_broken = false
 
+
 func _ready():
 	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
 	$AttackPivot/AttackArea.monitoring = false

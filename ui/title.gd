@@ -5,6 +5,7 @@ func _input(event):
 	if event.is_action_pressed("ui_select") and animation_finished:
 		GameState.next_level()
 
+
 func _ready():
 	$Control/Score.text = "High Score - " + str(Global.high_score)
 	$Control/SurvivalTimeUpdate.text = "Highest Survived Time - " + format()
