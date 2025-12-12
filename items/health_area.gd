@@ -7,7 +7,6 @@ var health = 10
 
 
 func _on_area_entered(area: Area2D) -> void:
-	print("enterd")
 	if player.max_health > player.health:
 		if (player.health + health) < player.max_health:
 			player.health += health

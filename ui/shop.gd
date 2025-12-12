@@ -50,14 +50,14 @@ func _process(delta: float) -> void:
 	validate_price($StatsControl/Container/Health/Button, health_price)
 	
 	#Abilities Shop
-	validate_price($AbilitiesControl/AttackAbilityContainer/Slash/Button, dam_price)
-	validate_price($AbilitiesControl/AttackAbilityContainer/SlashWave/Button, dam_price)
+	validate_price($AbilitiesControl/AttackAbilityContainer/Slash/Button, dash_price)
+	validate_price($AbilitiesControl/AttackAbilityContainer/SlashWave/Button, dash_price)
 	
-	validate_price($AbilitiesControl/AgileAbilityContainer/Dash/Button, dam_price)
-	validate_price($AbilitiesControl/AgileAbilityContainer/DashSlash/Button, dam_price)
+	validate_price($AbilitiesControl/AgileAbilityContainer/Dash/Button, dash_price)
+	validate_price($AbilitiesControl/AgileAbilityContainer/DashSlash/Button, dash_price)
 	
-	validate_price($AbilitiesControl/DefenseAbilityContainer/Block/Button, dam_price)
-	validate_price($AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button, dam_price)
+	validate_price($AbilitiesControl/DefenseAbilityContainer/Block/Button, dash_price)
+	validate_price($AbilitiesControl/DefenseAbilityContainer/ShieldBash/Button, dash_price)
 
 func _on_close_pressed() -> void:
 	$AnimationPlayer.play("invisible")
@@ -97,29 +97,69 @@ func _on_health_pressed() -> void:
 
 func _on_dash_time_pressed() -> void:
 	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
 	if not player.dash_ability:
 		player.dash_ability = true
-		var ui = get_node("/root/Main/Level/Entities/Player/UI")
 		ui.current_score -= dash_price
-		$Control/DashTime.text = "Reduce Cooldown : 0.1 SEC"
+		$AbilitiesControl/AgileAbilityContainer/Dash/Text.text = "Reduce Cooldown : 0.1 SEC"
 	else:
 		var ability = get_node("/root/Main/Level/Entities/Player/AbilityCoolDown")
 		ability.waittime -= 0.1
+		ui.current_score -= dash_price
 
 func _on_dash_slash_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	if not player.dash_attack_ability:
+		player.dash_attack_ability = true
+		ui.current_score -= dash_price
+		$AbilitiesControl/AgileAbilityContainer/DashSlash/Text.text = "Reduce Cooldown : 0.1 SEC"
+	else:
+		var ability = get_node("/root/Main/Level/Entities/Player/DashAttackCoolDown")
+		ability.waittime -= 0.1
+		ui.current_score -= dash_price
 	
 func _on_slash_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	if not player.slash_ability:
+		player.slash_ability = true
+		ui.current_score -= dash_price
+		$AbilitiesControl/AttackAbilityContainer/Slash/Text.text = "Reduce Cooldown : 0.1 SEC"
+	else:
+		var ability = get_node("/root/Main/Level/Entities/Player/SlashCoolDown")
+		ability.waittime -= 0.1
+		ui.current_score -= dash_price
 
 func _on_slash_wave_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	if not player.slash_wave_ability:
+		player.slash_wave_ability = true
+		ui.current_score -= dash_price
+		$AbilitiesControl/AttackAbilityContainer/SlashWave/Text.text = "Reduce Cooldown : 0.1 SEC"
+	else:
+		var ability = get_node("/root/Main/Level/Entities/Player/SlashWaveCoolDown")
+		ability.waittime -= 0.1
+		ui.current_score -= dash_price
 
 func _on_block_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	player.max_block_popints += 1
+	ui.current_score -= dash_price
 
 func _on_shield_bash_ability_pressed() -> void:
-	pass
+	var player = get_node("/root/Main/Level/Entities/Player")
+	var ui = get_node("/root/Main/Level/Entities/Player/UI")
+	if not player.dash_attack_ability:
+		player.dash_attack_ability = true
+		ui.current_score -= dash_price
+		$AbilitiesControl/DefenseAbilityContainer/SheildBash/Text.text = "Reduce Cooldown : 0.1 SEC"
+	else:
+		var ability = get_node("/root/Main/Level/Entities/Player/DashAttackCoolDown")
+		ability.waittime -= 0.1
+		ui.current_score -= dash_price
 	
 func _on_stats_button_pressed() -> void:
 	$StatsControl.show()

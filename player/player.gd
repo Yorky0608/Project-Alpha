@@ -144,29 +144,17 @@ func change_state(new_state, texture, animation):
 	match state:
 		IDLE:
 			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.set_hframes(4)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 		RUN:
 			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.set_hframes(6)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play("Run")
 		HURT:
 			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.set_hframes(4)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
 		JUMP:
 			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.texture = texture
-			$Sprite2D.set_hframes(8)
-			$AnimationPlayer.speed_scale = 1
 			$AnimationPlayer.play(animation)
 		DEAD:
 			$AttackPivot/AttackArea.monitoring = false
@@ -174,9 +162,6 @@ func change_state(new_state, texture, animation):
 			velocity = Vector2.ZERO
 			set_physics_process(false)  # Disable physics updates
 			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.set_hframes(8)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			$CollisionShape2D.disabled = true
@@ -192,16 +177,9 @@ func change_state(new_state, texture, animation):
 			hide()
 		ATTACK:
 			$AttackSound.play()
-			# Use for the dash
-			#can_attack = false
-			$AnimationPlayer.speed_scale = 6.0
-			$AttackPivot/AttackArea.monitoring = true
-			$Sprite2D.texture = texture
 			$Sprite2D.set_hframes(6)
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			# Reuse for a potential dash?
-			#$AttackCoolDown.start(0.5)
 			$AnimationPlayer.speed_scale = 3.0
 			$AttackPivot/AttackArea.monitoring = false
 			
