@@ -52,6 +52,7 @@ var dash_attack_time = 0.3
 var dash_attack_timer = 0.0
 var dash_attack_ability = false
 
+var stopped = false
 
 func _ready():
 	$AttackPivot/AttackArea.monitoring = false
@@ -88,7 +89,7 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD or dash_attacking:
+	if state == HURT or state == DEAD or dash_attacking or stopped:
 		return  # don't allow movement during hurt state
 	
 	var right = Input.is_action_pressed("right")

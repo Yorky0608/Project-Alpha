@@ -51,6 +51,7 @@ var attack_speed = 1
 @onready var wall_check = $Pivot/RayCast2D_WallCheck
 @onready var cliff_check = $Pivot/RayCast2D_Cliff
 @onready var attack_timer = $AttackTimer
+@onready var player_animaion = get_node("/root/Main/Level/Entities/Player/AnimationPlayer")
 
 var drop_chance = 0.15
 var health_drop_scene = preload("res://items/health_area.tscn")
@@ -303,3 +304,21 @@ func _on_attack_area_area_entered(area: Area2D) -> void:
 func _on_attack_area_area_exited(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		player_in_attack_area = false
+
+
+func _on_magic_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player") and $TrappedTimer.is_stopped():
+		$TrappedTimer.start()
+		var p = area.get_parent()
+		p.stopped = true
+		player_animaion.play("trapped")
+		await  player_animaion.animation_finished
+		await get_tree().create_timer(1.2).timeout
+		player_animaion.play("free")
+		await  player_animaion.animation_finished
+		p.stopped = false
+	
+
+func _on_magic_area_zone_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		$AnimationPlayer.play("Magic")

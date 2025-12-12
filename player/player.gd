@@ -50,6 +50,7 @@ var slashing = false
 var slashing_damage = 35
 var slash_ability = false
 
+var stopped = false
 
 func _ready():
 	$AttackPivot/AttackArea.monitoring = false
@@ -86,7 +87,7 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD or slashing:
+	if state == HURT or state == DEAD or slashing or stopped:
 		velocity.x = 0
 		return  # don't allow movement during hurt state
 	
@@ -105,17 +106,16 @@ func get_input():
 		velocity.x -= run_speed
 		$Sprite2D.flip_h = true
 		$Sprite2D.offset.x = -11
-	if Input.is_action_just_pressed("attack") and can_attack:
+	if Input.is_action_just_pressed("attack") and can_attack and not slashing:
 		if attack and state == IDLE and is_on_floor():
-			$Sprite2D.set_frame(0)
 			change_state(ATTACK, attack2_texture, "Attack2")
 		# RUN transitions to IDLE when standing still
-		elif state == RUN and attack:
+		elif state == RUN and attack and not slashing:
 			change_state(ATTACK, run_attack2_texture, "RunAttack2")
-		elif state == JUMP and attack:
+		elif state == JUMP and attack and not slashing:
 			change_state(ATTACK, jump_attack_texture, "JumpAttack")
 	# only allow jumping when on the ground
-	if jump and is_on_floor():
+	if jump and is_on_floor() and not slashing:
 		$JumpSound.play()
 		velocity.y = jump_speed
 		change_state(JUMP, jump_texture, "Jump")
@@ -126,7 +126,7 @@ func get_input():
 	if state == RUN and velocity.x == 0:
 		change_state(IDLE, idle_texture, "Idle")
 	# transition to JUMP when in the air
-	if state in [IDLE, RUN] and !is_on_floor():
+	if state in [IDLE, RUN] and !is_on_floor() and not slashing:
 		change_state(JUMP, jump_texture, "Jump")
 	# transition from running or jumping to attacking
 	# Only allow attack if cooldown is over and not already attacking
@@ -161,10 +161,8 @@ func change_state(new_state, texture, animation):
 			dead = true
 			velocity = Vector2.ZERO
 			set_physics_process(false)  # Disable physics updates
-			$AttackPivot/AttackArea.monitoring = false
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			$CollisionShape2D.disabled = true
 			$UI.stop_timer()
 			$UI.show_message("Game Over")
 			if $UI.current_score > Global.high_score:
@@ -177,11 +175,8 @@ func change_state(new_state, texture, animation):
 			hide()
 		ATTACK:
 			$AttackSound.play()
-			$Sprite2D.set_hframes(6)
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			$AnimationPlayer.speed_scale = 3.0
-			$AttackPivot/AttackArea.monitoring = false
 			
 			if texture == run_attack2_texture or texture == run_attack1_texture:
 				change_state(RUN, run_texture, "Run")
@@ -273,12 +268,14 @@ func slash_wave():
 
 func slash():
 	if $SlashCoolDown.is_stopped():
+		invincible = true
 		slashing = true
 		$AbilityNode.scale.x = -1 if $Sprite2D.flip_h else 1
 		$SlashCoolDown.start()
-		$AnimationPlayer.play("slash")
+		$AnimationPlayer.play("tornado")
 		await $AnimationPlayer.animation_finished
 		slashing = false
+		invincible = false
 		change_state(IDLE, idle_texture, "Idle")
 
 

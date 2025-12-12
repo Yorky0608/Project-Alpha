@@ -52,7 +52,7 @@ var attack_speed = 1
 @onready var cliff_check = $Pivot/RayCast2D_Cliff
 @onready var attack_timer = $AttackTimer
 
-var drop_chance = 0.15
+var drop_chance = 0.25
 var health_drop_scene = preload("res://items/health_area.tscn")
 
 func _ready():

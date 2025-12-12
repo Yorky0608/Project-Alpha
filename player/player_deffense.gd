@@ -53,6 +53,7 @@ var blocking = false
 var block_cooldown = 1.0
 var guard_broken = false
 
+var stopped = false
 
 func _ready():
 	$AttackPivot/ShieldCollision/CollisionShape2D.disabled = true
@@ -90,7 +91,7 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD:
+	if state == HURT or state == DEAD or dash_attacking or stopped:
 		return  # don't allow movement during hurt state
 	
 	var right = Input.is_action_pressed("right")
