@@ -125,8 +125,7 @@ func get_input():
 		$Sprite2D.offset.x = -11
 	if Input.is_action_just_pressed("attack") and can_attack:
 		if attack and state == IDLE and is_on_floor():
-			$Sprite2D.set_frame(0)
-			change_state(ATTACK, attack2_texture, "Attack2")
+			change_state(ATTACK, attack2_texture, "Attack1")
 		# RUN transitions to IDLE when standing still
 		elif state == RUN and attack:
 			change_state(ATTACK, run_attack2_texture, "RunAttack2")
@@ -157,38 +156,21 @@ func change_state(new_state, texture, animation):
 	state = new_state
 	match state:
 		IDLE:
-			$Sprite2D.set_hframes(4)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 		RUN:
-			$Sprite2D.set_hframes(6)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play("Run")
 		HURT:
-			$Sprite2D.set_hframes(4)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
 		JUMP:
-			$Sprite2D.texture = texture
-			$Sprite2D.set_hframes(8)
-			$AnimationPlayer.speed_scale = 1
 			$AnimationPlayer.play(animation)
 		DEAD:
 			dead = true
 			velocity = Vector2.ZERO
 			set_physics_process(false)  # Disable physics updates
-			$AttackPivot/AttackArea.monitoring = false
-			$Sprite2D.set_hframes(8)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			$CollisionShape2D.disabled = true
 			$UI.stop_timer()
 			$UI.show_message("Game Over")
 			if $UI.current_score > Global.high_score:
@@ -201,18 +183,8 @@ func change_state(new_state, texture, animation):
 			hide()
 		ATTACK:
 			$AttackSound.play()
-			# Use for the dash
-			#can_attack = false
-			$AnimationPlayer.speed_scale = 6.0
-			$AttackPivot/AttackArea.monitoring = true
-			$Sprite2D.texture = texture
-			$Sprite2D.set_hframes(6)
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
-			# Reuse for a potential dash?
-			#$AttackCoolDown.start(0.5)
-			$AnimationPlayer.speed_scale = 3.0
-			$AttackPivot/AttackArea.monitoring = false
 			
 			if texture == run_attack2_texture or texture == run_attack1_texture:
 				change_state(RUN, run_texture, "Run")
@@ -221,9 +193,6 @@ func change_state(new_state, texture, animation):
 		BLOCK:
 			$AnimationPlayer.play("block")
 		GUARD_BREAK:
-			$Sprite2D.set_hframes(4)
-			$Sprite2D.texture = texture
-			$AnimationPlayer.speed_scale = 4
 			$AnimationPlayer.play(animation)
 			await $AnimationPlayer.animation_finished
 			change_state(IDLE, idle_texture, "Idle")
@@ -246,6 +215,9 @@ func _physics_process(delta):
 						apply_block(node)
 						break
 					node = node.get_parent()
+
+	if blocking:
+		return
 	
 	if dash_attacking:
 		var direction = 1 if not $Sprite2D.flip_h else -1

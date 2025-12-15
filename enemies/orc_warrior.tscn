@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://enemies/orc_warrior.gd" id="1_ylgdf"]
 [ext_resource type="Texture2D" uid="uid://fuim0tol7u6j" path="res://monsters2/Orc_Warrior/Walk.png" id="2_f21l7"]
-[ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_qtba5"]
+[ext_resource type="AudioStream" uid="uid://bgptx7hsiqm6t" path="res://sounds/orc death.mp3" id="3_6fv0w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlfmj"]
 size = Vector2(45, 72.5)
@@ -192,7 +192,7 @@ stream = SubResource("AudioStreamOggVorbis_owdwc")
 volume_db = -10.0
 
 [node name="Death" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_qtba5")
+stream = ExtResource("3_6fv0w")
 volume_db = -10.0
 
 [node name="AttackTimer" type="Timer" parent="."]

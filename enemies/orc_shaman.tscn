@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://enemies/orc_shaman.gd" id="1_lpep3"]
 [ext_resource type="Texture2D" uid="uid://cab15ekkdojhq" path="res://New Sprites/Shaman/Magic_1 (snare).png" id="2_nkppl"]
-[ext_resource type="AudioStream" uid="uid://blxaghsre4243" path="res://assets/audio/bone-break-sound-ver-2-269660.mp3" id="3_x5u0d"]
+[ext_resource type="AudioStream" uid="uid://bgptx7hsiqm6t" path="res://sounds/orc death.mp3" id="3_uqk57"]
 [ext_resource type="Texture2D" uid="uid://d5jlqqv0kcmk" path="res://monsters2/Orc_Shaman/Walk.png" id="4_0cd4y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lpep3"]
@@ -373,7 +373,6 @@ shape = SubResource("RectangleShape2D_jufl1")
 
 [node name="MagicAreaZone" type="Area2D" parent="Pivot"]
 position = Vector2(100, 7.5)
-scale = Vector2(1, 1)
 collision_layer = 128
 collision_mask = 2
 
@@ -409,7 +408,7 @@ stream = SubResource("AudioStreamOggVorbis_owdwc")
 volume_db = -10.0
 
 [node name="Death" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_x5u0d")
+stream = ExtResource("3_uqk57")
 volume_db = -10.0
 
 [node name="AttackTimer" type="Timer" parent="."]
