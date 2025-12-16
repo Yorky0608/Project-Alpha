@@ -1,10 +1,228 @@
-[gd_scene load_steps=6 format=3 uid="uid://5is6c8nehh8n"]
+[gd_scene load_steps=15 format=3 uid="uid://5is6c8nehh8n"]
 
 [ext_resource type="PackedScene" uid="uid://vea3dq41ewm6" path="res://levels/background.tscn" id="1_iiql0"]
 [ext_resource type="Script" path="res://ui/character_select_screen.gd" id="1_siu8s"]
-[ext_resource type="Texture2D" uid="uid://bw8wlssdw7k3w" path="res://sprites/1/Idle.png" id="2_l07ny"]
-[ext_resource type="Texture2D" uid="uid://d3h872d03i2mb" path="res://sprites/2/Idle.png" id="3_iydts"]
-[ext_resource type="Texture2D" uid="uid://qnbmcjrh6ct0" path="res://sprites/3/Idle.png" id="4_sqkvs"]
+[ext_resource type="Texture2D" uid="uid://vb71q3rx3ax2" path="res://New Sprites/Char1/Base/Char1Idle.png" id="3_ovl3k"]
+[ext_resource type="Texture2D" uid="uid://bhcytlsr40i8x" path="res://New Sprites/Char2/Base/Char2Idle.png" id="4_emj5t"]
+[ext_resource type="Texture2D" uid="uid://baqqapr1qoo00" path="res://New Sprites/Char3/Base/Char3Idle.png" id="5_2oqyc"]
+[ext_resource type="Animation" uid="uid://cptmcnnu87c5r" path="res://player/idle.res" id="6_cwhse"]
+
+[sub_resource type="Animation" id="Animation_jgr7k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control2/Agile:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ovl3k")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control2/Agile:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control2/Agile:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vx6pj"]
+_data = {
+"RESET": SubResource("Animation_jgr7k"),
+"idle": ExtResource("6_cwhse")
+}
+
+[sub_resource type="Animation" id="Animation_cbris"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control3/Attack:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_emj5t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control3/Attack:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control3/Attack:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_o6g57"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control3/Attack:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_emj5t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control3/Attack:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control3/Attack:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hoyer"]
+_data = {
+"RESET": SubResource("Animation_o6g57"),
+"idle": SubResource("Animation_cbris")
+}
+
+[sub_resource type="Animation" id="Animation_sgaxs"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control4/Deffense:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_2oqyc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control4/Deffense:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control4/Deffense:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_us3so"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control4/Deffense:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_2oqyc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control4/Deffense:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control4/Deffense:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p6o2w"]
+_data = {
+"RESET": SubResource("Animation_us3so"),
+"idle": SubResource("Animation_sgaxs")
+}
 
 [node name="CharacterSelectScreen" type="Node"]
 script = ExtResource("1_siu8s")
@@ -29,7 +247,7 @@ grow_vertical = 2
 [node name="Agile" type="Sprite2D" parent="Control2"]
 position = Vector2(-200, 0)
 scale = Vector2(3, 3)
-texture = ExtResource("2_l07ny")
+texture = ExtResource("3_ovl3k")
 hframes = 4
 
 [node name="ButtonAgile" type="Button" parent="Control2"]
@@ -50,7 +268,7 @@ offset_bottom = 380.0
 
 [node name="Attack" type="Sprite2D" parent="Control3"]
 scale = Vector2(3, 3)
-texture = ExtResource("3_iydts")
+texture = ExtResource("4_emj5t")
 hframes = 4
 
 [node name="ButtonAttack" type="Button" parent="Control3"]
@@ -74,7 +292,7 @@ grow_vertical = 2
 [node name="Deffense" type="Sprite2D" parent="Control4"]
 position = Vector2(200, 0)
 scale = Vector2(3, 3)
-texture = ExtResource("4_sqkvs")
+texture = ExtResource("5_2oqyc")
 hframes = 4
 
 [node name="ButtonDeffense" type="Button" parent="Control4"]
@@ -84,6 +302,24 @@ offset_top = 100.0
 offset_right = 253.0
 offset_bottom = 131.0
 text = "Select Deffense"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vx6pj")
+}
+autoplay = "idle"
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hoyer")
+}
+autoplay = "idle"
+
+[node name="AnimationPlayer3" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p6o2w")
+}
+autoplay = "idle"
 
 [connection signal="pressed" from="Control2/ButtonAgile" to="." method="_on_button_agile_pressed"]
 [connection signal="pressed" from="Control3/ButtonAttack" to="." method="_on_button_attack_pressed"]
