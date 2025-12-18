@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=4 uid="uid://dnu0rceo3bl7m"]
+[gd_scene load_steps=16 format=4 uid="uid://dnu0rceo3bl7m"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_amvso"]
-[ext_resource type="Texture2D" uid="uid://dwd7f51hik30e" path="res://monsters3/Skeleton/Walk.png" id="2_lw3wq"]
+[ext_resource type="Texture2D" uid="uid://tb5e8i3s0kbo" path="res://monsters3/Skeleton/Hurt.png" id="2_dsik3"]
 [ext_resource type="AudioStream" uid="uid://u4260yfv2j5x" path="res://sounds/skeleton death.mp3" id="3_7fbl8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imns6"]
@@ -41,6 +41,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_dsik3")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer:speed_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.0]
 }
 
 [sub_resource type="Animation" id="Animation_woqc3"]
@@ -104,11 +140,64 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_vciiu"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_dsik3")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 2]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer:speed_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3l8tb"]
 _data = {
 "RESET": SubResource("Animation_dnkgi"),
 "attack": SubResource("Animation_woqc3"),
 "death": SubResource("Animation_7apv7"),
+"hurt": SubResource("Animation_vciiu"),
 "walk": SubResource("Animation_xpbrt")
 }
 
@@ -132,9 +221,9 @@ script = ExtResource("1_amvso")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_lw3wq")
-hframes = 8
-frame = 5
+texture = ExtResource("2_dsik3")
+hframes = 3
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8.75, 16.25)
@@ -148,7 +237,6 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/AttackArea"]
 position = Vector2(36.25, 16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ef3ps")
 
 [node name="HitBox" type="Area2D" parent="Pivot" groups=["enemy_hitbox"]]

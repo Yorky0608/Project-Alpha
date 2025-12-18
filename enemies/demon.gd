@@ -71,13 +71,15 @@ const items = [
 	preload("res://items/relic_area_ability_2_boost.tscn"),
 ]
 
+var hit = false
+
 func _ready():
 	await get_tree().process_frame 
 	_update_level_bounds()
 	change_state(CHASE)
 
 func _physics_process(delta):
-	if dead:
+	if dead or hit:
 		await get_tree().create_timer(2).timeout
 		queue_free()
 		return
@@ -284,6 +286,7 @@ func can_move_forward() -> bool:
 func apply_damage(amount: int):
 	if dead:
 		return
+	hit = true
 	
 	if not $Sprite2D.flip_h:
 		velocity.x = 100
@@ -302,6 +305,7 @@ func apply_damage(amount: int):
 		$AnimationPlayer.play("hurt")
 		# Wait for animation to finish
 		await $AnimationPlayer.animation_finished
+		hit = false
 
 func _update_level_bounds():
 	var level_manager = get_tree().get_first_node_in_group("level_manager")

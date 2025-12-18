@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://d0gt0sfjahexl"]
+[gd_scene load_steps=15 format=3 uid="uid://d0gt0sfjahexl"]
 
 [ext_resource type="Script" path="res://enemies/fire_spirit.gd" id="1_3xhfh"]
-[ext_resource type="Texture2D" uid="uid://b0bfwxi3xxkiy" path="res://monsters3/Fire_Spirit/Dead.png" id="2_7q6t3"]
+[ext_resource type="Texture2D" uid="uid://yrewum7x6to" path="res://monsters3/Fire_Spirit/Hurt.png" id="2_q1v02"]
 [ext_resource type="AudioStream" uid="uid://cm54qgmf6lc4r" path="res://sounds/fire spirit.mp3" id="3_k5ph6"]
 [ext_resource type="AudioStream" uid="uid://de511wifbhexv" path="res://sounds/spirit death.mp3" id="4_cj82c"]
 
@@ -42,6 +42,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_q1v02")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer:speed_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
 }
 
 [sub_resource type="Animation" id="Animation_pqk3u"]
@@ -102,11 +138,64 @@ tracks/0/keys = {
 "values": [0, 6]
 }
 
+[sub_resource type="Animation" id="Animation_i4g17"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_q1v02")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 2]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer:speed_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3q003"]
 _data = {
 "RESET": SubResource("Animation_h51n3"),
 "attack": SubResource("Animation_pqk3u"),
 "dead": SubResource("Animation_12okh"),
+"hurt": SubResource("Animation_i4g17"),
 "walk": SubResource("Animation_sn2ex")
 }
 
@@ -122,8 +211,8 @@ script = ExtResource("1_3xhfh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("2_7q6t3")
-hframes = 5
+texture = ExtResource("2_q1v02")
+hframes = 3
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemies"]]

@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://bp6xyyebgvkq1"]
+[gd_scene load_steps=19 format=3 uid="uid://bp6xyyebgvkq1"]
 
 [ext_resource type="Script" path="res://enemies/dragon.gd" id="1_5pba3"]
+[ext_resource type="Texture2D" uid="uid://cghu8geokdu7g" path="res://monsters1/PNG/dragon/hurt.png" id="2_1ac1y"]
 [ext_resource type="Texture2D" uid="uid://cpkor77jab117" path="res://monsters1/PNG/dragon/fire_attack.png" id="2_fm1s2"]
-[ext_resource type="Texture2D" uid="uid://cogrnc13jat15" path="res://monsters1/PNG/dragon/walk.png" id="3_wxbva"]
 [ext_resource type="AudioStream" uid="uid://07pm7c3jgv0m" path="res://sounds/dragon fire.mp3" id="4_4vcdw"]
 [ext_resource type="AudioStream" uid="uid://cqx3ikqj84w3l" path="res://sounds/body drop.mp3" id="5_qeh4m"]
 
@@ -43,6 +43,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_1ac1y")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:hframes")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer:speed_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.2]
 }
 
 [sub_resource type="Animation" id="Animation_dsbbv"]
@@ -91,11 +127,64 @@ tracks/0/keys = {
 "values": [0, 3]
 }
 
+[sub_resource type="Animation" id="Animation_dvkw0"]
+resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_1ac1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer:speed_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6yb64"]
 _data = {
 "RESET": SubResource("Animation_2atdv"),
 "attack": SubResource("Animation_dsbbv"),
 "death": SubResource("Animation_3g32c"),
+"hurt": SubResource("Animation_dvkw0"),
 "walk": SubResource("Animation_wfo2g")
 }
 
@@ -171,8 +260,8 @@ script = ExtResource("1_5pba3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-5, -13)
-texture = ExtResource("3_wxbva")
-hframes = 4
+texture = ExtResource("2_1ac1y")
+hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-6.25, 15)

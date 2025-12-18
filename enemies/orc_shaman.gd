@@ -105,9 +105,6 @@ func change_state(new_state):
 # Chase
 # -------------------------
 func start_chase():
-	$Sprite2D.set_hframes(walk_frames)
-	$AnimationPlayer.speed_scale = walk_speed
-	$Sprite2D.texture = walk_texture
 	$AnimationPlayer.play("walk")
 
 func do_chase(delta):
@@ -210,6 +207,8 @@ func start_attack() -> void:
 # Death
 # -------------------------
 func death():
+	player = get_tree().get_first_node_in_group("player")
+	player.stopped = false
 	dead = true
 	$Death.play()
 	$CollisionShape2D.set_deferred("disabled", true)

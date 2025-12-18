@@ -17,8 +17,6 @@ func start():
 	
 func _process(delta):
 	position.x += direction * speed * delta
-	for area in get_overlapping_areas():
-		_try_damage(area)
 
 func _try_damage(area: Area2D) -> void:
 	if not area.is_in_group("enemy_hitbox"):
@@ -35,3 +33,7 @@ func _try_damage(area: Area2D) -> void:
 			return
 
 		node = node.get_parent()
+
+
+func _on_area_entered(area: Area2D) -> void:
+	_try_damage(area)

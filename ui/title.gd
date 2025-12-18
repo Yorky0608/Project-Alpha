@@ -7,7 +7,6 @@ func _input(event):
 
 
 func _ready():
-	$Control/Score.text = "High Score - " + str(Global.high_score)
 	$Control/SurvivalTimeUpdate.text = "Highest Survived Time - " + format()
 
 func _process(delta: float) -> void:

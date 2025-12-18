@@ -46,10 +46,9 @@ var slashing_wave = false
 var slashing_wave_damage = 20
 var slash_wave_ability = false
 
-var slashing = false
 var slashing_damage = 35
 var slash_ability = false
-
+var slashing = false
 var stopped = false
 
 func _ready():
@@ -87,7 +86,7 @@ func hurt():
 		change_state(HURT, hurt_texture, "Hurt")
 
 func get_input():
-	if state == HURT or state == DEAD or slashing or stopped:
+	if state == HURT or state == DEAD or stopped:
 		velocity.x = 0
 		return  # don't allow movement during hurt state
 	
@@ -269,12 +268,10 @@ func slash_wave():
 func slash():
 	if $SlashCoolDown.is_stopped():
 		invincible = true
-		slashing = true
 		$AbilityNode.scale.x = -1 if $Sprite2D.flip_h else 1
 		$SlashCoolDown.start()
 		$AnimationPlayer.play("tornado")
 		await $AnimationPlayer.animation_finished
-		slashing = false
 		invincible = false
 		change_state(IDLE, idle_texture, "Idle")
 

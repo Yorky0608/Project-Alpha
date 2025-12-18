@@ -65,6 +65,8 @@ var hurt_speed = 2
 
 var drop_chance = 1
 
+var hit = false
+
 const items = [
 	preload("res://items/relic_area_health_boost.tscn"),
 	preload("res://items/relic_area_attact_boost.tscn"),
@@ -90,7 +92,7 @@ func _ready():
 	change_state(CHASE)
 
 func _physics_process(delta):
-	if dead:
+	if dead or hit:
 		await get_tree().create_timer(2).timeout
 		queue_free()
 		return
@@ -294,6 +296,7 @@ func can_move_forward() -> bool:
 func apply_damage(amount: int):
 	if dead:
 		return
+	hit = true
 		
 	if not $Sprite2D.flip_h:
 		velocity.x = 100
@@ -311,6 +314,7 @@ func apply_damage(amount: int):
 		$AnimationPlayer.play("hurt")
 		# Wait for animation to finish
 		await $AnimationPlayer.animation_finished
+		hit = false
 
 func _update_level_bounds():
 	var level_manager = get_tree().get_first_node_in_group("level_manager")

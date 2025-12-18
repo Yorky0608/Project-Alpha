@@ -60,6 +60,8 @@ var hurt_speed = 2
 @onready var cliff_check = $Pivot/RayCast2D_Cliff
 @onready var attack_timer = $AttackTimer
 
+var hit = false
+
 var drop_chance = 1
 
 const items = [
@@ -77,7 +79,7 @@ func _ready():
 	change_state(CHASE)
 
 func _physics_process(delta):
-	if dead:
+	if dead or hit:
 		await get_tree().create_timer(2).timeout
 		queue_free()
 		return
@@ -292,6 +294,8 @@ func apply_damage(amount: int):
 	if dead:
 		return
 	
+	hit = true
+	
 	if not $Sprite2D.flip_h:
 		velocity.x = 100
 		velocity.y = -100
@@ -308,6 +312,7 @@ func apply_damage(amount: int):
 		$AnimationPlayer.play("hurt")
 		# Wait for animation to finish
 		await $AnimationPlayer.animation_finished
+		hit = false
 
 func _update_level_bounds():
 	var level_manager = get_tree().get_first_node_in_group("level_manager")
