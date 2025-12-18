@@ -9,7 +9,7 @@ Built using **Godot**, **GDScript**, and **GitHub**, the game captures the spiri
 ## Play / Download
 
 - **Download or play the game here:**  
-  [Endless Blade](https://github.com/Yorky0608/Project-Alpha/tree/main/download)
+  [Download](https://github.com/Yorky0608/Project-Alpha/tree/main/download)
   [Website](https://yorkshiremc.com)
 
 ## Platform
